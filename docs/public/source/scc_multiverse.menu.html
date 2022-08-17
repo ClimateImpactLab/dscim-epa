@@ -1,0 +1,1733 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>scc_multiverse.menu package &mdash; SCC Multiverse  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SCC Multiverse
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">scc_multiverse.menu package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.menu.baseline">scc_multiverse.menu.baseline module</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.menu.decorators">scc_multiverse.menu.decorators module</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.menu.equity">scc_multiverse.menu.equity module</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.menu.main_recipe">scc_multiverse.menu.main_recipe module</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.menu.risk_aversion">scc_multiverse.menu.risk_aversion module</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.menu.simple_storage">scc_multiverse.menu.simple_storage module</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.menu">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SCC Multiverse</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>scc_multiverse.menu package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/source/scc_multiverse.menu.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scc-multiverse-menu-package">
+<h1>scc_multiverse.menu package<a class="headerlink" href="#scc-multiverse-menu-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-scc_multiverse.menu.baseline">
+<span id="scc-multiverse-menu-baseline-module"></span><h2>scc_multiverse.menu.baseline module<a class="headerlink" href="#module-scc_multiverse.menu.baseline" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="scc_multiverse.menu.baseline.Baseline">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">scc_multiverse.menu.baseline.</span></code><code class="sig-name descname"><span class="pre">Baseline</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sector_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">econ_vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">climate_vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discounting_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discounting_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cons_clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'integration'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/baseline.html#Baseline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scc_multiverse.menu.main_recipe.MainRecipe" title="scc_multiverse.menu.main_recipe.MainRecipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">scc_multiverse.menu.main_recipe.MainRecipe</span></code></a></p>
+<dl>
+<dt>Testing inheritance for Risk-Aversion menu options</dt><dd><p>Main Recipe for SCC calculation across menu options.</p>
+<p>This class is a BaseClass for all recipe classes in the menu of SCC
+options. Here we will instantiate a class with the common elements across
+menu options and then also layout an order of implementation.</p>
+<p>This class is <em>not</em> designed to be directly instantiated by the user.
+Instead, it is called in the different menu options: <cite>EquityRecipe</cite>,
+<cite>RiskAversionRecipe</cite>, and <cite>Baseline</cite>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sector_path</strong> (<em>str</em>) – Path to sector damages. The path can point to the root folder, and then
+the <cite>damages_directory</cite> can be used to point where monetized damages
+are stored.</p></li>
+<li><p><strong>econ_vars</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">simple_storage.EconVars</span></code>) – This is a <cite>simple_storage.EconVars</cite> class with population and income
+data.</p></li>
+<li><p><strong>cons_clip</strong> (<em>int</em>) – It is possible that some damages are so extreme that will yield
+negative consumptions (gdppc - damages). Hence, we need to bottom code
+the consumptions. This value is then the minumum consumption per capita
+for those impact regions with extreme damages. If <cite>cons_clip</cite> is
+<cite>None</cite>, we will assign the current minimum <cite>gdppc</cite> as the value for
+bottom clip consumption.</p></li>
+<li><p><strong>discounting_type</strong> (<em>str</em>) – <p>A discount type to calculate the CE consumption. Options available
+are:</p>
+<blockquote>
+<div><ul>
+<li><p><cite>’constant’</cite>: A constant discount rate</p></li>
+<li><p><cite>’ramsey’</cite>: A ramsey discount rate (based on GDP growth rate)</p></li>
+<li><p><cite>’wr’</cite>: A Weitzman-Ramsey discounting (base on GDP growth
+rate and additionally collapsing across different economic
+scenarios).</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>discounting_level</strong> (<em>str</em>) – Menu options vary on their level of discounting, here we can choose
+between <cite>local</cite> or <cite>global</cite>.</p></li>
+<li><p><strong>fit_type</strong> (<em>str</em>) – Fitting option for damage yearly damage function estimation. The valid
+options are ‘ols’ or ‘quantiles’.</p></li>
+<li><p><strong>subset_dict</strong> (<em>dict</em>) – <p>A dictionary where you can define a filtering criteria. Keys must be
+damages dimensions, and values should be the desired values for that
+dimension.
+For instance:
+<a href="#id1"><span class="problematic" id="id2">``</span></a>`
+subset_dict = {batch: ‘batch1’,</p>
+<blockquote>
+<div><p>’gcm’: ‘ACCESS0-1’}</p>
+</div></blockquote>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a><a href="#id5"><span class="problematic" id="id6">`</span></a></p>
+<p>This <cite>dict</cite> above will filter the damages to only the ‘batch1’ and the
+‘ACCESS0-1’ global climate model.</p>
+</p></li>
+<li><p><strong>**extrapolation_kwargs</strong> – Other parameters to be passed to extraplation calculation. See
+<cite>simple_storage.EconVars.extrapolation</cite> for more details</p></li>
+<li><p><strong>**fitting_kwargs</strong> – Other parameteres to be passed to the <cite>damage_function</cite> method.</p></li>
+<li><p><strong>Attributes</strong> – </p></li>
+<li><p><strong>----------</strong> – </p></li>
+<li><p><strong>ce_cc</strong> (<em>xr.DataArray</em>) – Certainty equivalent consumption under climate change scenario</p></li>
+<li><p><strong>ce_no_cc</strong> (<em>xr.DataArray</em>) – Certainty equivalent consumption under no climate change scenario</p></li>
+<li><p><strong>global_damages</strong> (<em>xr.DataArray</em>) – Global damages (collapsed IRs) for a defined discounting option.</p></li>
+<li><p><strong>damage_function_points</strong> (<em>pd.DataFrame</em>) – Yearly model/Batch global damage realizations for GCM temperature anomalies.</p></li>
+<li><p><strong>damage_function_coefficients</strong> (<em>xr.Dataset</em>) – Data array with coefficients from the cuadratic fit of damages using
+temperature anomalies. These values are linearly extrapolated to go
+beyond 2100.</p></li>
+<li><p><strong>damage_function</strong> (<em>xr.Dataset</em>) – Data array with predicted damages for different temperature anomaly
+levels.</p></li>
+<li><p><strong>fair_marginal_damages</strong> (<em>xr.Dataset</em>) – Raw FAIR marginal damages resulting from the substraction of pulse and
+RCP damages</p></li>
+<li><p><strong>global_consumption</strong> (<em>xr.Dataset</em>) – Total global available consumption after damages. This value is
+calculated using the no climate change scenario and using an
+extrapolation to cover values beyond 2100.</p></li>
+<li><p><strong>global_consumption_no_pulse</strong> (<em>xr.DataArray</em>) – Total global consumption available under FAIR RCP scenario</p></li>
+<li><p><strong>global_consumption_pulse</strong> (<em>xr.Dataset</em>) – Total global consumption avialable under FAIR pulse scenario</p></li>
+<li><p><strong>ce_fair_pulse_damages</strong> (<em>xr.Dataset</em>) – Certainty equivalent consumption of FAIR pulse consumptions</p></li>
+<li><p><strong>ce_fair_no_pulse_damages</strong> (<em>xr.Dataset</em>) – Certainty equivalent consumption of FAIR RCP consumption</p></li>
+<li><p><strong>fair_marginal_damages_ce</strong> (<em>xr.Dataset</em>) – FAIR marginal damages using certainty equivalent consumptions. These
+values should be higher than <cite>fair_marginal_damages</cite></p></li>
+<li><p><strong>calculate_scc</strong> (<em>xr.Dataset</em>) – Discounted damages using the class defined discounting method.</p></li>
+<li><p><strong>Methods</strong> – </p></li>
+<li><p><strong>-------</strong> – </p></li>
+<li><p><strong>order_place</strong> – Run recipe pipeline and calculate all objects. If <cite>save_path</cite> is
+specificed, results will be saved in disk, otherwise, results will be
+cached.</p></li>
+<li><p><strong>c_equivalence</strong> – Calculate certainty equivalence over array</p></li>
+<li><p><strong>discounted_fair_damages</strong> – Discounnt damages to present values using different discounting
+schemes.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.baseline.Baseline.NAME">
+<code class="sig-name descname"><span class="pre">NAME</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'adding_up'</span></em><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline.NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.baseline.Baseline.calculated_damages">
+<code class="sig-name descname"><span class="pre">calculated_damages</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/baseline.html#Baseline.calculated_damages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline.calculated_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.baseline.Baseline.ce_cc">
+<code class="sig-name descname"><span class="pre">ce_cc</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/baseline.html#Baseline.ce_cc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline.ce_cc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.baseline.Baseline.ce_cc_calculation">
+<code class="sig-name descname"><span class="pre">ce_cc_calculation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">discount_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/baseline.html#Baseline.ce_cc_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline.ce_cc_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate CE damages depending on discount type</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.baseline.Baseline.ce_no_cc">
+<code class="sig-name descname"><span class="pre">ce_no_cc</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/baseline.html#Baseline.ce_no_cc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline.ce_no_cc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.baseline.Baseline.ce_no_cc_calculation">
+<code class="sig-name descname"><span class="pre">ce_no_cc_calculation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">discount_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/baseline.html#Baseline.ce_no_cc_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline.ce_no_cc_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate GDP CE depending on discount type.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.baseline.Baseline.fair_marginal_damages">
+<code class="sig-name descname"><span class="pre">fair_marginal_damages</span></code><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline.fair_marginal_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.baseline.Baseline.global_consumption">
+<code class="sig-name descname"><span class="pre">global_consumption</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/baseline.html#Baseline.global_consumption"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline.global_consumption" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.baseline.Baseline.global_consumption_calculation">
+<code class="sig-name descname"><span class="pre">global_consumption_calculation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">discount_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/baseline.html#Baseline.global_consumption_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline.global_consumption_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Global consumption calculation</p>
+<p>This method calculates the global consumption calculation needed to
+calculate damages using the FAIR product. Global consumptions is the
+consumption baseline we use to calculate damages in an especific menu
+option. The purpose of this is to transform damages into consumptions
+and be able to calculate certainty equivalences.</p>
+<p>Since FAIR values go beyond 2100, we extrapolate global consumption to
+2300 using the method defined in <cite>ex_method</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.baseline.Baseline.global_consumption_no_pulse">
+<code class="sig-name descname"><span class="pre">global_consumption_no_pulse</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/baseline.html#Baseline.global_consumption_no_pulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline.global_consumption_no_pulse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.baseline.Baseline.global_consumption_pulse">
+<code class="sig-name descname"><span class="pre">global_consumption_pulse</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/baseline.html#Baseline.global_consumption_pulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline.global_consumption_pulse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.baseline.Baseline.global_damages">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">global_damages</span></code><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline.global_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adding-up damages</p>
+<p>Baseline damages are just the aggregation of raw damages to the global
+level.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.baseline.Baseline.global_damages_calculation">
+<code class="sig-name descname"><span class="pre">global_damages_calculation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">discount_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/baseline.html#Baseline.global_damages_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.baseline.Baseline.global_damages_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scc_multiverse.menu.decorators">
+<span id="scc-multiverse-menu-decorators-module"></span><h2>scc_multiverse.menu.decorators module<a class="headerlink" href="#module-scc_multiverse.menu.decorators" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="scc_multiverse.menu.decorators.save">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.menu.decorators.</span></code><code class="sig-name descname"><span class="pre">save</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/decorators.html#save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.decorators.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for saving output to NetCDF or CSV format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>str</strong> (<em>name</em>) – Name of file. The file will be modified by class elements</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scc_multiverse.menu.equity">
+<span id="scc-multiverse-menu-equity-module"></span><h2>scc_multiverse.menu.equity module<a class="headerlink" href="#module-scc_multiverse.menu.equity" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="scc_multiverse.menu.equity.EquityRecipe">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">scc_multiverse.menu.equity.</span></code><code class="sig-name descname"><span class="pre">EquityRecipe</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sector_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">econ_vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">climate_vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discounting_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discounting_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cons_clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'integration'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/equity.html#EquityRecipe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.equity.EquityRecipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scc_multiverse.menu.main_recipe.MainRecipe" title="scc_multiverse.menu.main_recipe.MainRecipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">scc_multiverse.menu.main_recipe.MainRecipe</span></code></a></p>
+<dl>
+<dt>Risk aversion and Equity menu template</dt><dd><p>Main Recipe for SCC calculation across menu options.</p>
+<p>This class is a BaseClass for all recipe classes in the menu of SCC
+options. Here we will instantiate a class with the common elements across
+menu options and then also layout an order of implementation.</p>
+<p>This class is <em>not</em> designed to be directly instantiated by the user.
+Instead, it is called in the different menu options: <cite>EquityRecipe</cite>,
+<cite>RiskAversionRecipe</cite>, and <cite>Baseline</cite>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sector_path</strong> (<em>str</em>) – Path to sector damages. The path can point to the root folder, and then
+the <cite>damages_directory</cite> can be used to point where monetized damages
+are stored.</p></li>
+<li><p><strong>econ_vars</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">simple_storage.EconVars</span></code>) – This is a <cite>simple_storage.EconVars</cite> class with population and income
+data.</p></li>
+<li><p><strong>cons_clip</strong> (<em>int</em>) – It is possible that some damages are so extreme that will yield
+negative consumptions (gdppc - damages). Hence, we need to bottom code
+the consumptions. This value is then the minumum consumption per capita
+for those impact regions with extreme damages. If <cite>cons_clip</cite> is
+<cite>None</cite>, we will assign the current minimum <cite>gdppc</cite> as the value for
+bottom clip consumption.</p></li>
+<li><p><strong>discounting_type</strong> (<em>str</em>) – <p>A discount type to calculate the CE consumption. Options available
+are:</p>
+<blockquote>
+<div><ul>
+<li><p><cite>’constant’</cite>: A constant discount rate</p></li>
+<li><p><cite>’ramsey’</cite>: A ramsey discount rate (based on GDP growth rate)</p></li>
+<li><p><cite>’wr’</cite>: A Weitzman-Ramsey discounting (base on GDP growth
+rate and additionally collapsing across different economic
+scenarios).</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>discounting_level</strong> (<em>str</em>) – Menu options vary on their level of discounting, here we can choose
+between <cite>local</cite> or <cite>global</cite>.</p></li>
+<li><p><strong>fit_type</strong> (<em>str</em>) – Fitting option for damage yearly damage function estimation. The valid
+options are ‘ols’ or ‘quantiles’.</p></li>
+<li><p><strong>subset_dict</strong> (<em>dict</em>) – <p>A dictionary where you can define a filtering criteria. Keys must be
+damages dimensions, and values should be the desired values for that
+dimension.
+For instance:
+<a href="#id7"><span class="problematic" id="id8">``</span></a>`
+subset_dict = {batch: ‘batch1’,</p>
+<blockquote>
+<div><p>’gcm’: ‘ACCESS0-1’}</p>
+</div></blockquote>
+<p><a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a></p>
+<p>This <cite>dict</cite> above will filter the damages to only the ‘batch1’ and the
+‘ACCESS0-1’ global climate model.</p>
+</p></li>
+<li><p><strong>**extrapolation_kwargs</strong> – Other parameters to be passed to extraplation calculation. See
+<cite>simple_storage.EconVars.extrapolation</cite> for more details</p></li>
+<li><p><strong>**fitting_kwargs</strong> – Other parameteres to be passed to the <cite>damage_function</cite> method.</p></li>
+<li><p><strong>Attributes</strong> – </p></li>
+<li><p><strong>----------</strong> – </p></li>
+<li><p><strong>ce_cc</strong> (<em>xr.DataArray</em>) – Certainty equivalent consumption under climate change scenario</p></li>
+<li><p><strong>ce_no_cc</strong> (<em>xr.DataArray</em>) – Certainty equivalent consumption under no climate change scenario</p></li>
+<li><p><strong>global_damages</strong> (<em>xr.DataArray</em>) – Global damages (collapsed IRs) for a defined discounting option.</p></li>
+<li><p><strong>damage_function_points</strong> (<em>pd.DataFrame</em>) – Yearly model/Batch global damage realizations for GCM temperature anomalies.</p></li>
+<li><p><strong>damage_function_coefficients</strong> (<em>xr.Dataset</em>) – Data array with coefficients from the cuadratic fit of damages using
+temperature anomalies. These values are linearly extrapolated to go
+beyond 2100.</p></li>
+<li><p><strong>damage_function</strong> (<em>xr.Dataset</em>) – Data array with predicted damages for different temperature anomaly
+levels.</p></li>
+<li><p><strong>fair_marginal_damages</strong> (<em>xr.Dataset</em>) – Raw FAIR marginal damages resulting from the substraction of pulse and
+RCP damages</p></li>
+<li><p><strong>global_consumption</strong> (<em>xr.Dataset</em>) – Total global available consumption after damages. This value is
+calculated using the no climate change scenario and using an
+extrapolation to cover values beyond 2100.</p></li>
+<li><p><strong>global_consumption_no_pulse</strong> (<em>xr.DataArray</em>) – Total global consumption available under FAIR RCP scenario</p></li>
+<li><p><strong>global_consumption_pulse</strong> (<em>xr.Dataset</em>) – Total global consumption avialable under FAIR pulse scenario</p></li>
+<li><p><strong>ce_fair_pulse_damages</strong> (<em>xr.Dataset</em>) – Certainty equivalent consumption of FAIR pulse consumptions</p></li>
+<li><p><strong>ce_fair_no_pulse_damages</strong> (<em>xr.Dataset</em>) – Certainty equivalent consumption of FAIR RCP consumption</p></li>
+<li><p><strong>fair_marginal_damages_ce</strong> (<em>xr.Dataset</em>) – FAIR marginal damages using certainty equivalent consumptions. These
+values should be higher than <cite>fair_marginal_damages</cite></p></li>
+<li><p><strong>calculate_scc</strong> (<em>xr.Dataset</em>) – Discounted damages using the class defined discounting method.</p></li>
+<li><p><strong>Methods</strong> – </p></li>
+<li><p><strong>-------</strong> – </p></li>
+<li><p><strong>order_place</strong> – Run recipe pipeline and calculate all objects. If <cite>save_path</cite> is
+specificed, results will be saved in disk, otherwise, results will be
+cached.</p></li>
+<li><p><strong>c_equivalence</strong> – Calculate certainty equivalence over array</p></li>
+<li><p><strong>discounted_fair_damages</strong> – Discounnt damages to present values using different discounting
+schemes.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.equity.EquityRecipe.NAME">
+<code class="sig-name descname"><span class="pre">NAME</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'equity'</span></em><a class="headerlink" href="#scc_multiverse.menu.equity.EquityRecipe.NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.equity.EquityRecipe.calculated_damages">
+<code class="sig-name descname"><span class="pre">calculated_damages</span></code><a class="headerlink" href="#scc_multiverse.menu.equity.EquityRecipe.calculated_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.equity.EquityRecipe.ce_cc_calculation">
+<code class="sig-name descname"><span class="pre">ce_cc_calculation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">xarray.core.dataarray.DataArray</span><a class="reference internal" href="../_modules/scc_multiverse/menu/equity.html#EquityRecipe.ce_cc_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.equity.EquityRecipe.ce_cc_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Certainty Equivalence for Risk aversion plus equity.</p>
+<p>This function is calculating the certainty equivalent damages for the
+equity and risk aversion menu options. Notice that this CE calculations
+are aggregation over several dimensions depending on the
+<cite>discounting_type</cite> selected and that might need more computing power than
+usual.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.equity.EquityRecipe.ce_no_cc_calculation">
+<code class="sig-name descname"><span class="pre">ce_no_cc_calculation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">xarray.core.dataarray.DataArray</span><a class="reference internal" href="../_modules/scc_multiverse/menu/equity.html#EquityRecipe.ce_no_cc_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.equity.EquityRecipe.ce_no_cc_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate certainty equivalent consumption without damages for
+Risk aversion plus equity.</p>
+<p>This function will calculate the CE in equity and risk-aversion
+scenarios for different discount_types. Just as
+<cite>ce_cc_calculation</cite> the computing needs of this function might
+differ across <cite>discounting_type</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.equity.EquityRecipe.global_consumption_calculation">
+<code class="sig-name descname"><span class="pre">global_consumption_calculation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">discount_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/equity.html#EquityRecipe.global_consumption_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.equity.EquityRecipe.global_consumption_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Global consumption</p>
+<p>This function, as the others in this class calculate the
+<cite>global_consumption</cite> class property depending on the discount_type
+passed to the class instance.</p>
+<p>Here we calculate global_c (Global Consumption in No Climate Change):
+This object is the baseline that we use to compare damages against. In
+other words, this would be the global consumption where the aditional
+climate change has not happened, and it is usually the baseline we use
+to calculate and collapse damages in <cite>RiskAversion.calculdated_damages</cite>
+but aggregated using the same strategy used on the
+<cite>collapsed_damage_calculation</cite> process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.equity.EquityRecipe.global_damages_calculation">
+<code class="sig-name descname"><span class="pre">global_damages_calculation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="reference internal" href="../_modules/scc_multiverse/menu/equity.html#EquityRecipe.global_damages_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.equity.EquityRecipe.global_damages_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate global collapsed damages for a desired discount type</p>
+<p>This function collapaes <cite>calculated_damages</cite>, which is the difference
+of the consumption CEs (no damages  - damages), and collapses according
+to the specified discounting type in the class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scc_multiverse.menu.main_recipe">
+<span id="scc-multiverse-menu-main-recipe-module"></span><h2>scc_multiverse.menu.main_recipe module<a class="headerlink" href="#module-scc_multiverse.menu.main_recipe" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">scc_multiverse.menu.main_recipe.</span></code><code class="sig-name descname"><span class="pre">MainRecipe</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sector_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">econ_vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">climate_vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discounting_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discounting_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cons_clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'integration'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/main_recipe.html#MainRecipe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scc_multiverse.menu.simple_storage.StackedDamages" title="scc_multiverse.menu.simple_storage.StackedDamages"><code class="xref py py-class docutils literal notranslate"><span class="pre">scc_multiverse.menu.simple_storage.StackedDamages</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Main Recipe for SCC calculation across menu options.</p>
+<blockquote>
+<div><p>This class is a BaseClass for all recipe classes in the menu of SCC
+options. Here we will instantiate a class with the common elements across
+menu options and then also layout an order of implementation.</p>
+<p>This class is <em>not</em> designed to be directly instantiated by the user.
+Instead, it is called in the different menu options: <cite>EquityRecipe</cite>,
+<cite>RiskAversionRecipe</cite>, and <cite>Baseline</cite>.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sector_path</strong> (<em>str</em>) – Path to sector damages. The path can point to the root folder, and then
+the <cite>damages_directory</cite> can be used to point where monetized damages
+are stored.</p></li>
+<li><p><strong>econ_vars</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">simple_storage.EconVars</span></code>) – This is a <cite>simple_storage.EconVars</cite> class with population and income
+data.</p></li>
+<li><p><strong>cons_clip</strong> (<em>int</em>) – It is possible that some damages are so extreme that will yield
+negative consumptions (gdppc - damages). Hence, we need to bottom code
+the consumptions. This value is then the minumum consumption per capita
+for those impact regions with extreme damages. If <cite>cons_clip</cite> is
+<cite>None</cite>, we will assign the current minimum <cite>gdppc</cite> as the value for
+bottom clip consumption.</p></li>
+<li><p><strong>discounting_type</strong> (<em>str</em>) – <p>A discount type to calculate the CE consumption. Options available
+are:</p>
+<blockquote>
+<div><ul>
+<li><p><cite>’constant’</cite>: A constant discount rate</p></li>
+<li><p><cite>’ramsey’</cite>: A ramsey discount rate (based on GDP growth rate)</p></li>
+<li><p><cite>’wr’</cite>: A Weitzman-Ramsey discounting (base on GDP growth
+rate and additionally collapsing across different economic
+scenarios).</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>discounting_level</strong> (<em>str</em>) – Menu options vary on their level of discounting, here we can choose
+between <cite>local</cite> or <cite>global</cite>.</p></li>
+<li><p><strong>fit_type</strong> (<em>str</em>) – Fitting option for damage yearly damage function estimation. The valid
+options are ‘ols’ or ‘quantiles’.</p></li>
+<li><p><strong>subset_dict</strong> (<em>dict</em>) – <p>A dictionary where you can define a filtering criteria. Keys must be
+damages dimensions, and values should be the desired values for that
+dimension.
+For instance:
+<a href="#id13"><span class="problematic" id="id14">``</span></a>`
+subset_dict = {batch: ‘batch1’,</p>
+<blockquote>
+<div><p>’gcm’: ‘ACCESS0-1’}</p>
+</div></blockquote>
+<p><a href="#id15"><span class="problematic" id="id16">``</span></a><a href="#id17"><span class="problematic" id="id18">`</span></a></p>
+<p>This <cite>dict</cite> above will filter the damages to only the ‘batch1’ and the
+‘ACCESS0-1’ global climate model.</p>
+</p></li>
+<li><p><strong>**extrapolation_kwargs</strong> – Other parameters to be passed to extraplation calculation. See
+<cite>simple_storage.EconVars.extrapolation</cite> for more details</p></li>
+<li><p><strong>**fitting_kwargs</strong> – Other parameteres to be passed to the <cite>damage_function</cite> method.</p></li>
+<li><p><strong>Attributes</strong> – </p></li>
+<li><p><strong>----------</strong> – </p></li>
+<li><p><strong>ce_cc</strong> (<em>xr.DataArray</em>) – Certainty equivalent consumption under climate change scenario</p></li>
+<li><p><strong>ce_no_cc</strong> (<em>xr.DataArray</em>) – Certainty equivalent consumption under no climate change scenario</p></li>
+<li><p><strong>global_damages</strong> (<em>xr.DataArray</em>) – Global damages (collapsed IRs) for a defined discounting option.</p></li>
+<li><p><strong>damage_function_points</strong> (<em>pd.DataFrame</em>) – Yearly model/Batch global damage realizations for GCM temperature anomalies.</p></li>
+<li><p><strong>damage_function_coefficients</strong> (<em>xr.Dataset</em>) – Data array with coefficients from the cuadratic fit of damages using
+temperature anomalies. These values are linearly extrapolated to go
+beyond 2100.</p></li>
+<li><p><strong>damage_function</strong> (<em>xr.Dataset</em>) – Data array with predicted damages for different temperature anomaly
+levels.</p></li>
+<li><p><strong>fair_marginal_damages</strong> (<em>xr.Dataset</em>) – Raw FAIR marginal damages resulting from the substraction of pulse and
+RCP damages</p></li>
+<li><p><strong>global_consumption</strong> (<em>xr.Dataset</em>) – Total global available consumption after damages. This value is
+calculated using the no climate change scenario and using an
+extrapolation to cover values beyond 2100.</p></li>
+<li><p><strong>global_consumption_no_pulse</strong> (<em>xr.DataArray</em>) – Total global consumption available under FAIR RCP scenario</p></li>
+<li><p><strong>global_consumption_pulse</strong> (<em>xr.Dataset</em>) – Total global consumption avialable under FAIR pulse scenario</p></li>
+<li><p><strong>ce_fair_pulse_damages</strong> (<em>xr.Dataset</em>) – Certainty equivalent consumption of FAIR pulse consumptions</p></li>
+<li><p><strong>ce_fair_no_pulse_damages</strong> (<em>xr.Dataset</em>) – Certainty equivalent consumption of FAIR RCP consumption</p></li>
+<li><p><strong>fair_marginal_damages_ce</strong> (<em>xr.Dataset</em>) – FAIR marginal damages using certainty equivalent consumptions. These
+values should be higher than <cite>fair_marginal_damages</cite></p></li>
+<li><p><strong>calculate_scc</strong> (<em>xr.Dataset</em>) – Discounted damages using the class defined discounting method.</p></li>
+<li><p><strong>Methods</strong> – </p></li>
+<li><p><strong>-------</strong> – </p></li>
+<li><p><strong>order_place</strong> – Run recipe pipeline and calculate all objects. If <cite>save_path</cite> is
+specificed, results will be saved in disk, otherwise, results will be
+cached.</p></li>
+<li><p><strong>c_equivalence</strong> – Calculate certainty equivalence over array</p></li>
+<li><p><strong>discounted_fair_damages</strong> – Discounnt damages to present values using different discounting
+schemes.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.BASEPERIOD">
+<code class="sig-name descname"><span class="pre">BASEPERIOD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">[2001,</span> <span class="pre">2010]</span></em><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.BASEPERIOD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.MAGNITUDE_OF_DAMAGES">
+<code class="sig-name descname"><span class="pre">MAGNITUDE_OF_DAMAGES</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1000000000.0</span></em><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.MAGNITUDE_OF_DAMAGES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.NAME">
+<code class="sig-name descname"><span class="pre">NAME</span></code><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.PULSE_AMT">
+<code class="sig-name descname"><span class="pre">PULSE_AMT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1.0</span></em><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.PULSE_AMT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.PULSE_CONVERSION">
+<code class="sig-name descname"><span class="pre">PULSE_CONVERSION</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2.7291648678248936e-10</span></em><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.PULSE_CONVERSION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.PULSE_YEAR">
+<code class="sig-name descname"><span class="pre">PULSE_YEAR</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2020</span></em><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.PULSE_YEAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.REFERENCE_YEAR">
+<code class="sig-name descname"><span class="pre">REFERENCE_YEAR</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1765</span></em><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.REFERENCE_YEAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.START_YEAR">
+<code class="sig-name descname"><span class="pre">START_YEAR</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2015</span></em><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.START_YEAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.c_equivalence">
+<code class="sig-name descname"><span class="pre">c_equivalence</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dims</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/main_recipe.html#MainRecipe.c_equivalence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.c_equivalence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Certainty Equality</p>
+<p>This function calculates the certainty equality assuming a CRRA utility
+function. This CE gives us the level of consumption that makes a
+representative agent in an IR indifferent from any state of the world.
+This is relevant particularly in the dimensions used here.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xr.Dataset</strong><strong> or </strong><strong>xr.DatArray</strong> (<em>array</em>) – A <cite>xarray</cite> object containing consumption numbers.</p></li>
+<li><p><strong>list</strong> (<em>dims</em>) – List of dimensions to use in aggregation.</p></li>
+<li><p><strong>obj</strong> (<em>func</em>) – If user desired a different utility function to the CRRA, this
+argument can take a <cite>lambda</cite> function where <cite>array</cite> is the main
+variable.</p></li>
+<li><p><strong>xr.DataArray</strong> (<em>weights</em>) – Array with weights for aggregation calculation. <cite>None</cite> by default.</p></li>
+<li><p><strong>func_args</strong> – Other arguments passed to <cite>func</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xarray.Dataset with CEs over the desired dims</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.calculate_scc">
+<code class="sig-name descname"><span class="pre">calculate_scc</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.calculate_scc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.calculated_damages">
+<code class="sig-name descname"><span class="pre">calculated_damages</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.calculated_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.ce_cc">
+<code class="sig-name descname"><span class="pre">ce_cc</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.ce_cc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.ce_cc_calculation">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">ce_cc_calculation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/main_recipe.html#MainRecipe.ce_cc_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.ce_cc_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate CE damages depending on discount type</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.ce_fair_no_pulse_damages">
+<code class="sig-name descname"><span class="pre">ce_fair_no_pulse_damages</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.ce_fair_no_pulse_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.ce_fair_pulse_damages">
+<code class="sig-name descname"><span class="pre">ce_fair_pulse_damages</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.ce_fair_pulse_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.ce_no_cc">
+<code class="sig-name descname"><span class="pre">ce_no_cc</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.ce_no_cc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.ce_no_cc_calculation">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">ce_no_cc_calculation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/main_recipe.html#MainRecipe.ce_no_cc_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.ce_no_cc_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate GDP CE depending on discount type.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.damage_function">
+<code class="sig-name descname"><span class="pre">damage_function</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.damage_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.damage_function_coefficients">
+<code class="sig-name descname"><span class="pre">damage_function_coefficients</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.damage_function_coefficients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.damage_function_points">
+<code class="sig-name descname"><span class="pre">damage_function_points</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.damage_function_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.discounted_fair_damages">
+<code class="sig-name descname"><span class="pre">discounted_fair_damages</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">damages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/main_recipe.html#MainRecipe.discounted_fair_damages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.discounted_fair_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Discount FAIR damages to present value according to discounting
+type</p>
+<p>Evaluate damages according to different discount rates. The available
+options are the same we have on the menu options:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>ramsey</p></li>
+<li><p>rw (ramsey-weitzmann)</p></li>
+<li><p>constant (see: self.discrates to see the list of rates)</p></li>
+</ul>
+</div></blockquote>
+<p>The function will take an damage object with a <cite>discount_rate</cite>
+dimension and will subset it. Then it will calculate the discounted
+damages using the user-desired formula</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>damages</strong><strong> (</strong><strong>xr.DataArray</strong><strong> or </strong><strong>xr.Dataset</strong><strong>)  </strong><strong>Array of damages with a</strong> (<em>-</em>) – <cite>discount_type</cite> dimension to subset the damages.</p></li>
+<li><p><strong>discrate</strong><strong> (</strong><strong>str</strong><strong>) </strong><strong>A discrate formula. The available options are</strong> (<em>-</em>) – ‘rw’, ‘ramsey’, and ‘constant’. Be aware that the constant rates
+are class-wide defined.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xr.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.fair_marginal_damages">
+<code class="sig-name descname"><span class="pre">fair_marginal_damages</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.fair_marginal_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.fair_marginal_damages_ce">
+<code class="sig-name descname"><span class="pre">fair_marginal_damages_ce</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.fair_marginal_damages_ce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.global_consumption">
+<code class="sig-name descname"><span class="pre">global_consumption</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.global_consumption" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.global_consumption_calculation">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">global_consumption_calculation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/main_recipe.html#MainRecipe.global_consumption_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.global_consumption_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Global consumption calculation</p>
+<p>This method calculates the global consumption calculation needed to
+calculate damages using the FAIR product. Global consumptions is the
+consumption baseline we use to calculate damages in an especific menu
+option. The purpose of this is to transform damages into consumptions
+and be able to calculate certainty equivalences.</p>
+<p>Since FAIR values go beyond 2100, we extrapolate global consumption to
+2300 using the method defined in <cite>ex_method</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.global_consumption_no_pulse">
+<code class="sig-name descname"><span class="pre">global_consumption_no_pulse</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.global_consumption_no_pulse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.global_consumption_pulse">
+<code class="sig-name descname"><span class="pre">global_consumption_pulse</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.global_consumption_pulse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.global_damages">
+<code class="sig-name descname"><span class="pre">global_damages</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.global_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.global_damages_calculation">
+<code class="sig-name descname"><span class="pre">global_damages_calculation</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.global_damages_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.order_plate">
+<code class="sig-name descname"><span class="pre">order_plate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">course</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/main_recipe.html#MainRecipe.order_plate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.order_plate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute menu option section and save results</p>
+<p>This method is a entry point to the class and allows the user to
+calculate different elements of a specific menu option, these elements
+will automatically be saved in the path defined in <cite>save_path</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>str</strong> (<em>course</em>) – <dl class="simple">
+<dt>A menu section to order. The following are the available options:</dt><dd><ul class="simple">
+<li><p><cite>damage_function</cite>: Return and save all damage function
+elements including model realizations, fit coefficients, and
+estimated damages curves</p></li>
+<li><p><cite>fair_ce</cite>: Return and save all elements related with FAIR
+steps including global consumptions and FAIR damages for both
+pulse and control runs. Additionally, all elements from
+<cite>damage_function</cite> will be returned and saved.</p></li>
+<li><p><cite>scc</cite>: Return Social Cost of Carbon calculation for FAIR
+medians and full-uncertainty. See class documents for more
+details. All elements from <cite>fair_ce</cite> and <cite>damage_function</cite>
+are alsos saved and returned.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None. Saved all elements to <cite>save_path</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.main_recipe.MainRecipe.output_attrs">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">output_attrs</span></code><a class="headerlink" href="#scc_multiverse.menu.main_recipe.MainRecipe.output_attrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return dict with class attributes for output metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>A dict Class metadata</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scc_multiverse.menu.risk_aversion">
+<span id="scc-multiverse-menu-risk-aversion-module"></span><h2>scc_multiverse.menu.risk_aversion module<a class="headerlink" href="#module-scc_multiverse.menu.risk_aversion" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="scc_multiverse.menu.risk_aversion.RiskAversionRecipe">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">scc_multiverse.menu.risk_aversion.</span></code><code class="sig-name descname"><span class="pre">RiskAversionRecipe</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sector_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">econ_vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">climate_vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discounting_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discounting_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cons_clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'integration'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/risk_aversion.html#RiskAversionRecipe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.risk_aversion.RiskAversionRecipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scc_multiverse.menu.main_recipe.MainRecipe" title="scc_multiverse.menu.main_recipe.MainRecipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">scc_multiverse.menu.main_recipe.MainRecipe</span></code></a></p>
+<dl>
+<dt>Risk Aversion Disconting Menu Options</dt><dd><p>Main Recipe for SCC calculation across menu options.</p>
+<p>This class is a BaseClass for all recipe classes in the menu of SCC
+options. Here we will instantiate a class with the common elements across
+menu options and then also layout an order of implementation.</p>
+<p>This class is <em>not</em> designed to be directly instantiated by the user.
+Instead, it is called in the different menu options: <cite>EquityRecipe</cite>,
+<cite>RiskAversionRecipe</cite>, and <cite>Baseline</cite>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sector_path</strong> (<em>str</em>) – Path to sector damages. The path can point to the root folder, and then
+the <cite>damages_directory</cite> can be used to point where monetized damages
+are stored.</p></li>
+<li><p><strong>econ_vars</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">simple_storage.EconVars</span></code>) – This is a <cite>simple_storage.EconVars</cite> class with population and income
+data.</p></li>
+<li><p><strong>cons_clip</strong> (<em>int</em>) – It is possible that some damages are so extreme that will yield
+negative consumptions (gdppc - damages). Hence, we need to bottom code
+the consumptions. This value is then the minumum consumption per capita
+for those impact regions with extreme damages. If <cite>cons_clip</cite> is
+<cite>None</cite>, we will assign the current minimum <cite>gdppc</cite> as the value for
+bottom clip consumption.</p></li>
+<li><p><strong>discounting_type</strong> (<em>str</em>) – <p>A discount type to calculate the CE consumption. Options available
+are:</p>
+<blockquote>
+<div><ul>
+<li><p><cite>’constant’</cite>: A constant discount rate</p></li>
+<li><p><cite>’ramsey’</cite>: A ramsey discount rate (based on GDP growth rate)</p></li>
+<li><p><cite>’wr’</cite>: A Weitzman-Ramsey discounting (base on GDP growth
+rate and additionally collapsing across different economic
+scenarios).</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>discounting_level</strong> (<em>str</em>) – Menu options vary on their level of discounting, here we can choose
+between <cite>local</cite> or <cite>global</cite>.</p></li>
+<li><p><strong>fit_type</strong> (<em>str</em>) – Fitting option for damage yearly damage function estimation. The valid
+options are ‘ols’ or ‘quantiles’.</p></li>
+<li><p><strong>subset_dict</strong> (<em>dict</em>) – <p>A dictionary where you can define a filtering criteria. Keys must be
+damages dimensions, and values should be the desired values for that
+dimension.
+For instance:
+<a href="#id19"><span class="problematic" id="id20">``</span></a>`
+subset_dict = {batch: ‘batch1’,</p>
+<blockquote>
+<div><p>’gcm’: ‘ACCESS0-1’}</p>
+</div></blockquote>
+<p><a href="#id21"><span class="problematic" id="id22">``</span></a><a href="#id23"><span class="problematic" id="id24">`</span></a></p>
+<p>This <cite>dict</cite> above will filter the damages to only the ‘batch1’ and the
+‘ACCESS0-1’ global climate model.</p>
+</p></li>
+<li><p><strong>**extrapolation_kwargs</strong> – Other parameters to be passed to extraplation calculation. See
+<cite>simple_storage.EconVars.extrapolation</cite> for more details</p></li>
+<li><p><strong>**fitting_kwargs</strong> – Other parameteres to be passed to the <cite>damage_function</cite> method.</p></li>
+<li><p><strong>Attributes</strong> – </p></li>
+<li><p><strong>----------</strong> – </p></li>
+<li><p><strong>ce_cc</strong> (<em>xr.DataArray</em>) – Certainty equivalent consumption under climate change scenario</p></li>
+<li><p><strong>ce_no_cc</strong> (<em>xr.DataArray</em>) – Certainty equivalent consumption under no climate change scenario</p></li>
+<li><p><strong>global_damages</strong> (<em>xr.DataArray</em>) – Global damages (collapsed IRs) for a defined discounting option.</p></li>
+<li><p><strong>damage_function_points</strong> (<em>pd.DataFrame</em>) – Yearly model/Batch global damage realizations for GCM temperature anomalies.</p></li>
+<li><p><strong>damage_function_coefficients</strong> (<em>xr.Dataset</em>) – Data array with coefficients from the cuadratic fit of damages using
+temperature anomalies. These values are linearly extrapolated to go
+beyond 2100.</p></li>
+<li><p><strong>damage_function</strong> (<em>xr.Dataset</em>) – Data array with predicted damages for different temperature anomaly
+levels.</p></li>
+<li><p><strong>fair_marginal_damages</strong> (<em>xr.Dataset</em>) – Raw FAIR marginal damages resulting from the substraction of pulse and
+RCP damages</p></li>
+<li><p><strong>global_consumption</strong> (<em>xr.Dataset</em>) – Total global available consumption after damages. This value is
+calculated using the no climate change scenario and using an
+extrapolation to cover values beyond 2100.</p></li>
+<li><p><strong>global_consumption_no_pulse</strong> (<em>xr.DataArray</em>) – Total global consumption available under FAIR RCP scenario</p></li>
+<li><p><strong>global_consumption_pulse</strong> (<em>xr.Dataset</em>) – Total global consumption avialable under FAIR pulse scenario</p></li>
+<li><p><strong>ce_fair_pulse_damages</strong> (<em>xr.Dataset</em>) – Certainty equivalent consumption of FAIR pulse consumptions</p></li>
+<li><p><strong>ce_fair_no_pulse_damages</strong> (<em>xr.Dataset</em>) – Certainty equivalent consumption of FAIR RCP consumption</p></li>
+<li><p><strong>fair_marginal_damages_ce</strong> (<em>xr.Dataset</em>) – FAIR marginal damages using certainty equivalent consumptions. These
+values should be higher than <cite>fair_marginal_damages</cite></p></li>
+<li><p><strong>calculate_scc</strong> (<em>xr.Dataset</em>) – Discounted damages using the class defined discounting method.</p></li>
+<li><p><strong>Methods</strong> – </p></li>
+<li><p><strong>-------</strong> – </p></li>
+<li><p><strong>order_place</strong> – Run recipe pipeline and calculate all objects. If <cite>save_path</cite> is
+specificed, results will be saved in disk, otherwise, results will be
+cached.</p></li>
+<li><p><strong>c_equivalence</strong> – Calculate certainty equivalence over array</p></li>
+<li><p><strong>discounted_fair_damages</strong> – Discounnt damages to present values using different discounting
+schemes.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.risk_aversion.RiskAversionRecipe.NAME">
+<code class="sig-name descname"><span class="pre">NAME</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'risk_aversion'</span></em><a class="headerlink" href="#scc_multiverse.menu.risk_aversion.RiskAversionRecipe.NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.risk_aversion.RiskAversionRecipe.calculated_damages">
+<code class="sig-name descname"><span class="pre">calculated_damages</span></code><a class="headerlink" href="#scc_multiverse.menu.risk_aversion.RiskAversionRecipe.calculated_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.risk_aversion.RiskAversionRecipe.ce_cc_calculation">
+<code class="sig-name descname"><span class="pre">ce_cc_calculation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">xarray.core.dataarray.DataArray</span><a class="reference internal" href="../_modules/scc_multiverse/menu/risk_aversion.html#RiskAversionRecipe.ce_cc_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.risk_aversion.RiskAversionRecipe.ce_cc_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Certainty Equivalence for Risk Aversion.</p>
+<p>This function is calculating the certainty equivalent damages for the
+risk aversion menu options. Notice that this CE calculations
+are aggregation over several dimensions depending on the
+<cite>discounting_type</cite> selected and that might need more computing power than
+usual.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.risk_aversion.RiskAversionRecipe.ce_no_cc_calculation">
+<code class="sig-name descname"><span class="pre">ce_no_cc_calculation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">xarray.core.dataarray.DataArray</span><a class="reference internal" href="../_modules/scc_multiverse/menu/risk_aversion.html#RiskAversionRecipe.ce_no_cc_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.risk_aversion.RiskAversionRecipe.ce_no_cc_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate certainty equivalent consumption without damages for
+Risk aversion</p>
+<p>This function will calculate the CE for risk-aversion menu options for
+the class specified <cite>discount_type</cite>. Just as the CE damages
+calculatuion, the computing times might vary depending on the
+discounting type. Check the <cite>MainRecipe</cite> class documentation for more
+details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.risk_aversion.RiskAversionRecipe.global_consumption_calculation">
+<code class="sig-name descname"><span class="pre">global_consumption_calculation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/risk_aversion.html#RiskAversionRecipe.global_consumption_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.risk_aversion.RiskAversionRecipe.global_consumption_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Global consumption</p>
+<p>This function, as the others in this class calculate the
+<cite>global_consumption</cite> class property depending on the discount_type
+passed to the class instance.</p>
+<p>Here we calculate global_c (Global Consumption in No Climate Change):
+This object is the baseline that we use to compare damages against. In
+other words, this would be the global consumption where the aditional
+climate change has not happened, and it is usually the baseline we use
+to calculate and collapse damages in <cite>RiskAversion.calculdated_damages</cite>
+but aggregated using the same strategy used on the
+<cite>collapsed_damage_calculation</cite> process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.risk_aversion.RiskAversionRecipe.global_damages_calculation">
+<code class="sig-name descname"><span class="pre">global_damages_calculation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="reference internal" href="../_modules/scc_multiverse/menu/risk_aversion.html#RiskAversionRecipe.global_damages_calculation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.risk_aversion.RiskAversionRecipe.global_damages_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate collapsed damages for a desired discount type</p>
+<p>This function just calculate the damages by taking the difference
+between ce_no_cc and ce_cc. The resulting array operation is
+aggregated and multiplied by population or across SSPs if needed by the
+discount type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scc_multiverse.menu.simple_storage">
+<span id="scc-multiverse-menu-simple-storage-module"></span><h2>scc_multiverse.menu.simple_storage module<a class="headerlink" href="#module-scc_multiverse.menu.simple_storage" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="scc_multiverse.menu.simple_storage.Climate">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">scc_multiverse.menu.simple_storage.</span></code><code class="sig-name descname"><span class="pre">Climate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gmst_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fair_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fair_median_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fair_baseline_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fair_pulse_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/simple_storage.html#Climate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.simple_storage.Climate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Access to all climate variables needed during integration</p>
+<p>This class wraps all climate data used during the integration process. Here
+we can just call files from disparate sources just to have everything in
+one place.</p>
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.Climate.gmst_path">
+<code class="sig-name descname"><span class="pre">gmst_path</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.Climate.gmst_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to GMST anomalies data for the CIMP5 models using during
+projection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.Climate.fair_path">
+<code class="sig-name descname"><span class="pre">fair_path</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.Climate.fair_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to FAIR baseline and pulse runs. The class will find for pulse and
+baseline file using regex: pulse filename must contain ‘baseline’,
+while baseline filename should contain ‘baseline’. If file is not
+found, <cite>fair_baseline_path</cite> and <cite>fair_pulse_filename</cite> will be used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.Climate.fair_baseline_path">
+<code class="sig-name descname"><span class="pre">fair_baseline_path</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.Climate.fair_baseline_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to FAIR baseline. <cite>None</cite> is the default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.Climate.fair_pulse_path">
+<code class="sig-name descname"><span class="pre">fair_pulse_path</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.Climate.fair_pulse_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to FAIR pulses file. <cite>None</cite> is the default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.Climate.fair_median_path">
+<code class="sig-name descname"><span class="pre">fair_median_path</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.Climate.fair_median_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to FAIR median parameter run to give single estimates of SCC.
+<cite>None</cite> is the default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>This <cite>Climate</cite> object will contain different climate datasets:</dt><dd><ul class="simple">
+<li><p>gmst: GMST anomalies for CIMP5 models plus surrogates</p></li>
+<li><p>fair: FAIR baseline runs</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.Climate.fair_baselines">
+<code class="sig-name descname"><span class="pre">fair_baselines</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.Climate.fair_baselines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.Climate.fair_median_run">
+<code class="sig-name descname"><span class="pre">fair_median_run</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.Climate.fair_median_run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.Climate.fair_pulse">
+<code class="sig-name descname"><span class="pre">fair_pulse</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.Climate.fair_pulse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.Climate.gmst">
+<code class="sig-name descname"><span class="pre">gmst</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.Climate.gmst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="scc_multiverse.menu.simple_storage.EconVars">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">scc_multiverse.menu.simple_storage.</span></code><code class="sig-name descname"><span class="pre">EconVars</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_econ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext_subset_start_year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2085</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext_subset_end_year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext_end_year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2300</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/simple_storage.html#EconVars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.simple_storage.EconVars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Access to all Economic variables</p>
+<p>This class contains all economic data needed to calculate consumptions and
+do other operations throughout the menu options. <cite>EconVars</cite> will read all
+SSP data and read GDP and population data at the IR/SSP/IAM level. Since
+some menu options rely on number beyond the SSP predictions, we use a
+linear interpolation of population and GDP at the IR level using a
+user-defined period for interpolation.</p>
+<p>The period of interpolation, defined by the range of <cite>ext_start_year</cite> and
+<cite>ext_end_year</cite>, will select a subset of data to extrapolate values of
+population and income at the IR level. This extrapolation can either be a
+linear 1D extrapolation (just like np.interp) in time, or calculate out of
+sample values assuming a constant growth rate across IR and different
+scenarios (i.e. SSP/IAM) and calculate. The user can change this behavior
+by using the option <cite>ext_method</cite>.</p>
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname"><span class="pre">econ_path</span> <span class="pre">str</span></code></dt>
+<dd><p>Path to eoconmic data in NetCDF format.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname"><span class="pre">ext_subset_start_year</span> <span class="pre">int</span></code></dt>
+<dd><p>Start time for extrapolation start. Default is 2085</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname"><span class="pre">ext_subset_end_year</span> <span class="pre">int</span></code></dt>
+<dd><p>End time for extraplation subset. This is also used as the first year
+for interpolation. Default is 2100</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname"><span class="pre">ext_end_year</span> <span class="pre">int</span></code></dt>
+<dd><p>Time to end the extrapolation period. Default is 2300</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname"><span class="pre">ext_method</span> <span class="pre">str</span></code></dt>
+<dd><dl class="simple">
+<dt>Extrapolation method:</dt><dd><ul class="simple">
+<li><p><cite>‘constant’</cite>: constant growth</p></li>
+<li><p><cite>‘linear’</cite>: linear extrapolation</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Notes</p>
+<p>An <cite>EconVars</cite> object contains different economic variables as class
+properties. You can get:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>gdp: GDP per capita for each IR/SSP/IAM</p></li>
+<li><p>pop: Population for each IR/SSP/IAM</p></li>
+</ul>
+</div></blockquote>
+<dl class="py method">
+<dt id="scc_multiverse.menu.simple_storage.EconVars.econ_vars">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">econ_vars</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.EconVars.econ_vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Economic variables from SSP object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.simple_storage.EconVars.extrapolate">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">extrapolate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xr_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/simple_storage.html#EconVars.extrapolate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.simple_storage.EconVars.extrapolate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extrapolate values from xarray object indexed in time</p>
+<p>Extrapolate values in xr.DataArray. This function uses the <cite>interp</cite>
+option in xarray objects. The extrapolation can either be linear or
+constant by using the range of years between <cite>start_year</cite> and
+<cite>end_year</cite>. This extrapolation can be linear assuming a linear
+extrapolation rate, or a constant</p>
+<dl class="simple">
+<dt>xr_array xr.Dataset</dt><dd><p>Array with a <cite>‘year’</cite> dimension</p>
+</dd>
+<dt>start_year int</dt><dd><p>Extrapolation subsample start time</p>
+</dd>
+<dt>end_year int</dt><dd><p>Extrapolation subsample end time</p>
+</dd>
+<dt>interp_year int</dt><dd><p>End of extrapolation. The function will calculate values from the
+range given by the <cite>end_year</cite> and the <cite>interp_year</cite>.</p>
+</dd>
+<dt>var str</dt><dd><p>If the <cite>xr_array</cite> is a Dataset, this defined the variable within
+the object. <cite>None</cite> is the default value.</p>
+</dd>
+<dt>method str</dt><dd><p>Interpolation method. Valid values are <cite>constant</cite> and <cite>linear</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.EconVars.gdp">
+<code class="sig-name descname"><span class="pre">gdp</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.EconVars.gdp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.EconVars.gdppc">
+<code class="sig-name descname"><span class="pre">gdppc</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.EconVars.gdppc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.EconVars.pop">
+<code class="sig-name descname"><span class="pre">pop</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.EconVars.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.EconVars.raw_inputs">
+<code class="sig-name descname"><span class="pre">raw_inputs</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.EconVars.raw_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.EconVars.stream_discount_factors">
+<code class="sig-name descname"><span class="pre">stream_discount_factors</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.EconVars.stream_discount_factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">scc_multiverse.menu.simple_storage.</span></code><code class="sig-name descname"><span class="pre">StackedDamages</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sector_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">econ_vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">climate_vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cons_clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/simple_storage.html#StackedDamages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wrapper to sector stacked damages</p>
+<p>This class will take wrap the stacking of one (or several) sector damages
+coming from the climate-projection system. This function will read all
+monetized damages in NetCDF format and combine them by chunks to allow
+operation in larger-than-memory databases.</p>
+<p>It is esential that the user start a <cite>dask.distributed.Client</cite> before
+calling this class. The <cite>Client</cite> object will read data by chunk and run the
+operations across the class methods. If no <cite>Client</cite> is present, the
+operation will be halted. This is assuming the damage data can’t be loaded
+into memory (which is actually a good practice).</p>
+<p>This class is not supposed to be instantiated directly by the user, but
+rather by accessed using the <cite>Menu</cite> classes instead.</p>
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.sector_path">
+<code class="sig-name descname"><span class="pre">sector_path</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.sector_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to project data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.subset_damages">
+<code class="sig-name descname"><span class="pre">subset_damages</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.subset_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary with optional keys to subset damages</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.econ_vars">
+<code class="sig-name descname"><span class="pre">econ_vars</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.econ_vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>An <cite>EconVars</cite> object with the correct paths to data sources</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>scc_multiverse.simple_storage.EconVars cls</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.climate_vars">
+<code class="sig-name descname"><span class="pre">climate_vars</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.climate_vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>An <cite>Climate</cite> object with the correct paths to data sources</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>scc_multiverse.simple_storage.Climate cls</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.cons_clip">
+<code class="sig-name descname"><span class="pre">cons_clip</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.cons_clip" title="Permalink to this definition">¶</a></dt>
+<dd><p>A integer value to bottom clip negative consumptions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname"><span class="pre">subset_dict</span> <span class="pre">dict</span></code></dt>
+<dd><p>A dictorionary with coordinate values to filter data. The keys of the
+dictorinary take the values of the coordinate and the values take the
+filtering values:
+<a href="#id25"><span class="problematic" id="id26">``</span></a>`
+d = {‘year’: range(2010, 2015),</p>
+<blockquote>
+<div><p>‘iam’: ‘OECD GDP’
+}</p>
+</div></blockquote>
+<p><a href="#id27"><span class="problematic" id="id28">``</span></a><a href="#id29"><span class="problematic" id="id30">`</span></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.cut">
+<code class="sig-name descname"><span class="pre">cut</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/simple_storage.html#StackedDamages.cut"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.cut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cut an xarray object using a dict object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.bottom_coding">
+<code class="sig-name descname"><span class="pre">bottom_coding</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.bottom_coding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Asssign a user-defined value to negative consumptions</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.chunks">
+<code class="sig-name descname"><span class="pre">chunks</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'batch':</span> <span class="pre">1,</span> <span class="pre">'gcm':</span> <span class="pre">1,</span> <span class="pre">'model':</span> <span class="pre">1,</span> <span class="pre">'rcp':</span> <span class="pre">1,</span> <span class="pre">'ssp':</span> <span class="pre">1}</span></em><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.chunks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.consumptions">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">consumptions</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.consumptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate consumption using damages</p>
+<p>This function just takes the damages stored in the class and substract
+them from the gdp for each combination of coordinates. This operation
+is broadcasted using xarray, so we can be certain that IRs and other
+coordinates are matching during the operation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Cached <cite>xarray</cite> object with consuption</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>xr.Dataarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id0">
+<code class="sig-name descname"><span class="pre">cut</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xr_array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu/simple_storage.html#StackedDamages.cut"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slice array to desired subset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>xr_array</strong> (<em>xr.Dataset</em><em> or </em><em>xr.Dataarray</em>) – An xarray object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><cite>xarray</cite> object filtered using the dict defined in the class:
+<cite>self.subset_dict</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xr.Dataset or xr.Dataarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.damages">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">damages</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lazy read files and persist data to memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.files">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">files</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.files" title="Permalink to this definition">¶</a></dt>
+<dd><p>List damage files in <cite>StackedDamages.path</cite>.</p>
+<p>The function will find first NetCDF (.nc4) files, and Zarr (.zarr)
+files.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.gdp">
+<code class="sig-name descname"><span class="pre">gdp</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.gdp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.gdppc">
+<code class="sig-name descname"><span class="pre">gdppc</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.gdppc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.pop">
+<code class="sig-name descname"><span class="pre">pop</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="scc_multiverse.menu.simple_storage.StackedDamages.stream_discount_factors">
+<code class="sig-name descname"><span class="pre">stream_discount_factors</span></code><a class="headerlink" href="#scc_multiverse.menu.simple_storage.StackedDamages.stream_discount_factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-data descriptor decorator implementing a read-only property
+which overrides itself on the instance with an entry in the
+instance’s data dictionary, caching the result of the decorated
+property method.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scc_multiverse.menu">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scc_multiverse.menu" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="scc_multiverse.menu.Waiter">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">scc_multiverse.menu.</span></code><code class="sig-name descname"><span class="pre">Waiter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">menu_option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_damages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_climate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_fair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_econ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_adir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu.html#Waiter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.Waiter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="scc_multiverse.menu.Waiter.menu_dict">
+<code class="sig-name descname"><span class="pre">menu_dict</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/menu.html#Waiter.menu_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.menu.Waiter.menu_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Ivan Higuera-Mendieta.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

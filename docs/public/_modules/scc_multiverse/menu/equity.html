@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>scc_multiverse.menu.equity &mdash; SCC Multiverse  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SCC Multiverse
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SCC Multiverse</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../menu.html">scc_multiverse.menu</a> &raquo;</li>
+        
+      <li>scc_multiverse.menu.equity</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for scc_multiverse.menu.equity</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">from</span> <span class="nn">descriptors</span> <span class="kn">import</span> <span class="n">cachedproperty</span>
+<span class="kn">from</span> <span class="nn">scc_multiverse.fair.estimations</span> <span class="kn">import</span> <span class="n">compute_damages</span>
+<span class="kn">from</span> <span class="nn">scc_multiverse.menu.main_recipe</span> <span class="kn">import</span> <span class="n">MainRecipe</span>
+
+
+<span class="n">DISCOUNT_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="s1">&#39;ramsey&#39;</span><span class="p">,</span> <span class="s1">&#39;wr&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="EquityRecipe"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.equity.EquityRecipe">[docs]</a><span class="k">class</span> <span class="nc">EquityRecipe</span><span class="p">(</span><span class="n">MainRecipe</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Risk aversion and Equity menu template</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">NAME</span> <span class="o">=</span> <span class="s1">&#39;equity&#39;</span>
+    <span class="vm">__doc__</span> <span class="o">+=</span> <span class="n">MainRecipe</span><span class="o">.</span><span class="vm">__doc__</span>
+
+<div class="viewcode-block" id="EquityRecipe.ce_cc_calculation"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.equity.EquityRecipe.ce_cc_calculation">[docs]</a>    <span class="k">def</span> <span class="nf">ce_cc_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Calculate Certainty Equivalence for Risk aversion plus equity. </span>
+
+<span class="sd">        This function is calculating the certainty equivalent damages for the</span>
+<span class="sd">        equity and risk aversion menu options. Notice that this CE calculations</span>
+<span class="sd">        are aggregation over several dimensions depending on the</span>
+<span class="sd">        `discounting_type` selected and that might need more computing power than</span>
+<span class="sd">        usual. </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">             xr.DataArray</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ramsey&#39;</span><span class="p">,</span> <span class="s1">&#39;constant&#39;</span><span class="p">]:</span>
+            <span class="n">ce_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_equivalence</span><span class="p">(</span><span class="n">array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">consumptions</span><span class="p">,</span>
+                                          <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">,</span>
+                                          <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;batch&#39;</span><span class="p">,</span> <span class="s1">&#39;region&#39;</span><span class="p">],</span>
+                                          <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span> <span class="o">==</span> <span class="s1">&#39;wr&#39;</span><span class="p">:</span>
+            <span class="n">ce_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_equivalence</span><span class="p">(</span>
+                <span class="n">array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">consumptions</span><span class="p">,</span>
+                <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">,</span>
+                <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;batch&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;region&#39;</span><span class="p">],</span>
+                <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span><span class="si">}</span><span class="s1"> is not a valid option&#39;</span>
+                 <span class="sa">f</span><span class="s1">&#39;Try any of these: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">DISCOUNT_TYPES</span><span class="si">}</span><span class="s1">&#39;</span>
+                 <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">ce_array</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;ce_cc_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="k">return</span> <span class="n">ce_array</span></div>
+
+<div class="viewcode-block" id="EquityRecipe.ce_no_cc_calculation"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.equity.EquityRecipe.ce_no_cc_calculation">[docs]</a>    <span class="k">def</span> <span class="nf">ce_no_cc_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Calculate certainty equivalent consumption without damages for</span>
+<span class="sd">        Risk aversion plus equity. </span>
+
+<span class="sd">        This function will calculate the CE in equity and risk-aversion</span>
+<span class="sd">        scenarios for different discount_types. Just as</span>
+<span class="sd">        `ce_cc_calculation` the computing needs of this function might</span>
+<span class="sd">        differ across `discounting_type`. </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            xr.DataArray</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ramsey&#39;</span><span class="p">,</span> <span class="s1">&#39;constant&#39;</span><span class="p">]:</span>
+            <span class="n">ce_no_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_equivalence</span><span class="p">(</span><span class="n">array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gdppc</span><span class="p">,</span>
+                                             <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">,</span>
+                                             <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">],</span>
+                                             <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span> <span class="o">==</span> <span class="s1">&#39;wr&#39;</span><span class="p">:</span>
+            <span class="n">ce_no_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_equivalence</span><span class="p">(</span><span class="n">array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gdppc</span><span class="p">,</span>
+                                             <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">,</span>
+                                             <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ssp&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;region&#39;</span><span class="p">],</span>
+                                             <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span><span class="si">}</span><span class="s1"> is not a valid option </span><span class="se">\n</span><span class="s1">&#39;</span>
+                 <span class="sa">f</span><span class="s1">&#39;Try any of these: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">DISCOUNT_TYPES</span><span class="si">}</span><span class="s1">&#39;</span>
+                 <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">ce_no_array</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;ce_no_cc_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="k">return</span> <span class="n">ce_no_array</span></div>
+
+    <span class="nd">@cachedproperty</span>
+    <span class="k">def</span> <span class="nf">calculated_damages</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Calculate damages (CE difference) for collapsing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ce_no_cc</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ce_cc</span>
+
+<div class="viewcode-block" id="EquityRecipe.global_damages_calculation"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.equity.EquityRecipe.global_damages_calculation">[docs]</a>    <span class="k">def</span> <span class="nf">global_damages_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Calculate global collapsed damages for a desired discount type</span>
+
+<span class="sd">        This function collapaes `calculated_damages`, which is the difference</span>
+<span class="sd">        of the consumption CEs (no damages  - damages), and collapses according</span>
+<span class="sd">        to the specified discounting type in the class. </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            pd.DataFrame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="s1">&#39;ramsey&#39;</span><span class="p">]:</span>
+            <span class="n">dams_collapse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculated_damages</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">])</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">dams_collapse</span><span class="o">.</span>
+                <span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;global_damages_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span>
+                <span class="n">reset_index</span><span class="p">()</span>
+            <span class="p">)</span>
+
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ssp-iam&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">ssp</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span> <span class="o">==</span> <span class="s1">&#39;wr&#39;</span><span class="p">:</span>
+            <span class="n">dams_collapse</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">calculated_damages</span> <span class="o">*</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;region&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ssp&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">]))</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">dams_collapse</span><span class="o">.</span>
+                <span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;global_damages_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span>
+                <span class="n">reset_index</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+                <span class="n">ssp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">damages</span><span class="o">.</span><span class="n">ssp</span><span class="o">.</span><span class="n">values</span><span class="p">)),</span>
+                <span class="n">iam</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">damages</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span><span class="si">}</span><span class="s1"> is not a valid option </span><span class="se">\n</span><span class="s1">&#39;</span>
+                 <span class="sa">f</span><span class="s1">&#39;Try any of these: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">DISCOUNT_TYPES</span><span class="si">}</span><span class="s1">&#39;</span>
+                 <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="EquityRecipe.global_consumption_calculation"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.equity.EquityRecipe.global_consumption_calculation">[docs]</a>    <span class="k">def</span> <span class="nf">global_consumption_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">discount_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Calculate Global consumption</span>
+
+<span class="sd">        This function, as the others in this class calculate the</span>
+<span class="sd">        `global_consumption` class property depending on the discount_type</span>
+<span class="sd">        passed to the class instance.</span>
+
+<span class="sd">        Here we calculate global_c (Global Consumption in No Climate Change):</span>
+<span class="sd">        This object is the baseline that we use to compare damages against. In</span>
+<span class="sd">        other words, this would be the global consumption where the aditional</span>
+<span class="sd">        climate change has not happened, and it is usually the baseline we use</span>
+<span class="sd">        to calculate and collapse damages in `RiskAversion.calculdated_damages`</span>
+<span class="sd">        but aggregated using the same strategy used on the</span>
+<span class="sd">        `collapsed_damage_calculation` process.</span>
+<span class="sd"> </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            xr.DataArray</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">discount_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="s1">&#39;ramsey&#39;</span><span class="p">]:</span>
+            <span class="n">global_cons_no_cc</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ce_no_cc</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ssp&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">])</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">sellf</span><span class="o">.</span><span class="n">discounting_type</span> <span class="o">==</span> <span class="s1">&#39;wr&#39;</span><span class="p">:</span>
+            <span class="n">global_cons_no_cc</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ce_no_cc</span> <span class="o">*</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;region&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ssp&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span><span class="si">}</span><span class="s1"> is not a valid option </span><span class="se">\n</span><span class="s1">&#39;</span>
+                 <span class="sa">f</span><span class="s1">&#39;Try any of these: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">DISCOUNT_TYPES</span><span class="si">}</span><span class="s1">&#39;</span>
+                 <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Convert to array in case xarray became temperamental. This is a hack</span>
+        <span class="c1"># that need to be changed. </span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">global_cons_no_cc</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+            <span class="n">global_cons_no_cc</span> <span class="o">=</span> <span class="n">global_cons_no_cc</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span>
+
+        <span class="n">global_cons_no_cc</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;global_cons_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="k">return</span> <span class="n">global_cons_no_cc</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Ivan Higuera-Mendieta.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

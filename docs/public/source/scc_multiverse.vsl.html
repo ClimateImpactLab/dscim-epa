@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>scc_multiverse.vsl package &mdash; SCC Multiverse  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SCC Multiverse
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">scc_multiverse.vsl package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.vsl.calculate_vsl">scc_multiverse.vsl.calculate_vsl module</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.vsl.life_expectancy_and_mt">scc_multiverse.vsl.life_expectancy_and_mt module</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.vsl">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SCC Multiverse</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>scc_multiverse.vsl package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/source/scc_multiverse.vsl.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scc-multiverse-vsl-package">
+<h1>scc_multiverse.vsl package<a class="headerlink" href="#scc-multiverse-vsl-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-scc_multiverse.vsl.calculate_vsl">
+<span id="scc-multiverse-vsl-calculate-vsl-module"></span><h2>scc_multiverse.vsl.calculate_vsl module<a class="headerlink" href="#module-scc_multiverse.vsl.calculate_vsl" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="scc_multiverse.vsl.calculate_vsl.append_2100_lifeexpect">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.vsl.calculate_vsl.</span></code><code class="sig-name descname"><span class="pre">append_2100_lifeexpect</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dfir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/vsl/calculate_vsl.html#append_2100_lifeexpect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.vsl.calculate_vsl.append_2100_lifeexpect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cleans remaining life expectancy dataframe by year 2100 for
+interpolation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dfe</strong> (<em>Pandas dataframe containing input remaining life expectancies.</em>) – </p></li>
+<li><p><strong>dfir</strong> (<em>dataframe containing list of impact regions.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.vsl.calculate_vsl.calculate_vsl">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.vsl.calculate_vsl.</span></code><code class="sig-name descname"><span class="pre">calculate_vsl</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/vsl/calculate_vsl.html#calculate_vsl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.vsl.calculate_vsl.calculate_vsl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates value of statistical life under various assumptions.</p>
+<dl>
+<dt>Calculates VSLs for six valuation scenarios across two dimensions.</dt><dd><ul>
+<li><dl class="simple">
+<dt>Three assumptions regarding VSL values include:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Value of statistical life (VSL), where each death is valued</dt><dd><p>equally,</p>
+</dd>
+</dl>
+</li>
+<li><p>Value of life years (VLY), life years are valued equally,</p></li>
+<li><p>Murphy Topel, heterogeneous valuation of life years.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Two assumptions regarding income scaling include:</dt><dd><ul class="simple">
+<li><p>Values directly scaled based upon the ratio of GDP to US GDP</p></li>
+</ul>
+<p>(on which the initial EPA VSL value is based.)
+- Population-weighted average of the scaled values above.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p>See Carleton et al. (2019) for a more detailed discussion of these
+assumptions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ssp</strong> (<em>SSP scenario for which to calculate VSLs.</em>) – </p></li>
+<li><p><strong>data_path</strong> (<em>location of mortality repository data folder.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.vsl.calculate_vsl.get_missing_lifeexpect">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.vsl.calculate_vsl.</span></code><code class="sig-name descname"><span class="pre">get_missing_lifeexpect</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dfir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/vsl/calculate_vsl.html#get_missing_lifeexpect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.vsl.calculate_vsl.get_missing_lifeexpect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cleans remaining life expectancy dataframe by assigning average values
+to missing countries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dfe</strong> (<em>Pandas dataframe containing input remaining life expectancies.</em>) – </p></li>
+<li><p><strong>dfir</strong> (<em>dataframe containing list of impact regions.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.vsl.calculate_vsl.group_wavg">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.vsl.calculate_vsl.</span></code><code class="sig-name descname"><span class="pre">group_wavg</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valuecol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weightcol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bycols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/vsl/calculate_vsl.html#group_wavg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.vsl.calculate_vsl.group_wavg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates weighted average over multiple group columns in a dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>Pandas dataframe containing weights and values to average.</em>) – </p></li>
+<li><p><strong>valuecol</strong> (<em>column conatining values to be averaged.</em>) – </p></li>
+<li><p><strong>weightcol</strong> (<em>column containing weights.</em>) – </p></li>
+<li><p><strong>bycols</strong> (<em>columns to group by before averaging.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.vsl.calculate_vsl.load_fed_data">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.vsl.calculate_vsl.</span></code><code class="sig-name descname"><span class="pre">load_fed_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/vsl/calculate_vsl.html#load_fed_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.vsl.calculate_vsl.load_fed_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns 2019 US GDPpc in 2005$ for income-scaling VSL and inflation
+adjustment term for converting damages to 2019$.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_path</strong> (<em>location of mortality repository data folder.</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scc_multiverse.vsl.life_expectancy_and_mt">
+<span id="scc-multiverse-vsl-life-expectancy-and-mt-module"></span><h2>scc_multiverse.vsl.life_expectancy_and_mt module<a class="headerlink" href="#module-scc_multiverse.vsl.life_expectancy_and_mt" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="scc_multiverse.vsl.life_expectancy_and_mt.life_expectancy_mt">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.vsl.life_expectancy_and_mt.</span></code><code class="sig-name descname"><span class="pre">life_expectancy_mt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/shares/gcp/estimation/mortality/release_2020/data/'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/vsl/life_expectancy_and_mt.html#life_expectancy_mt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.vsl.life_expectancy_and_mt.life_expectancy_mt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-scc_multiverse.vsl">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scc_multiverse.vsl" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Ivan Higuera-Mendieta.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

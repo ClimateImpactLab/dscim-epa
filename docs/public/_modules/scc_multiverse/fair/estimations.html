@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>scc_multiverse.fair.estimations &mdash; SCC Multiverse  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SCC Multiverse
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SCC Multiverse</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>scc_multiverse.fair.estimations</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for scc_multiverse.fair.estimations</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">dask</span>
+<span class="kn">import</span> <span class="nn">dask.dataframe</span> <span class="k">as</span> <span class="nn">dd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">get_the_hats</span><span class="p">,</span> <span class="n">modeler</span>
+
+<span class="kn">from</span> <span class="nn">scc_multiverse</span> <span class="kn">import</span> <span class="n">LOGGER</span>
+
+<div class="viewcode-block" id="estimate_damages_betas"><a class="viewcode-back" href="../../../source/scc_multiverse.fair.html#scc_multiverse.fair.estimations.estimate_damages_betas">[docs]</a><span class="k">def</span> <span class="nf">estimate_damages_betas</span><span class="p">(</span><span class="n">damage_function</span><span class="p">,</span>
+                           <span class="n">type_estimation</span><span class="p">,</span>
+                           <span class="n">return_preds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                           <span class="n">base_year</span><span class="o">=</span><span class="mi">2010</span><span class="p">,</span>
+                           <span class="n">interp_year</span><span class="o">=</span><span class="mi">2085</span><span class="p">,</span>
+                           <span class="n">year_start_pred</span><span class="o">=</span><span class="mi">2100</span><span class="p">,</span>
+                           <span class="n">year_end_pred</span><span class="o">=</span><span class="mi">2300</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Estimate global damages betas using global climate anomalies</span>
+
+<span class="sd">    This function will calculate a quadratic fit of damages across IAM/GCM/RCP</span>
+<span class="sd">    using model temperature anomalies from CIMP5. The model to be estimated</span>
+<span class="sd">    is the following: </span>
+
+<span class="sd">    ..math::</span>
+<span class="sd">        Damages_{gcm, rcp, iam} = \beta_{0} + \beta_1 * temperature + \beta2 * </span>
+<span class="sd">        temperature^{2} + \varepsilon</span>
+
+<span class="sd">    This model is estimated for each year in our timeframe (2010 to 2099) and</span>
+<span class="sd">    using a rolling window across time (5-yr by default). For the years between</span>
+<span class="sd">    2099 and 2300, we use a linear extrapolation of the quadratic fit of</span>
+<span class="sd">    damages starting on `interp_year_start` (set as 2085 as the default). For</span>
+<span class="sd">    this extrapolation we use a linear temporal interaction with the pre-2100</span>
+<span class="sd">    estimated damages. </span>
+
+<span class="sd">    Regression coefficients for each model are temporally stored and then used</span>
+<span class="sd">    to estimate predicted damages damages by each quarter-degree</span>
+<span class="sd">    celsius (C). Hence, we will return a `pd.DataFrame` with predicted damages</span>
+<span class="sd">    for each year over an array of 40 different temperatures.</span>
+
+<span class="sd">    Options are available to change the size of the rolling window, as well as</span>
+<span class="sd">    the prediction years and base years. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    damage_function : pd.DataFrame </span>
+<span class="sd">        Model/Batch damage realizations indexed by temperature anomalies. </span>
+<span class="sd">    type_estimation : str</span>
+<span class="sd">        Type of model use for damage fitting. `ols` and `quantile` are the two</span>
+<span class="sd">        available options. </span>
+<span class="sd">    return_preds : bool</span>
+<span class="sd">        If `True` return a data frame with predictions. Otherwise, just return</span>
+<span class="sd">        yearly betas. </span>
+<span class="sd">    base_year : int</span>
+<span class="sd">        Base year to use interpolation. 2010 is the set default. </span>
+<span class="sd">    interp_year : int</span>
+<span class="sd">        Year pre-2100 to fit damages used for linear extrapolation. </span>
+<span class="sd">        i.e. If `interp_year=2085`, data from years 2085 to 2099 will be</span>
+<span class="sd">        used to extrapolate data to years post-2100. 2085 is the default.</span>
+<span class="sd">    year_start_pred : int</span>
+<span class="sd">        Start interpolation. Default is 2100</span>
+<span class="sd">    year_end_pred : int</span>
+<span class="sd">        End interpolation. Default is 2300</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        A DataFrame containing yearly predictions of damages per each</span>
+<span class="sd">        quarter-degree starting in 2010 and ending in `year_end_pred`.</span>
+<span class="sd">        If `return_preds=False`, the the function will return a DataFrame</span>
+<span class="sd">        with estimation betas per year.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert to dask arrays to delayed</span>
+    <span class="n">damage_function_delayed</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">from_pandas</span><span class="p">(</span><span class="n">damage_function</span><span class="p">,</span> <span class="n">npartitions</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="n">list_outputs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">2100</span><span class="p">):</span>
+        <span class="n">time_window</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">year</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">year</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">damage_function_delayed</span><span class="p">[</span><span class="n">damage_function_delayed</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span>
+            <span class="n">time_window</span><span class="p">)]</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">modeler</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+                         <span class="n">formula</span><span class="o">=</span><span class="s1">&#39;damages ~ anomaly + np.power(anomaly, 2)&#39;</span><span class="p">,</span>
+                         <span class="n">type_estimation</span><span class="o">=</span><span class="n">type_estimation</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span>
+        <span class="n">list_outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="c1"># Concatenate results</span>
+    <span class="n">output_compute</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="o">*</span><span class="n">list_outputs</span><span class="p">)</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">output_compute</span><span class="p">)</span>
+
+    <span class="c1"># Linear-extrapolation for post-2100 years</span>
+    <span class="n">df_interp</span> <span class="o">=</span> <span class="n">damage_function_delayed</span><span class="p">[</span>
+        <span class="n">damage_function_delayed</span><span class="o">.</span><span class="n">year</span> <span class="o">&gt;=</span> <span class="n">interp_year</span><span class="p">]</span>
+    <span class="n">df_interp</span> <span class="o">=</span> <span class="n">df_interp</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">year_rebase</span><span class="o">=</span><span class="n">df_interp</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="n">base_year</span><span class="p">)</span>
+
+    <span class="n">params</span> <span class="o">=</span> <span class="n">modeler</span><span class="p">(</span>
+        <span class="n">df</span><span class="o">=</span><span class="n">df_interp</span><span class="p">,</span>
+        <span class="n">formula</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;damages ~ anomaly +</span>
+<span class="s1">        np.power(anomaly, 2) +</span>
+<span class="s1">        year_rebase*anomaly +</span>
+<span class="s1">        year_rebase*np.power(anomaly,2)</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">,</span>
+        <span class="n">type_estimation</span><span class="o">=</span><span class="n">type_estimation</span><span class="p">,</span>
+        <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cons&#39;</span><span class="p">,</span> <span class="s1">&#39;anomaly&#39;</span><span class="p">,</span> <span class="s1">&#39;anomaly2&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;t*anomaly&#39;</span><span class="p">,</span> <span class="s1">&#39;t*anomaly2&#39;</span><span class="p">])</span><span class="o">.</span>\
+        <span class="n">compute</span><span class="p">()</span>
+
+    <span class="n">extrapolation_year</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">type_estimation</span> <span class="o">==</span> <span class="s1">&#39;ols&#39;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start_pred</span><span class="p">,</span> <span class="n">year_end_pred</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">params_df</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+                <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+                <span class="n">cons</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;cons&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">year</span> <span class="o">-</span> <span class="n">base_year</span><span class="p">),</span>
+                <span class="n">beta_1</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;anomaly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;t*anomaly&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">year</span> <span class="o">-</span> <span class="n">base_year</span><span class="p">),</span>
+                <span class="n">beta_2</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;anomaly2&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;t*anomaly2&#39;</span><span class="p">]</span> <span class="o">*</span>
+                <span class="p">(</span><span class="n">year</span> <span class="o">-</span> <span class="n">base_year</span><span class="p">))</span>
+            <span class="n">extrapolation_year</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">params_df</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">years_ranges</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start_pred</span><span class="p">,</span> <span class="n">year_end_pred</span><span class="p">)</span>
+        <span class="n">quantiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">quantile</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="n">years_ranges</span><span class="p">,</span> <span class="n">quantiles</span><span class="p">):</span>
+            <span class="n">params_</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">quantile</span><span class="p">]</span>
+            <span class="n">params_df</span> <span class="o">=</span> <span class="n">params_</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+                <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span>
+                <span class="n">cons</span><span class="o">=</span><span class="n">params_</span><span class="p">[</span><span class="s1">&#39;cons&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">params_</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">year</span> <span class="o">-</span> <span class="n">base_year</span><span class="p">),</span>
+                <span class="n">beta_1</span><span class="o">=</span><span class="n">params_</span><span class="p">[</span><span class="s1">&#39;anomaly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">params_</span><span class="p">[</span><span class="s1">&#39;t*anomaly&#39;</span><span class="p">]</span> <span class="o">*</span>
+                <span class="p">(</span><span class="n">year</span> <span class="o">-</span> <span class="n">base_year</span><span class="p">),</span>
+                <span class="n">beta_2</span><span class="o">=</span><span class="n">params_</span><span class="p">[</span><span class="s1">&#39;anomaly2&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">params_</span><span class="p">[</span><span class="s1">&#39;t*anomaly2&#39;</span><span class="p">]</span> <span class="o">*</span>
+                <span class="p">(</span><span class="n">year</span> <span class="o">-</span> <span class="n">base_year</span><span class="p">))</span>
+            <span class="n">extrapolation_year</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">params_df</span><span class="p">)</span>
+
+    <span class="n">extrapolation_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">extrapolation_year</span><span class="p">)</span><span class="o">.</span>\
+        <span class="nb">filter</span><span class="p">([</span><span class="s1">&#39;cons&#39;</span><span class="p">,</span> <span class="s1">&#39;beta_1&#39;</span><span class="p">,</span> <span class="s1">&#39;beta_2&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Return all results</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">outputs</span><span class="p">,</span> <span class="n">extrapolation_results</span><span class="p">])</span>
+
+    <span class="c1"># Calculate prediction for each year</span>
+    <span class="k">if</span> <span class="n">return_preds</span><span class="p">:</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="n">get_the_hats</span><span class="p">(</span><span class="n">coefs_df</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="n">res</span>
+
+    <span class="k">return</span> <span class="n">preds</span></div>
+
+
+<div class="viewcode-block" id="compute_damages"><a class="viewcode-back" href="../../../source/scc_multiverse.fair.html#scc_multiverse.fair.estimations.compute_damages">[docs]</a><span class="k">def</span> <span class="nf">compute_damages</span><span class="p">(</span><span class="n">fair_temperatures</span><span class="p">,</span> 
+                    <span class="n">betas</span><span class="p">,</span> 
+                    <span class="n">anomalies</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Estimate time series mortality damages (copy cat version of Climate Team)</span>
+
+<span class="sd">    Calculate damages using FAIR anomalies (either control or pulse). This </span>
+<span class="sd">    funtion calculates a base period average and calculate temperature anomalies</span>
+<span class="sd">    using that climatology. These anomalies are later used to estimate damages</span>
+<span class="sd">    using the betas from the menu option. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fair_temperature : xr.DataArray or xr.Dataset</span>
+<span class="sd">        `xarray` object containing FAIR temperatures. These can be either from </span>
+<span class="sd">        control or pulses runs. </span>
+<span class="sd">    betas : xr.DataSet</span>
+<span class="sd">        An `xarray` object containing the fit coefficients from the yearly damage </span>
+<span class="sd">        functions</span>
+<span class="sd">    anomalies : bool</span>
+<span class="sd">        If `True` do  not calculate temperature anomalies. Then</span>
+<span class="sd">        fair_temperatures must be anomalies.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    damages : xr.DataArray or xr.Dataset</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">BASEPERIOD</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2001</span><span class="p">,</span> <span class="mi">2010</span><span class="p">]</span>
+    <span class="n">REFERENCE_YEAR</span> <span class="o">=</span> <span class="mi">1765</span>
+    <span class="n">START_YEAR</span> <span class="o">=</span> <span class="mi">2015</span>
+    <span class="n">PULSE_YEAR</span> <span class="o">=</span> <span class="mi">2020</span>
+    <span class="n">PULSE_AMT</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">MAGNITUDE_OF_DAMAGES</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># CONVERSION is in units of</span>
+    <span class="c1"># [pulse/tCO2] = [1 pulse/PULSE_AMT GtC * 1 GtC/1e9 tC * 12tC/44tCO2]</span>
+    <span class="c1"># Therefore, it should be the inverse of any changes to PULSE_AMT</span>
+    <span class="n">CONVERSION</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">PULSE_AMT</span> <span class="o">/</span> <span class="mf">1e9</span> <span class="o">*</span> <span class="mf">12.011</span> <span class="o">/</span> <span class="mf">44.0098</span>
+
+    <span class="c1"># Calculate base period mean for each RCP and simulation</span>
+    <span class="k">if</span> <span class="n">anomalies</span><span class="p">:</span>
+        <span class="n">temperature_anomalies</span> <span class="o">=</span> <span class="n">fair_temperatures</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">base_period_temp</span> <span class="o">=</span> <span class="n">fair_temperatures</span><span class="o">.</span>\
+            <span class="n">sel</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">BASEPERIOD</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">BASEPERIOD</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span><span class="o">.</span>\
+            <span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Calculate anomaly using base period temperature average</span>
+        <span class="n">temperature_anomalies</span> <span class="o">=</span> <span class="p">(</span><span class="n">fair_temperatures</span> <span class="o">-</span> <span class="n">base_period_temp</span><span class="p">)</span>
+
+    <span class="c1"># Calculate damages using the quadratic relationship of anomalies and</span>
+    <span class="c1"># damages for each discount rate if available.</span>
+    <span class="n">damages_fair</span> <span class="o">=</span> <span class="p">(</span><span class="n">CONVERSION</span> <span class="o">*</span>
+        <span class="p">(</span><span class="n">betas</span><span class="o">.</span><span class="n">cons</span> <span class="o">+</span> <span class="n">betas</span><span class="o">.</span><span class="n">beta_1</span> <span class="o">*</span> <span class="n">temperature_anomalies</span> <span class="o">+</span>
+         <span class="n">betas</span><span class="o">.</span><span class="n">beta_2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">temperature_anomalies</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;Ensure that betas, damages, and SCC are all in the same&quot;</span> 
+            <span class="s2">&quot; dollar units. There is no unit scaling in this function.&quot;</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">damages_fair</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Ivan Higuera-Mendieta.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

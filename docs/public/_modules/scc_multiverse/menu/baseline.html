@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>scc_multiverse.menu.baseline &mdash; SCC Multiverse  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SCC Multiverse
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SCC Multiverse</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../menu.html">scc_multiverse.menu</a> &raquo;</li>
+        
+      <li>scc_multiverse.menu.baseline</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for scc_multiverse.menu.baseline</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">from</span> <span class="nn">descriptors</span> <span class="kn">import</span> <span class="n">cachedproperty</span>
+<span class="kn">from</span> <span class="nn">scc_multiverse.menu.main_recipe</span> <span class="kn">import</span> <span class="n">MainRecipe</span>
+<span class="kn">from</span> <span class="nn">scc_multiverse.fair.estimations</span> <span class="kn">import</span> <span class="n">compute_damages</span>
+<span class="kn">from</span> <span class="nn">scc_multiverse.fair.utils</span> <span class="kn">import</span> <span class="n">quantile_weight_quantilereg</span>
+
+
+<div class="viewcode-block" id="Baseline"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.baseline.Baseline">[docs]</a><span class="k">class</span> <span class="nc">Baseline</span><span class="p">(</span><span class="n">MainRecipe</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Testing inheritance for Risk-Aversion menu options</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">NAME</span> <span class="o">=</span> <span class="s1">&#39;adding_up&#39;</span>
+    <span class="vm">__doc__</span> <span class="o">+=</span> <span class="n">MainRecipe</span><span class="o">.</span><span class="vm">__doc__</span>
+
+<div class="viewcode-block" id="Baseline.ce_cc"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.baseline.Baseline.ce_cc">[docs]</a>    <span class="k">def</span> <span class="nf">ce_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Baseline.ce_no_cc"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.baseline.Baseline.ce_no_cc">[docs]</a>    <span class="k">def</span> <span class="nf">ce_no_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">global_damages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Adding-up damages</span>
+
+<span class="sd">        Baseline damages are just the aggregation of raw damages to the global</span>
+<span class="sd">        level. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">collapsed_damages</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">damages</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">])</span>
+        <span class="n">collapsed_damages_df</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">collapsed_damages</span><span class="o">.</span>
+            <span class="n">to_array</span><span class="p">()</span><span class="o">.</span>
+            <span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;global_damages_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span>
+            <span class="n">reset_index</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">collapsed_damages_df</span><span class="p">[</span><span class="s1">&#39;ssp-iam&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">collapsed_damages_df</span><span class="o">.</span><span class="n">ssp</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">collapsed_damages_df</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">collapsed_damages_df</span>
+
+    <span class="nd">@global_damages</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">global_damages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Adding-up damages</span>
+
+<span class="sd">        Baseline damages are just the aggregation of raw damages to the global</span>
+<span class="sd">        level. This additional method allows to pass a new set of collapsed</span>
+<span class="sd">        dammages with desired valuation aggregated values. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ---------</span>
+<span class="sd">        ds `xr.DataArray` or `xr.Dataset`</span>
+<span class="sd">            An `xarray` object with aggregated damages to user-desired levels. </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ------</span>
+<span class="sd">            pd.DataFrame with damages function with temperature anomalies in</span>
+<span class="sd">            `Climate.gmst`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">collapsed_damages_df</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">ds</span><span class="o">.</span>
+            <span class="n">to_array</span><span class="p">()</span><span class="o">.</span>
+            <span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;global_damages_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">discounting_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span>
+            <span class="n">reset_index</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">collapsed_damages_df</span><span class="p">[</span><span class="s1">&#39;ssp-iam&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">collapsed_damages_df</span><span class="o">.</span><span class="n">ssp</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">collapsed_damages_df</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">collapsed_damages</span> <span class="o">=</span>  <span class="n">collapsed_damages_df</span>
+
+<div class="viewcode-block" id="Baseline.calculated_damages"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.baseline.Baseline.calculated_damages">[docs]</a>    <span class="k">def</span> <span class="nf">calculated_damages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Baseline.ce_cc_calculation"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.baseline.Baseline.ce_cc_calculation">[docs]</a>    <span class="k">def</span> <span class="nf">ce_cc_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">discount_type</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Baseline.ce_no_cc_calculation"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.baseline.Baseline.ce_no_cc_calculation">[docs]</a>    <span class="k">def</span> <span class="nf">ce_no_cc_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">discount_type</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Baseline.global_damages_calculation"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.baseline.Baseline.global_damages_calculation">[docs]</a>    <span class="k">def</span> <span class="nf">global_damages_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">discount_type</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Baseline.global_consumption_calculation"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.baseline.Baseline.global_consumption_calculation">[docs]</a>    <span class="k">def</span> <span class="nf">global_consumption_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">discount_type</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Baseline.global_consumption"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.baseline.Baseline.global_consumption">[docs]</a>    <span class="k">def</span> <span class="nf">global_consumption</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Baseline.global_consumption_pulse"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.baseline.Baseline.global_consumption_pulse">[docs]</a>    <span class="k">def</span> <span class="nf">global_consumption_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Baseline.global_consumption_no_pulse"><a class="viewcode-back" href="../../../source/scc_multiverse.menu.html#scc_multiverse.menu.baseline.Baseline.global_consumption_no_pulse">[docs]</a>    <span class="k">def</span> <span class="nf">global_consumption_no_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    <span class="nd">@cachedproperty</span>
+    <span class="k">def</span> <span class="nf">fair_marginal_damages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Calculate marginal damages per puff of CO2 using FAIR for the</span>
+<span class="sd">        baseline option.</span>
+
+<span class="sd">        This function takes the coefficients of the estimated responses of</span>
+<span class="sd">        damages to temeperature anomalies and calculate the predicted damages</span>
+<span class="sd">        using the FAIR anomalies.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">damages_pulse</span> <span class="o">=</span> <span class="n">compute_damages</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">climate</span><span class="o">.</span><span class="n">fair_pulse</span><span class="p">,</span>
+                                        <span class="n">betas</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">damage_function_coefficients</span><span class="p">)</span>
+        <span class="n">damages_control</span> <span class="o">=</span> <span class="n">compute_damages</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">climate</span><span class="o">.</span><span class="n">fair_baselines</span><span class="p">,</span>
+                                          <span class="n">betas</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">damage_function_coefficients</span><span class="p">)</span>
+
+        <span class="n">marginal_damages</span> <span class="o">=</span> <span class="p">(</span><span class="n">damages_pulse</span> <span class="o">-</span> <span class="n">damages_control</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">expand_dims</span><span class="p">({</span>
+                <span class="s1">&#39;type_fair&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;full_uncertainty&#39;</span><span class="p">]</span>
+            <span class="p">})</span><span class="o">.</span><span class="n">chunk</span><span class="p">({</span><span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">climate</span><span class="o">.</span><span class="n">fair_median_run</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">damages_pulse_median</span> <span class="o">=</span> <span class="n">compute_damages</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">climate</span><span class="o">.</span><span class="n">fair_median_run</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">pulse</span><span class="o">=</span><span class="s1">&#39;pulse&#39;</span><span class="p">),</span>
+                <span class="n">betas</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">damage_function_coefficients</span><span class="p">)</span>
+            <span class="n">damages_control_median</span> <span class="o">=</span> <span class="n">compute_damages</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">climate</span><span class="o">.</span><span class="n">fair_median_run</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">pulse</span><span class="o">=</span><span class="s1">&#39;rcp&#39;</span><span class="p">),</span>
+                <span class="n">betas</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">damage_function_coefficients</span><span class="p">)</span>
+
+            <span class="n">median_marginal_damages</span> <span class="o">=</span> <span class="p">(</span><span class="n">damages_pulse_median</span> <span class="o">-</span>
+                                       <span class="n">damages_control_median</span><span class="p">)</span><span class="o">.</span>\
+                <span class="n">expand_dims</span><span class="p">({</span>
+                    <span class="s1">&#39;type_fair&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;parameter_median&#39;</span><span class="p">]</span>
+                <span class="p">})</span><span class="o">.</span><span class="n">chunk</span><span class="p">({</span><span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+
+            <span class="n">computed_damages</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">marginal_damages</span><span class="p">,</span> <span class="n">median_marginal_damages</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;type_fair&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">computed_damages</span> <span class="o">=</span> <span class="n">marginal_damages</span>
+
+        <span class="k">return</span> <span class="n">computed_damages</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Ivan Higuera-Mendieta.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

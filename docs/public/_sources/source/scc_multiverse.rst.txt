@@ -1,0 +1,21 @@
+scc\_multiverse package
+=======================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   scc_multiverse.fair
+   scc_multiverse.menu
+   scc_multiverse.utils
+   scc_multiverse.vsl
+
+Module contents
+---------------
+
+.. automodule:: scc_multiverse
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,387 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>scc_multiverse.utils package &mdash; SCC Multiverse  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SCC Multiverse
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">scc_multiverse.utils package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.utils.calculate_damages">scc_multiverse.utils.calculate_damages module</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SCC Multiverse</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>scc_multiverse.utils package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/source/scc_multiverse.utils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scc-multiverse-utils-package">
+<h1>scc_multiverse.utils package<a class="headerlink" href="#scc-multiverse-utils-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-scc_multiverse.utils.calculate_damages">
+<span id="scc-multiverse-utils-calculate-damages-module"></span><h2>scc_multiverse.utils.calculate_damages module<a class="headerlink" href="#module-scc_multiverse.utils.calculate_damages" title="Permalink to this headline">¶</a></h2>
+<p>Calculate damages from the projection system using VSL</p>
+<dl class="py function">
+<dt id="scc_multiverse.utils.calculate_damages.calculate_labor_impacts">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.utils.calculate_damages.</span></code><code class="sig-name descname"><span class="pre">calculate_labor_impacts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/utils/calculate_damages.html#calculate_labor_impacts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.utils.calculate_damages.calculate_labor_impacts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate impacts for labor results for individual modeling unit.</p>
+<p>Read in individual damages files from the labor projection system output
+and re-index to add region dimension. This is needed to adjust the
+projection file outcomes that do not have a region dimension</p>
+<dl class="simple">
+<dt>input_path str</dt><dd><p>Path to model/gcm/iam/rcp/ folder, usually from the
+<cite>_parse_projection_filesys</cite> function.</p>
+</dd>
+<dt>variable str</dt><dd><p>Variable to use within <cite>xr.Dataset</cite></p>
+</dd>
+<dt>val_type str</dt><dd><p>Valuation type.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>xr.Dataset object with per-capita monetary damages</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.utils.calculate_damages.concatenate_labor_damages">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.utils.calculate_damages.</span></code><code class="sig-name descname"><span class="pre">concatenate_labor_damages</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ec_cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rebased_new'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'wage-levels'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'netcdf'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/utils/calculate_damages.html#concatenate_labor_damages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.utils.calculate_damages.concatenate_labor_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate damages across batches and create a lazy array for future
+calculations.</p>
+<p>Using the <cite>value_mortality_damages</cite> function this function lazily loads all
+damages for SCC calculations and scale damage to per-capital damages and
+also scale labor inpacts to indicate increasing damages as positive, and
+gains from warming as negative.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>str</strong> (<em>format_file</em>) – Directory containing all raw projection output.</p></li>
+<li><p><strong>scc_multiverse.simple_storage.EconVars</strong> (<em>ec_cls</em>) – EconVars class with population and GDP data to rescale damages</p></li>
+<li><p><strong>str</strong> – Path to save concatenated file in .zarr or .nc4 format</p></li>
+<li><p><strong>list</strong> (<em>variables</em>) – Variable names to extract from calculated damages</p></li>
+<li><p><strong>str</strong> – Format to save file. Options are ‘netcdf’ or ‘zarr’</p></li>
+<li><p><strong>**kwargs</strong> – Other options passed to the <cite>value_mortality_damages</cite> function
+and the <cite>_parse_projection_filesys</cite>: query=”rcp==’rcp45’”</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.utils.calculate_damages.concatenate_mortality_damages">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.utils.calculate_damages.</span></code><code class="sig-name descname"><span class="pre">concatenate_mortality_damages</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vsl_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'zarr'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/utils/calculate_damages.html#concatenate_mortality_damages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.utils.calculate_damages.concatenate_mortality_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate damages across batches and create a lazy array for future
+calculations.</p>
+<p>Using the <cite>value_mortality_damages</cite> function this function lazily loads all
+damages for SCC calculations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_path</strong> (<em>Directory containing all raw projection output.</em>) – </p></li>
+<li><p><strong>vsl_dir</strong> (<em>Path to directory with the vsl and exp calculation arrays. This is</em>) – </p></li>
+<li><p><strong>to the load_inputs function.</strong> (<em>passed</em>) – </p></li>
+<li><p><strong>save_path</strong> (<em>str Path to save concatenated file in .zarr</em><em> or </em><em>nc4 format</em>) – </p></li>
+<li><p><strong>variables</strong> (<em>list Variable names to extract from calculated damages</em>) – </p></li>
+<li><p><strong>format_file</strong> (<em>str format to save file. Options are 'netcdf'</em><em> or </em><em>'zarr'</em>) – </p></li>
+<li><p><strong>**kwargs</strong> (Other options passed to the <cite>value_mortality_damages</cite> function) – </p></li>
+<li><p><strong>the _parse_projection_filesys</strong> (<em>and</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.utils.calculate_damages.filter_model">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.utils.calculate_damages.</span></code><code class="sig-name descname"><span class="pre">filter_model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/utils/calculate_damages.html#filter_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.utils.calculate_damages.filter_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter model and GDP per capita from SSP files</p>
+<p>Filter model from NetCDF array. VSL calculation include model names, but
+the projection system uses <cite>high</cite> and <cite>low</cite> to difference between the
+different GDP projections.</p>
+<p>If <cite>gdppc</cite> variable is available if will be filtered. This is the default
+behavior</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ds</strong> (xarray.Dataset or xarray.DataArray with <cite>model</cite> dimension) – </p></li>
+<li><p><strong>variables</strong> (<em>list of  strings with the desired subsert of varaibles. None by</em>) – </p></li>
+<li><p><strong>default</strong> – </p></li>
+<li><p><strong>model</strong> (<em>str Growth model.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.utils.calculate_damages.load_inputs">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.utils.calculate_damages.</span></code><code class="sig-name descname"><span class="pre">load_inputs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vsl_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/utils/calculate_damages.html#load_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.utils.calculate_damages.load_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads VSL and remaining life expectancy inputs for valuation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vsl_dir</strong> (<em>Location of VSL-related valuation inputs</em><em>, </em><em>including both the VSLs</em>) – themselves (VSL, VLY, and Murphy-Topel) and the remaining life expectancy
+adjustments that are required for VLY and Murphy-Topel.</p></li>
+<li><p><strong>ssp</strong> (<em>SSP scenario. SSP1 - SSP5</em>) – </p></li>
+<li><p><strong>complete</strong> (load all SPPs scenarios in the <cite>vsl_dir</cite> folder.) – </p></li>
+<li><p><strong>**kwargs</strong> (other arguments to pass to the <cite>filter_model</cite> function) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.utils.calculate_damages.open_impacts_nc4">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.utils.calculate_damages.</span></code><code class="sig-name descname"><span class="pre">open_impacts_nc4</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/utils/calculate_damages.html#open_impacts_nc4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.utils.calculate_damages.open_impacts_nc4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads projected impacts from the raw NetCDF4 projection output.</p>
+<p>This opens a raw impact region-level projection output file for a given
+adaptation scenario and age group. Returns an xarray dataset containing
+projection results from one Monte Carlo batch/GCM/SSP/RCP/economic modeling
+scenario.</p>
+<p>Currently this only supports rebased impacts from the projection model in
+Carleton et al. (2019). <cite>base</cite> and <cite>col</cite> should be made parameters in this
+function if other functional forms or projection objects are valued.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scn</strong> (<em>Adaptation scenario.</em>) – <ul>
+<li><p>‘fulladapt’ - Full adaptation</p></li>
+<li><p>’incadapt’ - Income only adaptation</p></li>
+<li><p>’histclim’ - historical climate counterfactual</p></li>
+<li><p>’costs’ - Adaptation costs.</p></li>
+</ul>
+</p></li>
+<li><p><strong>age</strong> (<em>Age group. young</em><em>, </em><em>older</em><em> or </em><em>oldest.</em>) – </p></li>
+<li><p><strong>indir</strong> (<em>Directory containing the raw projection output.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.utils.calculate_damages.value_mortality_damages">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.utils.calculate_damages.</span></code><code class="sig-name descname"><span class="pre">value_mortality_damages</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vsl_ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rcp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moddict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'high':</span> <span class="pre">'OECD</span> <span class="pre">Env-Growth',</span> <span class="pre">'low':</span> <span class="pre">'IIASA</span> <span class="pre">GDP'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_IR</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vsl_epa_scaled'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fulladapt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/utils/calculate_damages.html#value_mortality_damages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.utils.calculate_damages.value_mortality_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates monetized damages from formatted projection output.</p>
+<p>Values the mortality impacts of climate change for a given adaptation
+scenario as well as its associated adaptation costs. Computes values for
+each age group, exporting the total across all three. Can produce output for
+all valuation scenarios; however, if impact-region level output is required,
+memory constraints prevent running more than one at a time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_path</strong> (<em>Directory containing all raw projection output.</em>) – </p></li>
+<li><p><strong>vsl_ds</strong> (xarray dataset containing VSL data (see <cite>load_inputs</cite>)) – </p></li>
+<li><p><strong>exp_ds</strong> (<em>xarray dataset containing remaining life expectancy data</em><em> (</em><em>see</em>) – <cite>load_inputs</cite>)</p></li>
+<li><p><strong>batch</strong> (<em>integer with batch number. This corresponds to the batch number</em>) – </p></li>
+<li><p><strong>by the projection system</strong> (<em>output</em>) – </p></li>
+<li><p><strong>rcp</strong> (<em>RCP scenario</em><em> (</em><em>i.e. rcp45</em><em> or </em><em>rcp85</em><em>)</em>) – </p></li>
+<li><p><strong>gcm</strong> (<em>GCM name</em><em> (</em><em>i.e. MIROC5</em><em>)</em><em>,</em>) – </p></li>
+<li><p><strong>ssp</strong> (<em>SSP scenario</em><em> (</em><em>i.e. ssp3</em><em>)</em><em>,</em>) – </p></li>
+<li><p><strong>moodel</strong> (<em>GDP growth moodel</em><em> (</em><em>i.e. high/low</em><em>)</em>) – </p></li>
+<li><p><strong>moddict</strong> (<em>dictionary converting economic modeling scenarios to key-words.</em>) – </p></li>
+<li><p><strong>export_IR</strong> (<em>True returns impact-region output while False returns Global</em>) – output.</p></li>
+<li><p><strong>ir_model</strong> (<em>Valuation scnario to export if export_IR is True.</em>) – </p></li>
+<li><p><strong>scenario</strong> (<em>Scenario for which to calculate monetized damages.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scc_multiverse.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scc_multiverse.utils" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Ivan Higuera-Mendieta.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

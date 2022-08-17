@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>scc_multiverse.fair package &mdash; SCC Multiverse  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SCC Multiverse
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">scc_multiverse.fair package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.fair.estimations">scc_multiverse.fair.estimations module</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.fair.load_fair">scc_multiverse.fair.load_fair module</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.fair.load_parameters">scc_multiverse.fair.load_parameters module</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.fair.utils">scc_multiverse.fair.utils module</a></li>
+<li><a class="reference internal" href="#module-scc_multiverse.fair">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SCC Multiverse</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>scc_multiverse.fair package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/source/scc_multiverse.fair.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scc-multiverse-fair-package">
+<h1>scc_multiverse.fair package<a class="headerlink" href="#scc-multiverse-fair-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-scc_multiverse.fair.estimations">
+<span id="scc-multiverse-fair-estimations-module"></span><h2>scc_multiverse.fair.estimations module<a class="headerlink" href="#module-scc_multiverse.fair.estimations" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="scc_multiverse.fair.estimations.compute_damages">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.fair.estimations.</span></code><code class="sig-name descname"><span class="pre">compute_damages</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fair_temperatures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomalies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/fair/estimations.html#compute_damages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.fair.estimations.compute_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate time series mortality damages (copy cat version of Climate Team)</p>
+<p>Calculate damages using FAIR anomalies (either control or pulse). This
+funtion calculates a base period average and calculate temperature anomalies
+using that climatology. These anomalies are later used to estimate damages
+using the betas from the menu option.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fair_temperature</strong> (<em>xr.DataArray</em><em> or </em><em>xr.Dataset</em>) – <cite>xarray</cite> object containing FAIR temperatures. These can be either from
+control or pulses runs.</p></li>
+<li><p><strong>betas</strong> (<em>xr.DataSet</em>) – An <cite>xarray</cite> object containing the fit coefficients from the yearly damage
+functions</p></li>
+<li><p><strong>anomalies</strong> (<em>bool</em>) – If <cite>True</cite> do  not calculate temperature anomalies. Then
+fair_temperatures must be anomalies.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>damages</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xr.DataArray or xr.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.fair.estimations.estimate_damages_betas">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.fair.estimations.</span></code><code class="sig-name descname"><span class="pre">estimate_damages_betas</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">damage_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_estimation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_preds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2010</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2085</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_start_pred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_end_pred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2300</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/fair/estimations.html#estimate_damages_betas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.fair.estimations.estimate_damages_betas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate global damages betas using global climate anomalies</p>
+<blockquote>
+<div><p>This function will calculate a quadratic fit of damages across IAM/GCM/RCP
+using model temperature anomalies from CIMP5. The model to be estimated
+is the following:</p>
+<dl class="simple">
+<dt>..math::</dt><dd><p>Damages_{gcm, rcp, iam} = eta_{0} + eta_1 * temperature + eta2 *
+temperature^{2} +</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>arepsilon</p>
+<blockquote>
+<div><p>This model is estimated for each year in our timeframe (2010 to 2099) and
+using a rolling window across time (5-yr by default). For the years between
+2099 and 2300, we use a linear extrapolation of the quadratic fit of
+damages starting on <cite>interp_year_start</cite> (set as 2085 as the default). For
+this extrapolation we use a linear temporal interaction with the pre-2100
+estimated damages.</p>
+<p>Regression coefficients for each model are temporally stored and then used
+to estimate predicted damages damages by each quarter-degree
+celsius (C). Hence, we will return a <cite>pd.DataFrame</cite> with predicted damages
+for each year over an array of 40 different temperatures.</p>
+<p>Options are available to change the size of the rolling window, as well as
+the prediction years and base years.</p>
+<dl class="simple">
+<dt>damage_function<span class="classifier">pd.DataFrame</span></dt><dd><p>Model/Batch damage realizations indexed by temperature anomalies.</p>
+</dd>
+<dt>type_estimation<span class="classifier">str</span></dt><dd><p>Type of model use for damage fitting. <cite>ols</cite> and <cite>quantile</cite> are the two
+available options.</p>
+</dd>
+<dt>return_preds<span class="classifier">bool</span></dt><dd><p>If <cite>True</cite> return a data frame with predictions. Otherwise, just return
+yearly betas.</p>
+</dd>
+<dt>base_year<span class="classifier">int</span></dt><dd><p>Base year to use interpolation. 2010 is the set default.</p>
+</dd>
+<dt>interp_year<span class="classifier">int</span></dt><dd><p>Year pre-2100 to fit damages used for linear extrapolation.
+i.e. If <cite>interp_year=2085</cite>, data from years 2085 to 2099 will be
+used to extrapolate data to years post-2100. 2085 is the default.</p>
+</dd>
+<dt>year_start_pred<span class="classifier">int</span></dt><dd><p>Start interpolation. Default is 2100</p>
+</dd>
+<dt>year_end_pred<span class="classifier">int</span></dt><dd><p>End interpolation. Default is 2300</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>A DataFrame containing yearly predictions of damages per each
+quarter-degree starting in 2010 and ending in <cite>year_end_pred</cite>.
+If <cite>return_preds=False</cite>, the the function will return a DataFrame
+with estimation betas per year.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scc_multiverse.fair.load_fair">
+<span id="scc-multiverse-fair-load-fair-module"></span><h2>scc_multiverse.fair.load_fair module<a class="headerlink" href="#module-scc_multiverse.fair.load_fair" title="Permalink to this headline">¶</a></h2>
+<p>We can run FAIR with the CO$_2$ emissions and non-CO$_2$ forcing from the four
+representative concentration pathway scenarios. To use the emissions-based
+version specify <code class="docutils literal notranslate"><span class="pre">`useMultigas=True`</span></code> in the call to <code class="docutils literal notranslate"><span class="pre">`fair_scm()`</span></code>.</p>
+<p>By default in multi-gas mode, volcanic and solar forcing plus natural emissions
+of methane and nitrous oxide are switched on.</p>
+<p>We can compute the SCC by adding an additional pulse in CO2 emissions to the
+RCP trajectory.</p>
+<p>This study uses a 1 Gt C emissions pulse. You can change the pulse amount by
+modifying the PULSE_AMT variable.</p>
+<dl class="py function">
+<dt id="scc_multiverse.fair.load_fair.temperatures_anomaly">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.fair.load_fair.</span></code><code class="sig-name descname"><span class="pre">temperatures_anomaly</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pulse_amt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_to_parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/fair/load_fair.html#temperatures_anomaly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.fair.load_fair.temperatures_anomaly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameters:
+PULSE_YEAR (int): year in which pulse will be emitted
+PULSE_AMT (double): quantity of pulse emitted in Gt C = 1e9 ton C
+output (string): path to where plots should be saved
+make_plots (boolean): if true -&gt; make plots visualizing fair
+plot_all_scenarios (boolean): if true -&gt; make fair visualization plots for both rcp45 and rcp85 as well as rcp45, 85, 6, and 3pd</p>
+<p>Returns:
+DataArray: temperature projections under different emission scenarios with PULSE_AMT emitted in PULSE_YEAR</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scc_multiverse.fair.load_parameters">
+<span id="scc-multiverse-fair-load-parameters-module"></span><h2>scc_multiverse.fair.load_parameters module<a class="headerlink" href="#module-scc_multiverse.fair.load_parameters" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="scc_multiverse.fair.load_parameters.get_filter_mask">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.fair.load_parameters.</span></code><code class="sig-name descname"><span class="pre">get_filter_mask</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CLIMATE_V2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CLIMATE_V2p1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CLIMATE_V1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/fair/load_parameters.html#get_filter_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.fair.load_parameters.get_filter_mask" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.fair.load_parameters.get_median_climate_params">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.fair.load_parameters.</span></code><code class="sig-name descname"><span class="pre">get_median_climate_params</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CLIMATE_V2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CLIMATE_V2p1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CLIMATE_V1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/fair/load_parameters.html#get_median_climate_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.fair.load_parameters.get_median_climate_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.fair.load_parameters.get_parameters">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.fair.load_parameters.</span></code><code class="sig-name descname"><span class="pre">get_parameters</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filtered</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">array</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CLIMATE_V2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CLIMATE_V2p1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CLIMATE_V1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/fair/load_parameters.html#get_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.fair.load_parameters.get_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>if array is False, return the xr.DataArray. Haven’t used the DataArray version much.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scc_multiverse.fair.utils">
+<span id="scc-multiverse-fair-utils-module"></span><h2>scc_multiverse.fair.utils module<a class="headerlink" href="#module-scc_multiverse.fair.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="scc_multiverse.fair.utils.get_data_home">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.fair.utils.</span></code><code class="sig-name descname"><span class="pre">get_data_home</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_home</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/fair/utils.html#get_data_home"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.fair.utils.get_data_home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a path to the cache directory for example datasets.
+This directory is then used by <a class="reference internal" href="#scc_multiverse.fair.utils.load_parameters" title="scc_multiverse.fair.utils.load_parameters"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_parameters()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="scc_multiverse.fair.utils.load_parameters">
+<code class="sig-prename descclassname"><span class="pre">scc_multiverse.fair.utils.</span></code><code class="sig-name descname"><span class="pre">load_parameters</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_home</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scc_multiverse/fair/utils.html#load_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scc_multiverse.fair.utils.load_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve parameter files from private data repository</p>
+<p>This function provides a cleaner access to remotely stored data for FAIR
+parameters. Instead of relying on the user file system, this function
+requests parameter NetCDF files from a private Gitlab repo.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of parameter dataset</p></li>
+<li><p><strong>token</strong> (<em>str</em>) – Gitlab Private personal token. Default is <cite>None</cite>. Will look for the
+environment variable <cite>GITLAB_PERSONAL_TOKEN</cite>.</p></li>
+<li><p><strong>cache</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, try to read from the cached data in the environment variable
+<cite>FAIR_DATA</cite>.</p></li>
+<li><p><strong>data_home</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to cache data. <cite>fair-parameter-data</cite> by default</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em><em>, </em><em>optional</em>) – Additional values passed to <cite>xarray.open_dataset</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>xr_array</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">xr.Dataset</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scc_multiverse.fair">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scc_multiverse.fair" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Ivan Higuera-Mendieta.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
