@@ -1,0 +1,120 @@
+mortality_version: 1
+coastal_version: "0.20"
+
+AR6_ssp_climate:
+  gases:
+    - CO2_Fossil
+  gmsl_path: /shares/gcp/integration/float32/dscim_input_data/climate/coastal_gmsl_v0.20.zarr
+  gmst_path: /shares/gcp/integration/float32/dscim_input_data/climate/GMTanom_all_temp_2001_2010_smooth.csv
+  gmst_fair_path: /shares/gcp/integration/float32/dscim_input_data/climate/AR6/ar6_fair162_sim_and_medianparams_control_pulse_2020-2030-2040-2050-2060-2070-2080_emis_conc_rf_temp_lambdaeff_emissions-driven_naturalfix_v4.0_Jan212022.nc
+  gmsl_fair_path: /shares/gcp/integration/float32/dscim_input_data/climate/AR6/scenario-ssp119-ssp126-ssp245-ssp370-ssp460-ssp585_control_pulse_GMSL_pulseyears_2020-2100_5yrincrements_v4.0.zarr
+  damages_pulse_conversion_path: /shares/gcp/integration/rff/climate/stacked/conversion_v5.02_Jan222022.nc4
+  ecs_mask_path: null
+  # ecs_mask_name: null   
+  emission_scenarios:
+    - ssp119
+    - ssp126
+    - ssp245
+    - ssp460
+    - ssp370
+    - ssp585
+    
+rff_climate:
+  gases:
+    - CO2_Fossil
+    - CH4
+    - N2O
+  gmsl_path: /shares/gcp/integration/float32/dscim_input_data/climate/coastal_gmsl_v0.20.zarr
+  gmst_path: /shares/gcp/integration/float32/dscim_input_data/climate/GMTanom_all_temp_2001_2010_smooth.csv
+  gmst_fair_path: /shares/gcp/integration/rff2/climate/ar6_rff_fair162_control_pulse_all_gases_2020-2030-2040-2050-2060-2070-2080_emis_conc_rf_temp_lambdaeff_ohc_emissions-driven_naturalfix_v5.03_Feb072022.nc
+  gmsl_fair_path: /shares/gcp/integration/rff2/climate/rffar6_rff_iter0-19_fair162_control_pulse_2020-2030-2040-2050-2060-2070-2080_gmsl_emissions-driven_naturalfix_v5.03_Feb072022.zarr
+  damages_pulse_conversion_path: /shares/gcp/integration/rff2/climate/conversion_v5.03_Feb072022.nc4
+  ecs_mask_path: null
+  # ecs_mask_name: null   
+  emission_scenarios: null
+  
+econdata:
+  global_ssp: /shares/gcp/integration_replication/inputs/econ/raw/integration-econ-bc39.zarr
+  USA_ssp: /shares/gcp/integration_replication/inputs/econ/raw/integration-econ-bc39_USA.zarr
+
+paths:
+  reduced_damages_library: /shares/gcp/integration_replication/reduced_damages
+  ssp_damage_function_library: /shares/gcp/integration_replication/results/AR6_ssp
+  rff_damage_function_library: /shares/gcp/integration_replication/results/rff
+  AR6_ssp_results: /shares/gcp/integration_replication/results/AR6_ssp
+  rff_results: /shares/gcp/integration_replication/results/rff
+  
+rffdata:
+  fed_inflation: /mnt/Global_ACP/MORTALITY/release_2020/data/3_valuation/inputs/adjustments/fed_income_inflation.csv
+  runids: /shares/gcp/integration_replication/inputs/econ/rffsp_fair_sequence.nc
+  socioec: /shares/gcp/integration_replication/inputs/econ/raw/rff-sp_socioeconomics_all_runs_feather_files.nc
+  weights_root : /shares/gcp/social/rff/fivebeans3
+  weights_output : /shares/gcp/integration_replication/inputs/damage_function_weights/
+  socioec_output : /shares/gcp/integration_replication/inputs/econ/
+  pulse_years : 
+    - 2020
+    - 2030
+    - 2040
+    - 2050
+    - 2060
+    - 2070
+    - 2080
+
+sectors:
+  coastal_v0.20:
+    histclim: histclim
+    delta: delta
+    sector_path: /shares/gcp/integration/float32/sectoral_ir_damages/coastal_data/coastal_damages_v0.20-optimal.zarr
+    formula: damages ~ -1 + gmsl + np.power(gmsl, 2)
+  
+  agriculture:
+    histclim: histclim_reallocation
+    delta: delta_reallocation
+    sector_path: /shares/gcp/integration/float32/sectoral_ir_damages/ag_data/gdp_weights_ag_0.0_histclim-delta.zarr
+    formula: damages ~ -1 + anomaly + np.power(anomaly, 2)
+  
+  mortality_v1:
+    histclim: histclim_deaths_vsl_epa_scaled
+    delta: delta_hybrid_damages_vsl_epa_scaled
+    sector_path: /shares/gcp/integration/float32/sectoral_ir_damages/mortality_data/impacts-darwin-montecarlo-damages-v1.zarr
+    formula: damages ~ -1 + anomaly + np.power(anomaly, 2)
+    
+  energy:
+    histclim: histclim_rebased
+    delta: delta_rebased
+    sector_path: /shares/gcp/integration/float32/sectoral_ir_damages/energy_data/hybrid_price.zarr
+    formula: damages ~ -1 + anomaly + np.power(anomaly, 2)
+
+  labor:
+    histclim: histclim_rebased
+    delta: delta_rebased
+    sector_path: /shares/gcp/integration/float32/sectoral_ir_damages/labor_data/new_mc.zarr
+    formula: damages ~ -1 + anomaly + np.power(anomaly, 2)
+
+  AMEL_m1:
+    histclim: summed_histclim
+    delta: summed_delta
+    sector_path: /shares/gcp/integration/float32/sectoral_ir_damages/AMEL_data/AMEL_m1.zarr
+    formula: damages ~ -1 + anomaly + np.power(anomaly, 2)
+  
+  CAMEL_m1_c0.20:
+    formula: damages ~ -1 + anomaly + np.power(anomaly, 2) + gmsl + np.power(gmsl, 2)
+    
+global_parameters:
+  fair_aggregation : []
+  subset_dict:
+    ssp:
+      - SSP2
+      - SSP3
+      - SSP4
+  weitzman_parameter:
+      - 0.1
+      - 0.5
+  save_files:
+      - damage_function_points
+      - damage_function_coefficients
+      - damage_function_fit
+      - marginal_damages
+      - discount_factors
+      - uncollapsed_sccs
+      - scc
