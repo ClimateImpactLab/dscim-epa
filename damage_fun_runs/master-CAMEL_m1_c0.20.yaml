@@ -93,10 +93,5 @@ global_parameters:
       - 0.1
       - 0.5
   save_files:
-      - damage_function_points
-      - damage_function_coefficients
-      - damage_function_fit
-      - marginal_damages
-      - discount_factors
+      - global_consumption_no_pulse
       - uncollapsed_sccs
-      - scc
