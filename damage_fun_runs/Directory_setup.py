@@ -39,7 +39,8 @@ conf_base = {'mortality_version': 1,
   'energy': {'formula': 'damages ~ -1 + anomaly + np.power(anomaly, 2)'},
   'labor': {'formula': 'damages ~ -1 + anomaly + np.power(anomaly, 2)'},
   'AMEL_m1': {'formula': 'damages ~ -1 + anomaly + np.power(anomaly, 2)'},
-  'CAMEL_m1_c0.20': {'formula': 'damages ~ -1 + anomaly + np.power(anomaly, 2) + gmsl + np.power(gmsl, 2)'}}}
+  'CAMEL_m1_c0.20': {'formula': 'damages ~ -1 + anomaly + np.power(anomaly, 2) + gmsl + np.power(gmsl, 2)'}},
+  'save_path': str(outputs)}
 
 sectors = list(conf_base['sectors'].keys())
 for i in sectors:
