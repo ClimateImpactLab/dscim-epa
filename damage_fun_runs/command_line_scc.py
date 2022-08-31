@@ -29,6 +29,12 @@ from pyfiglet import Figlet
 from pathlib import Path
 import os
 
+master = Path(os.getcwd()) / "generated_conf.yml"
+try:
+    with open(master, "r") as stream:
+        conf = yaml.safe_load(stream)
+except FileNotFoundError:
+    raise FileNotFoundError("Please run Directory_setup.py or place the config in your current working directory")
 
 # Config vs function params:
 # Config should have all paths and parameters that are messy
@@ -146,10 +152,14 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
             all_arrays_gcnp = all_arrays_gcnp + [df_gcnp_expanded]
 
         df_full_scc = xr.combine_by_coords(all_arrays_uscc)
-        df_full_scc.to_netcdf(Path(conf['save_path']) / sector / ("full_order_uncollapsed_sccs_" + menu_option + ".nc4"))    
-
+        scc_path = Path(conf['save_path']) / sector / ("full_order_uncollapsed_sccs_" + menu_option + ".nc4")
+        df_full_scc.to_netcdf(scc_path)    
+        print(f"SCCs are available in {str(scc_path)}")
+        
         df_full_gcnp = xr.combine_by_coords(all_arrays_gcnp)
-        df_full_gcnp.to_netcdf(Path(conf['save_path']) / sector / ("full_order_global_consumption_no_pulse_" + menu_option + ".nc4"))    
+        gcnp_path = Path(conf['save_path']) / sector / ("full_order_global_consumption_no_pulse_" + menu_option + ".nc4")
+        df_full_gcnp.to_netcdf(gcnp_path) 
+        print(f"GCNP is available in {gcnp_path}")
 
 f = Figlet(font='slant')
 print(f.renderText('DSCIM'))
@@ -191,8 +201,7 @@ questions = [
     ],
         default = [[1.016010255, 9.149608e-05],
                    [1.244459066, 0.00197263997],
-                   [1.421158116, 0.00461878399],
-                  [1.567899395, 0.00770271076]]),
+                   [1.421158116, 0.00461878399]]),
     inquirer.Checkbox("pulse_year",
         message= 'Select pulse years',
         choices= [
@@ -249,8 +258,7 @@ print(domestic)
 if len(etas_rhos) == 0:
     raise ValueError('You must select at least one eta, rho combination')
 
-risk_combos = [['risk_aversion', 'euler_ramsey'],
-              ['adding_up','constant']] # Default
+risk_combos = [['risk_aversion', 'euler_ramsey']] # Default
 gases = ['CO2_Fossil', 'CH4', 'N2O'] # Default
 weitzman_parameters = [0.5] # Default
 epa_sccs(sector,
@@ -258,3 +266,6 @@ epa_sccs(sector,
          etas_rhos,
          risk_combos,
          pulse_years=pulse_years)
+
+
+print(f"Full combined results are available in {str(Path(conf['save_path']) / sector[0])}")
