@@ -45,6 +45,7 @@ conf_base = {'mortality_version': 1,
 sectors = list(conf_base['sectors'].keys())
 for i in sectors:
     makedir(outputs / i)
+    makedir(outputs / (i + "_USA"))
         
 # Download inputs from internet        
 
