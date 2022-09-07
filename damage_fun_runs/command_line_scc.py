@@ -1,33 +1,17 @@
 import xarray as xr
 import dscim
 import yaml
-from dscim.menu.simple_storage import Climate, EconVars, StackedDamages
+from dscim.menu.simple_storage import Climate, EconVars
 import pandas as pd
 import numpy as np
-from xarray.testing import assert_allclose
-from xarray.testing import assert_equal
 from itertools import product
 from pathlib import Path
 
-import dask
-import logging
-import subprocess
-from subprocess import CalledProcessError
-from abc import ABC, abstractmethod
-from dscim.descriptors import cachedproperty
-from dscim.menu.decorators import save
-from dscim.utils.utils import (
-    model_outputs,
-    compute_damages,
-    c_equivalence,
-    power,
-    quantile_weight_quantilereg,
-    extrapolate,
-)
 import inquirer
 from pyfiglet import Figlet
 from pathlib import Path
 import os
+import re
 
 master = Path(os.getcwd()) / "generated_conf.yml"
 try:
@@ -53,19 +37,18 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
             fair_aggregation = ["mean"]):
     
     master = Path(os.getcwd()) / "generated_conf.yml"
-    
+
     with open(master, "r") as stream:
         conf = yaml.safe_load(stream)
-        
-    if domestic:
-        econ = EconVars(
-            path_econ=f"{conf['rffdata']['socioec_output']}/rff_USA_socioeconomics.nc4"
-        )
-    else:
-        econ = EconVars(
-            path_econ=f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4"
-        )
-    
+
+    econ_dom = EconVars(
+        path_econ=f"{conf['rffdata']['socioec_output']}/rff_USA_socioeconomics.nc4"
+    )
+    econ_glob = EconVars(
+        path_econ=f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4"
+    )
+
+
     conf["global_parameters"] = {'fair_aggregation': fair_aggregation,
      'subset_dict': {'ssp': []},
      'weitzman_parameter': weitzman_parameters,
@@ -77,7 +60,7 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
         "equity": dscim.menu.equity.EquityRecipe,
     }
     add_kwargs = {
-        "econ_vars": econ,
+        "econ_vars": econ_dom,
         "climate_vars": Climate(**conf["rff_climate"], pulse_year=pulse_year),
         "formula": conf["sectors"][sector if not domestic else sector[:-4]]["formula"],
         "discounting_type": discount_type,
@@ -86,25 +69,66 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
         "save_path": None,
         "eta": eta,
         "rho": rho,
-        "damage_function_path": Path(conf['paths']['rff_damage_function_library']) / sector,
+        "damage_function_path": Path(conf['paths']['rff_damage_function_library'])  / sector,
         "ecs_mask_path": None,
         "ecs_mask_name": None,
         "fair_dims":[],
     }
 
-    kwargs = conf["global_parameters"].copy()
+    kwargs_domestic = conf["global_parameters"].copy()
     for k, v in add_kwargs.items():
         assert (
-            k not in kwargs.keys()
+            k not in kwargs_domestic.keys()
         ), f"{k} already set in config. Please check `global_parameters`."
-        kwargs.update({k: v})
+        kwargs_domestic.update({k: v})
 
-    menu_item = MENU_OPTIONS[menu_option](**kwargs)
-    menu_item.order_plate("scc")
-    uncollapsed_scc = menu_item.uncollapsed_sccs
-    
-    return(menu_item)
-    
+    conf["global_parameters"] = {'fair_aggregation': fair_aggregation,
+     'subset_dict': {'ssp': []},
+     'weitzman_parameter': weitzman_parameters,
+     'save_files': []}
+
+    add_kwargs = {
+        "econ_vars": econ_glob,
+        "climate_vars": Climate(**conf["rff_climate"], pulse_year=pulse_year),
+        "formula": conf["sectors"][sector if not domestic else sector[:-4]]["formula"],
+        "discounting_type": discount_type,
+        "sector": sector,
+        "ce_path": None,
+        "save_path": None,
+        "eta": eta,
+        "rho": rho,
+        "damage_function_path": Path(conf['paths']['rff_damage_function_library']) / [sector if not domestic else sector[:-4]][0], 
+        "ecs_mask_path": None,
+        "ecs_mask_name": None,
+        "fair_dims":[],
+    }
+
+    kwargs_global = conf["global_parameters"].copy()
+    for k, v in add_kwargs.items():
+        assert (
+            k not in kwargs_global.keys()
+        ), f"{k} already set in config. Please check `global_parameters`."
+        kwargs_global.update({k: v})
+
+    menu_item_global = MENU_OPTIONS[menu_option](**kwargs_global)
+    df = menu_item_global.uncollapsed_discount_factors
+
+    if domestic:
+        menu_item_domestic = MENU_OPTIONS[menu_option](**kwargs_domestic)
+        md = menu_item_domestic.uncollapsed_marginal_damages
+    else:
+        md = menu_item_global.uncollapsed_marginal_damages
+
+    if menu_option == "risk_aversion":
+        sccs = (
+            (md.rename(marginal_damages = 'scc') * df.rename(discount_factor = 'scc'))
+            .sum("year")
+        )     
+    else:
+        sccs = menu_item_global.discounted_damages(md,"constant").sum(dim="year").rename(marginal_damages = "scc")
+    gcnp = menu_item_global.global_consumption_no_pulse    
+    return([sccs,gcnp])
+
 # This represents the full gamut of scc runs when run default
 def epa_sccs(sectors =["CAMEL_m1_c0.20"],
              domestic = False,
@@ -120,12 +144,13 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
     with open(master, "r") as stream:
         conf = yaml.safe_load(stream)
 
-    for j, sector in product(risk_combos, sectors):
+    for j in risk_combos:
         all_arrays_uscc = []
         all_arrays_gcnp = []
         discount_type= j[1]
         menu_option = j[0]
-        for i, pulse_year in product(etas_rhos, pulse_years):
+        for i, pulse_year, sector in product(etas_rhos, pulse_years, sectors):
+            print(i, pulse_year, sector) 
             eta = i[0]
             rho = i[1]
             df_single = epa_scc(sector = sector,
@@ -139,16 +164,16 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
                                 weitzman_parameters = weitzman_parameters,
                                 fair_aggregation = fair_aggregation)
 
-            df_scc = df_single.uncollapsed_sccs.assign_coords(eta_rhos =  str(eta) + "_" + str(rho), menu_option = menu_option, pulse_year = pulse_year)
-            df_scc_expanded = df_scc.expand_dims(['eta_rhos','menu_option','pulse_year'])
-            df_scc_expanded.name = "uncollapsed_sccs"
-            df_scc_expanded = df_scc_expanded.to_dataset()
+            df_scc = df_single[0].assign_coords(eta_rho =  str(eta) + "_" + str(rho), menu_option = menu_option, pulse_year = pulse_year, sector = re.split("_",sector)[0])
+            df_scc_expanded = df_scc.expand_dims(['eta_rho','menu_option','pulse_year', 'sector'])
+            if 'simulation' in df_scc_expanded.dims:
+                df_scc_expanded = df_scc_expanded.drop_vars('simulation')
             all_arrays_uscc = all_arrays_uscc + [df_scc_expanded]
-
-            df_gcnp = df_single.global_consumption_no_pulse.assign_coords(eta_rhos =  str(eta) + "_" + str(rho), menu_option = menu_option, pulse_year = pulse_year)
-            df_gcnp_expanded = df_gcnp.expand_dims(['eta_rhos','menu_option','pulse_year'])
-            df_gcnp_expanded.name = "global_consumption_no_pulse"
-            df_gcnp_expanded = df_gcnp_expanded.to_dataset()
+            
+            df_gcnp = df_single[1].assign_coords(eta_rho =  str(eta) + "_" + str(rho), menu_option = menu_option, pulse_year = pulse_year, sector = re.split("_",sector)[0])
+            df_gcnp_expanded = df_gcnp.expand_dims(['eta_rho','menu_option','pulse_year', 'sector'])
+            if 'simulation' in df_gcnp_expanded.dims:
+                df_gcnp_expanded = df_gcnp_expanded.drop_vars('simulation')
             all_arrays_gcnp = all_arrays_gcnp + [df_gcnp_expanded]
 
         df_full_scc = xr.combine_by_coords(all_arrays_uscc)
