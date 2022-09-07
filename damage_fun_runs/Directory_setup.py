@@ -1,7 +1,11 @@
 import yaml
 import os
+import shutil
 from pathlib import Path
-base = os.getcwd()
+from io import BytesIO
+from urllib.request import urlopen
+from zipfile import ZipFile
+、
 inputs = Path(base) / "inputs"  
 outputs = Path(base) / "outputs"  
 
@@ -47,7 +51,23 @@ for i in sectors:
     makedir(outputs / i)
     makedir(outputs / (i + "_USA"))
         
-# Download inputs from internet        
+# Download inputs from internet  
+zipurl = 'https://storage.googleapis.com/climateimpactlab-scc-tool/dscim_input_data/dscim_input_data_v1.0.0.zip'
+with urlopen(zipurl) as zipresp:
+    with ZipFile(BytesIO(zipresp.read())) as zfile:
+        zfile.extractall(base)
 
+downloaded_file_name = next(os.walk(base))[1][0]
+file_names = os.listdir(os.path.join(base, downloaded_file_name))
+for file_name in file_names:
+    if os.path.exists(os.path.join(base, 'inputs',file_name)):
+        shutil.rmtree(os.path.join(base, 'inputs',file_name))
+        shutil.move(os.path.join(base,downloaded_file_name,file_name),os.path.join(base, 'inputs'))
+    else:
+        shutil.move(os.path.join(base,downloaded_file_name,file_name),os.path.join(base, 'inputs'))
+shutil.rmtree(os.path.join(base,downloaded_file_name))
+
+        
 with open('generated_conf.yml', 'w') as outfile:
     yaml.dump(conf_base, outfile, default_flow_style=False)
+
