@@ -5,7 +5,8 @@ from pathlib import Path
 from io import BytesIO
 from urllib.request import urlopen
 from zipfile import ZipFile
-、
+
+base = os.getcwd()
 inputs = Path(base) / "inputs"  
 outputs = Path(base) / "outputs"  
 
