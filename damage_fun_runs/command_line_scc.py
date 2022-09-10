@@ -47,8 +47,6 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
     econ_glob = EconVars(
         path_econ=f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4"
     )
-
-
     conf["global_parameters"] = {'fair_aggregation': fair_aggregation,
      'subset_dict': {'ssp': []},
      'weitzman_parameter': weitzman_parameters,
@@ -126,8 +124,17 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
         )     
     else:
         sccs = menu_item_global.discounted_damages(md,"constant").sum(dim="year").rename(marginal_damages = "scc")
-    gcnp = menu_item_global.global_consumption_no_pulse    
-    return([sccs,gcnp])
+    if discount_type == "euler_ramsey":
+        gcnp = menu_item_global.global_consumption_no_pulse.rename('gcnp')
+        pop = xr.open_dataset(f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4").sel(region = 'world', drop = True).pop
+        a = xr.merge([pop, gcnp])  
+        ypv = a.gcnp/a.pop
+        c = np.power(ypv, -eta).sel(year = pulse_year, drop = True)
+        adj = (c/c.mean()).rename('adjustment_factor')
+        adjustments = xr.merge([sccs,adj.to_dataset()])
+        sccs_adjusted = (adjustments.adjustment_factor * adjustments.scc).mean(dim = 'runid') * 113.648/112.29
+
+    return(sccs_adjusted)
 
 # This represents the full gamut of scc runs when run default
 def epa_sccs(sectors =["CAMEL_m1_c0.20"],
@@ -164,28 +171,17 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
                                 weitzman_parameters = weitzman_parameters,
                                 fair_aggregation = fair_aggregation)
 
-            df_scc = df_single[0].assign_coords(eta_rho =  str(eta) + "_" + str(rho), menu_option = menu_option, pulse_year = pulse_year, sector = re.split("_",sector)[0])
+            df_scc = df_single.assign_coords(eta_rho =  str(eta) + "_" + str(rho), menu_option = menu_option, pulse_year = pulse_year, sector = re.split("_",sector)[0])
             df_scc_expanded = df_scc.expand_dims(['eta_rho','menu_option','pulse_year', 'sector'])
             if 'simulation' in df_scc_expanded.dims:
                 df_scc_expanded = df_scc_expanded.drop_vars('simulation')
             all_arrays_uscc = all_arrays_uscc + [df_scc_expanded]
-            
-            df_gcnp = df_single[1].assign_coords(eta_rho =  str(eta) + "_" + str(rho), menu_option = menu_option, pulse_year = pulse_year, sector = re.split("_",sector)[0])
-            df_gcnp_expanded = df_gcnp.expand_dims(['eta_rho','menu_option','pulse_year', 'sector'])
-            if 'simulation' in df_gcnp_expanded.dims:
-                df_gcnp_expanded = df_gcnp_expanded.drop_vars('simulation')
-            all_arrays_gcnp = all_arrays_gcnp + [df_gcnp_expanded]
 
         df_full_scc = xr.combine_by_coords(all_arrays_uscc)
         scc_path = Path(conf['save_path']) / sector / ("full_order_uncollapsed_sccs_" + menu_option + ".nc4")
         df_full_scc.to_netcdf(scc_path)    
         print(f"SCCs are available in {str(scc_path)}")
         
-        df_full_gcnp = xr.combine_by_coords(all_arrays_gcnp)
-        gcnp_path = Path(conf['save_path']) / sector / ("full_order_global_consumption_no_pulse_" + menu_option + ".nc4")
-        df_full_gcnp.to_netcdf(gcnp_path) 
-        print(f"GCNP is available in {gcnp_path}")
-
 f = Figlet(font='slant')
 print(f.renderText('DSCIM'))
 
