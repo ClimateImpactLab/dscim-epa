@@ -124,17 +124,28 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
         )     
     else:
         sccs = menu_item_global.discounted_damages(md,"constant").sum(dim="year").rename(marginal_damages = "scc")
+        
     if discount_type == "euler_ramsey":
         gcnp = menu_item_global.global_consumption_no_pulse.rename('gcnp')
+
+        # Isolate population from socioeconomics
         pop = xr.open_dataset(f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4").sel(region = 'world', drop = True).pop
+       
+        # Calculate global consumption no pulse per population
         a = xr.merge([pop, gcnp])  
         ypv = a.gcnp/a.pop
+
+        # Create adjustment factor using adjustment.factor = (ypc^-eta)/mean(ypc^-eta)
         c = np.power(ypv, -eta).sel(year = pulse_year, drop = True)
         adj = (c/c.mean()).rename('adjustment_factor')
+
+        # Merge adjustments with uncollapsed sccs
         adjustments = xr.merge([sccs,adj.to_dataset()])
+
+        # Multiply adjustment factors and sccs, then collapse and deflate to 2020 dollars
         sccs_adjusted = (adjustments.adjustment_factor * adjustments.scc).mean(dim = 'runid') * 113.648/112.29
 
-    return(sccs_adjusted)
+    return(sccs_adjusted.rename('scc'))
 
 # This represents the full gamut of scc runs when run default
 def epa_sccs(sectors =["CAMEL_m1_c0.20"],
