@@ -52,11 +52,27 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
      'weitzman_parameter': weitzman_parameters,
      'save_files': []}
 
+    class RiskAversionRecipe(dscim.menu.risk_aversion.RiskAversionRecipe):
+        @property
+        def damage_function_coefficients(self) -> xr.Dataset:
+            """
+            Load damage function coefficients if the coefficients are provided by the user.
+            Otherwise, compute them.
+            """
+            if self.damage_function_path is not None:
+                return xr.open_dataset(
+                    f"{self.damage_function_path}/{self.NAME}_{self.discounting_type}_eta{round(self.eta,3)}_rho{round(self.rho,3)}_dfc.nc4"
+                )
+            else:
+                return self.damage_function["params"]
+
     MENU_OPTIONS = {
         "adding_up": dscim.menu.baseline.Baseline,
-        "risk_aversion": dscim.menu.risk_aversion.RiskAversionRecipe,
+        "risk_aversion": RiskAversionRecipe,
         "equity": dscim.menu.equity.EquityRecipe,
     }
+
+    
     add_kwargs = {
         "econ_vars": econ_dom,
         "climate_vars": Climate(**conf["rff_climate"], pulse_year=pulse_year),
