@@ -26,7 +26,7 @@ Begin in the `dscim-epa` project directory. If needed this can be downloaded and
 git clone https://github.com/ClimateImpactLab/dscim-epa.git
 ```
 
-Next, setup a conda environment for this analysis. This creates replicates the software environment used for analysis. With `conda` from the command line this is
+Next, setup a conda environment for this analysis. This replicates the software environment used for analysis. With `conda` from the command line this is
 
 ```bash
 conda env create -f environment.yml
@@ -46,7 +46,7 @@ With the environment setup and active, the next step is to download required inp
 python directory_setup.py
 ```
 
-Note that with will download several gigabytes of data.
+Note that this will download several gigabytes of data.
 
 ## Structure and logic
 
