@@ -12,6 +12,8 @@ from pyfiglet import Figlet
 from pathlib import Path
 import os
 import re
+import subprocess
+from datetime import date
 
 master = Path(os.getcwd()) / "generated_conf.yml"
 try:
@@ -126,7 +128,80 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
         )     
     else:
         sccs = menu_item_global.discounted_damages(md,"constant").sum(dim="year").rename(marginal_damages = "scc")
-    gcnp = menu_item_global.global_consumption_no_pulse    
+    gcnp = menu_item_global.global_consumption_no_pulse   
+    
+            # find machine name
+    machine_name = os.getenv("HOSTNAME")
+    if machine_name is None:
+        try:
+            machine_name = os.uname()[1]
+        except AttributeError:
+            machine_name = "unknown"
+    
+    # find git commit hash
+    try:
+        label = subprocess.check_output(["git", "describe", "--always"]).strip()
+    except CalledProcessError:
+        label = "unknown"
+    
+    meta = [{},{}]
+    
+    if domestic:
+        meta[0] = {"Author": "Climate Impact Lab",
+                   "Date Created": date.today().strftime("%d/%m/%Y"),
+                   "Units": "2019 PPP-adjusted USD"}
+        
+        # update with git hash and machine name
+        meta[0].update(dict(machine=os.getenv("HOSTNAME"), commit=subprocess.check_output(["git", "describe", "--always"]).strip()))
+        
+        for attr_dict in [
+            vars(menu_item_domestic),
+            vars(vars(menu_item_domestic)["climate"]),
+            vars(vars(menu_item_domestic)["econ_vars"]),
+        ]:
+            meta[1].update(
+                {
+                    k: v
+                    for k, v in attr_dict.items()
+                    if (type(v) not in [xr.DataArray, xr.Dataset, pd.DataFrame])
+                    and k not in ["damage_function", "logger"]
+                }
+            )
+            
+        # convert to strs
+        meta[0] = {k: v if type(v) in [int, float] else str(v) for k, v in meta[0].items()}
+    
+    
+    meta[1] = {"Author": "Climate Impact Lab",
+               "Date Created": date.today().strftime("%d/%m/%Y"),
+               "Units": "2019 PPP-adjusted USD"}
+    
+    # update with git hash and machine name
+    meta[1].update(dict(machine=os.getenv("HOSTNAME"), commit=subprocess.check_output(["git", "describe", "--always"]).strip()))
+    
+    for attr_dict in [
+        vars(menu_item_global),
+        vars(vars(menu_item_global)["climate"]),
+        vars(vars(menu_item_global)["econ_vars"]),
+    ]:
+        meta[1].update(
+            {
+                k: v
+                for k, v in attr_dict.items()
+                if (type(v) not in [xr.DataArray, xr.Dataset, pd.DataFrame])
+                and k not in ["damage_function", "logger"]
+            }
+        )
+        
+    # convert to strs
+    meta[1] = {k: v if type(v) in [int, float] else str(v) for k, v in meta[1].items()}
+
+        
+    if domestic:
+        sccs.attrs=meta[0]
+    else:
+        sccs.attrs=meta[1]
+       
     return([sccs,gcnp])
 
 # This represents the full gamut of scc runs when run default
@@ -175,13 +250,21 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
             if 'simulation' in df_gcnp_expanded.dims:
                 df_gcnp_expanded = df_gcnp_expanded.drop_vars('simulation')
             all_arrays_gcnp = all_arrays_gcnp + [df_gcnp_expanded]
+        
+        for attrs_keys in all_arrays_uscc[0].attrs.keys():
+            update = [all_arrays_uscc[0].attrs[attrs_keys]]
+            for ds_no in range(1,len(all_arrays_uscc)):
+                if all_arrays_uscc[ds_no].attrs[attrs_keys] not in update:
+                    update.append(all_arrays_uscc[ds_no].attrs[attrs_keys])
+                    for ds_no_update in range(ds_no+1):
+                        all_arrays_uscc[ds_no_update].attrs[attrs_keys] = update
 
-        df_full_scc = xr.combine_by_coords(all_arrays_uscc)
+        df_full_scc = xr.combine_by_coords(all_arrays_uscc,combine_attrs='override')
         scc_path = Path(conf['save_path']) / sector / ("full_order_uncollapsed_sccs_" + menu_option + ".nc4")
         df_full_scc.to_netcdf(scc_path)    
         print(f"SCCs are available in {str(scc_path)}")
         
-        df_full_gcnp = xr.combine_by_coords(all_arrays_gcnp)
+        df_full_gcnp = xr.combine_by_coords(all_arrays_gcnp,combine_attrs='override')
         gcnp_path = Path(conf['save_path']) / sector / ("full_order_global_consumption_no_pulse_" + menu_option + ".nc4")
         df_full_gcnp.to_netcdf(gcnp_path) 
         print(f"GCNP is available in {gcnp_path}")
