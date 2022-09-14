@@ -43,10 +43,20 @@ Be sure that all commands and analysis are run from this conda environment.
 With the environment setup and active, the next step is to download required input data into the local directory. From the commandline run:
 
 ```bash
-python directory_setup.py
+python damage_fun_runs/Directory_setup.py
 ```
 
-Note that this will download several gigabytes of data.
+Note that this will download several gigabytes of data and may take several minutes, depending on your connection speed.
+
+## Running SCCs
+
+After setting up your environment and the input data, you can run SCCs under different conditions with
+
+```bash
+python damage_fun_runs/command_line_scc.py
+```
+
+and follow the on-screen prompts.
 
 ## Structure and logic
 

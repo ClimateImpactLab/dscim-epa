@@ -3,7 +3,10 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - google-cloud-storage==2.5.0
+  - statsmodels==0.13.2
   - python==3.8
+  - pyfiglet==0.8.post1
   - pip
   - xarray
   - pandas
@@ -34,3 +37,5 @@ dependencies:
       - dill
       - numbagg
       - p_tqdm
+      - impactlab_tools==0.4.0
+      - inquirer==2.10.0
