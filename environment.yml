@@ -1,0 +1,36 @@
+name: dscim-epa
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python==3.8
+  - pip
+  - xarray
+  - pandas
+  - pandoc
+  - numpy
+  - scipy
+  - jupyterlab
+  - ipython
+  - matplotlib
+  - scipy
+  - ipython
+  - dask
+  - pytest
+  - pytest-cov
+  - papermill
+  - click
+  - netcdf4
+  - h5netcdf
+  - zarr
+  - cftime
+  - bottleneck
+  - nc-time-axis
+  - jupyterlab_widgets
+  - pip:
+      - dscim==0.1.0
+      - black==22.1.0
+      - flake8
+      - dill
+      - numbagg
+      - p_tqdm
