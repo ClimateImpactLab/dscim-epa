@@ -16,90 +16,37 @@ economic and climate uncertainty.
 
 Full documentation is available here: https://climateimpactlab.gitlab.io/Impacts/integration/
 
-## Quick start
+## Setup
 
-### Basic installation
-1. You can clone the repo by calling the following command in a bash shell, from inside a directory where you want to install `dscim`: 
+To begin we assume you have a system with `conda` available from the command line, and some familiarity with it. A conda distribution is available from [miniconda](https://docs.conda.io/en/latest/miniconda.html), [Anaconda](https://www.anaconda.com/), or [mamba](https://mamba.readthedocs.io/en/latest/). This helps to ensure required software packages are correctly compiled and installed, replicating the analysis environment.
 
-```bash
-git clone https://gitlab.com/ClimateImpactLab/Impacts/integration.git
-```
-    
-2. Change directory to the root of the repo. In a bash shell: 
+Begin in the `dscim-epa` project directory. If needed this can be downloaded and unzipped, or cloned with `git`. For example
 
 ```bash
-cd integration
+git clone https://github.com/ClimateImpactLab/dscim-epa.git
 ```
 
-3. To start using the `dscim`, it is recommended to use a `conda`
-environment (`conda` can be installed by installing "miniconda", downloadable <a href="https://docs.conda.io/en/latest/miniconda.html">here</a>).
-
-4. Setting up your environment makes sure you have all the packages you need to run `dscim` and keeps them contained so they don't conflict with other software on your machine. A working environment is included in this repository. To set it up the `dscim` environment, run in a bash shell:
+Next, setup a conda environment for this analysis. This replicates the software environment used for analysis. With `conda` from the command line this is
 
 ```bash
-conda env create -f env/dscim-env.yml
-conda activate dscim
+conda env create -f environment.yml
 ```
 
-5. And then make a local installation of the library (this assures `dscim` is on your path):
+and then activate the environment with
 
 ```bash
-pip install -e .
+conda activate dscim-epa
 ```
-6. Set up the model by running `repo_setup.sh` in the root of the repo. It will download required climate and socioeconomic input data into a `dscim_input_data` folder, which requires 643MB of disk space. If the script is run inside a different directory, you will need to set `data_path` in the  `DSCIM_Runner.ipynb` notebook (step 8 below) before you run it.
+
+Be sure that all commands and analysis are run from this conda environment.
+
+With the environment setup and active, the next step is to download required input data into the local directory. From the commandline run:
 
 ```bash
-bash repo_setup.sh
+python directory_setup.py
 ```
 
-### Run `dscim` in a notebook
-7. Once `dscim` has been installed and the `dscim` environment has been activated, open a jupyterlab instance in the same bash shell at the root of the repo. A browser tab should open in your most recent browser window. You can also copy and paste the url that is output in the shell, starting with "https://localhost:8888/lab ..." or something similar. 
-
-```bash
-jupyter lab &
-```
-
-8. In jupyterlab, navigate to the `notebooks` subdirectory in the file browser on the left and open `DSCIM_Runner.ipynb`
-
-9. Follow instructions in the notebook and have fun!
-
-### Command-line utility
-
-The `dscim` offers a command line utility to run the menu by only
-passing a valid configuration file. This utility is recommended for expert users only: 
-
-```bash
-$ dscim --help
-Usage: dscim [OPTIONS]
-
-  Run DSCIM menu options using a configuration file
-
-  This command-line utility will execute the menu while relying in Dask
-  infrastructure and using a config file with all the user-defined recipe
-  combinations and sector data. The command-line utility will run all the
-  contents of the configuration file by executing the waiter.execute_order()
-  function. If a menu_order is specified, then only the desired section will
-  be executed.
-
-  To use in cluster mode (no local), you have to run dask-cli to create
-  workers. Within the repo you can find some examples under infrastucture
-  using RCC's Midway2. Here the scheduler file will be used to be passed to
-  the Dask client (by default this file is called "scheduler.json").
-
-Options:
-  --menu_order [damage_function|fair|scc|]
-                                  Menu dish for SCC valuation. By default all
-                                  menu parts will be executed
-
-  --local                         Use dask.LocalCluster() instead of a
-                                  SLURMCluster()
-
-  -c, --config_file PATH          Path for configuration YAML file  [required]
-  --log_level TEXT                Log level. Default is INFO
-  --help                          Show this message and exit.
-
-```
-
+Note that this will download several gigabytes of data.
 
 ## Structure and logic
 
