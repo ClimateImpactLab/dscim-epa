@@ -12,6 +12,7 @@ from pyfiglet import Figlet
 from pathlib import Path
 import os
 import re
+
 import subprocess
 from datetime import date
 
@@ -21,7 +22,87 @@ try:
         conf = yaml.safe_load(stream)
 except FileNotFoundError:
     raise FileNotFoundError("Please run Directory_setup.py or place the config in your current working directory")
+    
+    
+def generate_attrs(menu_item):
+    # find machine name
+    machine_name = os.getenv("HOSTNAME")
+    if machine_name is None:
+        try:
+            machine_name = os.uname()[1]
+        except AttributeError:
+            machine_name = "unknown"
+    
+    # find git commit hash
+    try:
+        label = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()
+    except CalledProcessError:
+        label = "unknown"
+    
+    meta = {"Author": "Climate Impact Lab",
+            "Date Created": date.today().strftime("%d/%m/%Y"),
+            "Units": "2020 PPP-adjusted USD"}
+    
+    for attr_dict in [
+        vars(menu_item),
+        vars(vars(menu_item)["climate"]),
+        vars(vars(menu_item)["econ_vars"]),
+    ]:
+        meta.update(
+            {
+                k: v
+                for k, v in attr_dict.items()
+                if (type(v) not in [xr.DataArray, xr.Dataset, pd.DataFrame])
+                and k not in ["damage_function", "logger"]
+            }
+        )
 
+    # update with git hash and machine name
+    meta.update(dict(machine=machine_name, commit=label,url="https://github.com/ClimateImpactLab/dscim-epa/commit/"+subprocess.check_output(['git','rev-parse','HEAD']).decode('ascii').strip()))
+
+    # convert to strs
+    meta = {k: v if type(v) in [int, float] else str(v) for k, v in meta.items()}
+    
+    
+    # exclude irrelevant attrs
+    irrelevant_keys = ['econ_vars',
+                       'climate',
+                       'subset_dict',
+                       'filename_suffix',
+                       'ext_subset_start_year',
+                       'ext_subset_end_year',
+                       'ext_end_year',
+                       'ext_method',
+                       'clip_gmsl',
+                       'scenario_dimensions',
+                       'scc_quantiles',
+                       'quantreg_quantiles',
+                       'quantreg_weights',
+                       'full_uncertainty_quantiles',
+                       'extrap_formula',
+                       'fair_dims',
+                       'sector_path',
+                       'save_path',
+                       'delta',
+                       'histclim',
+                       'ce_path',
+                       'gmst_path',
+                       'gmsl_path']
+    for k in irrelevant_keys:
+        if k in meta.keys():
+            del meta[k]
+    
+    # adjust attrs
+    meta['emission_scenarios']='RFF-SPv2'
+    meta['damagefunc_base_period']=meta.pop('base_period')
+    meta['socioeconomics_path']=meta.pop('path')
+    
+    if domestic:
+        meta.update(discounting_socioeconomics_path=f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4")
+      
+    return meta
+ 
+    
 # Config vs function params:
 # Config should have all paths and parameters that are messy
 
@@ -49,18 +130,32 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
     econ_glob = EconVars(
         path_econ=f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4"
     )
-
-
     conf["global_parameters"] = {'fair_aggregation': fair_aggregation,
      'subset_dict': {'ssp': []},
      'weitzman_parameter': weitzman_parameters,
      'save_files': []}
 
+    class RiskAversionRecipe(dscim.menu.risk_aversion.RiskAversionRecipe):
+        @property
+        def damage_function_coefficients(self) -> xr.Dataset:
+            """
+            Load damage function coefficients if the coefficients are provided by the user.
+            Otherwise, compute them.
+            """
+            if self.damage_function_path is not None:
+                return xr.open_dataset(
+                    f"{self.damage_function_path}/{self.NAME}_{self.discounting_type}_eta{round(self.eta,3)}_rho{round(self.rho,3)}_dfc.nc4"
+                )
+            else:
+                return self.damage_function["params"]
+
     MENU_OPTIONS = {
         "adding_up": dscim.menu.baseline.Baseline,
-        "risk_aversion": dscim.menu.risk_aversion.RiskAversionRecipe,
+        "risk_aversion": RiskAversionRecipe,
         "equity": dscim.menu.equity.EquityRecipe,
     }
+
+    
     add_kwargs = {
         "econ_vars": econ_dom,
         "climate_vars": Climate(**conf["rff_climate"], pulse_year=pulse_year),
@@ -128,81 +223,35 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
         )     
     else:
         sccs = menu_item_global.discounted_damages(md,"constant").sum(dim="year").rename(marginal_damages = "scc")
-    gcnp = menu_item_global.global_consumption_no_pulse   
-    
-            # find machine name
-    machine_name = os.getenv("HOSTNAME")
-    if machine_name is None:
-        try:
-            machine_name = os.uname()[1]
-        except AttributeError:
-            machine_name = "unknown"
-    
-    # find git commit hash
-    try:
-        label = subprocess.check_output(["git", "describe", "--always"]).strip()
-    except CalledProcessError:
-        label = "unknown"
-    
-    meta = [{},{}]
-    
-    if domestic:
-        meta[0] = {"Author": "Climate Impact Lab",
-                   "Date Created": date.today().strftime("%d/%m/%Y"),
-                   "Units": "2019 PPP-adjusted USD"}
         
-        # update with git hash and machine name
-        meta[0].update(dict(machine=os.getenv("HOSTNAME"), commit=subprocess.check_output(["git", "describe", "--always"]).strip()))
-        
-        for attr_dict in [
-            vars(menu_item_domestic),
-            vars(vars(menu_item_domestic)["climate"]),
-            vars(vars(menu_item_domestic)["econ_vars"]),
-        ]:
-            meta[1].update(
-                {
-                    k: v
-                    for k, v in attr_dict.items()
-                    if (type(v) not in [xr.DataArray, xr.Dataset, pd.DataFrame])
-                    and k not in ["damage_function", "logger"]
-                }
-            )
-            
-        # convert to strs
-        meta[0] = {k: v if type(v) in [int, float] else str(v) for k, v in meta[0].items()}
-    
-    
-    meta[1] = {"Author": "Climate Impact Lab",
-               "Date Created": date.today().strftime("%d/%m/%Y"),
-               "Units": "2019 PPP-adjusted USD"}
-    
-    # update with git hash and machine name
-    meta[1].update(dict(machine=os.getenv("HOSTNAME"), commit=subprocess.check_output(["git", "describe", "--always"]).strip()))
-    
-    for attr_dict in [
-        vars(menu_item_global),
-        vars(vars(menu_item_global)["climate"]),
-        vars(vars(menu_item_global)["econ_vars"]),
-    ]:
-        meta[1].update(
-            {
-                k: v
-                for k, v in attr_dict.items()
-                if (type(v) not in [xr.DataArray, xr.Dataset, pd.DataFrame])
-                and k not in ["damage_function", "logger"]
-            }
-        )
-        
-    # convert to strs
-    meta[1] = {k: v if type(v) in [int, float] else str(v) for k, v in meta[1].items()}
+    if discount_type == "euler_ramsey":
+        gcnp = menu_item_global.global_consumption_no_pulse.rename('gcnp')
 
-        
-    if domestic:
-        sccs.attrs=meta[0]
-    else:
-        sccs.attrs=meta[1]
+        # Isolate population from socioeconomics
+        pop = xr.open_dataset(f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4").sel(region = 'world', drop = True).pop
        
-    return([sccs,gcnp])
+        # Calculate global consumption no pulse per population
+        a = xr.merge([pop, gcnp])  
+        ypv = a.gcnp/a.pop
+
+        # Create adjustment factor using adjustment.factor = (ypc^-eta)/mean(ypc^-eta)
+        c = np.power(ypv, -eta).sel(year = pulse_year, drop = True)
+        adj = (c/c.mean()).rename('adjustment_factor')
+
+        # Merge adjustments with uncollapsed sccs
+        adjustments = xr.merge([sccs,adj.to_dataset()])
+
+        # Multiply adjustment factors and sccs, then collapse and deflate to 2020 dollars
+        sccs_adjusted = (adjustments.adjustment_factor * adjustments.scc).mean(dim = 'runid') * 113.648/112.29
+    
+        # generate attrs           
+    if domestic:
+        meta=generate_attrs(menu_item_domestic)
+    else:
+        meta=generate_attrs(menu_item_global)
+
+    return([sccs_adjusted.rename('scc'),meta])
+
 
 # This represents the full gamut of scc runs when run default
 def epa_sccs(sectors =["CAMEL_m1_c0.20"],
@@ -218,6 +267,8 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
     master = Path(os.getcwd()) / "generated_conf.yml"
     with open(master, "r") as stream:
         conf = yaml.safe_load(stream)
+    
+    meta={}
 
     for j in risk_combos:
         all_arrays_uscc = []
@@ -244,31 +295,25 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
             if 'simulation' in df_scc_expanded.dims:
                 df_scc_expanded = df_scc_expanded.drop_vars('simulation')
             all_arrays_uscc = all_arrays_uscc + [df_scc_expanded]
-            
-            df_gcnp = df_single[1].assign_coords(eta_rho =  str(eta) + "_" + str(rho), menu_option = menu_option, pulse_year = pulse_year, sector = re.split("_",sector)[0])
-            df_gcnp_expanded = df_gcnp.expand_dims(['eta_rho','menu_option','pulse_year', 'sector'])
-            if 'simulation' in df_gcnp_expanded.dims:
-                df_gcnp_expanded = df_gcnp_expanded.drop_vars('simulation')
-            all_arrays_gcnp = all_arrays_gcnp + [df_gcnp_expanded]
-        
-        for attrs_keys in all_arrays_uscc[0].attrs.keys():
-            update = [all_arrays_uscc[0].attrs[attrs_keys]]
-            for ds_no in range(1,len(all_arrays_uscc)):
-                if all_arrays_uscc[ds_no].attrs[attrs_keys] not in update:
-                    update.append(all_arrays_uscc[ds_no].attrs[attrs_keys])
-                    for ds_no_update in range(ds_no+1):
-                        all_arrays_uscc[ds_no_update].attrs[attrs_keys] = update
 
-        df_full_scc = xr.combine_by_coords(all_arrays_uscc,combine_attrs='override')
+            if len(meta)==0:
+                meta.update(df_single[1])
+            else:
+                for attrs_keys in meta.keys():
+                    if str(df_single[1][attrs_keys]) not in str(meta[attrs_keys]):
+                        if type(meta[attrs_keys])!=list:
+                            update=[meta[attrs_keys]]
+                            update.append(df_single[1][attrs_keys])
+                            meta[attrs_keys]=update
+                        else:
+                            meta[attrs_keys].append(df_single[1][attrs_keys])
+
+        df_full_scc = xr.combine_by_coords(all_arrays_uscc)
+        df_full_scc.attrs=meta
         scc_path = Path(conf['save_path']) / sector / ("full_order_uncollapsed_sccs_" + menu_option + ".nc4")
         df_full_scc.to_netcdf(scc_path)    
         print(f"SCCs are available in {str(scc_path)}")
         
-        df_full_gcnp = xr.combine_by_coords(all_arrays_gcnp,combine_attrs='override')
-        gcnp_path = Path(conf['save_path']) / sector / ("full_order_global_consumption_no_pulse_" + menu_option + ".nc4")
-        df_full_gcnp.to_netcdf(gcnp_path) 
-        print(f"GCNP is available in {gcnp_path}")
-
 f = Figlet(font='slant')
 print(f.renderText('DSCIM'))
 
