@@ -14,13 +14,8 @@ def makedir(path):
         
     
 climate_inputs = input / "climate"
-makedir(climate_inputs)
-
 econ_inputs = input / "econ"
-makedir(econ_inputs)
-
 damage_functions = input / "damage_functions"
-makedir(damage_functions)
 
 
 conf_base = {'mortality_version': 1,
@@ -54,6 +49,8 @@ blob.download_to_filename('./dscim_v0.1.0_inputs.zip')
 
 with zipfile.ZipFile('./dscim_v0.1.0_inputs.zip', 'r') as zip_ref:
     zip_ref.extractall('.')
+
+os.rename(Path(base) / 'inputs', input)
 
 with open('generated_conf.yml', 'w') as outfile:
     yaml.dump(conf_base, outfile, default_flow_style=False)
