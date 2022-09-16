@@ -5,21 +5,21 @@ import zipfile
 from google.cloud import storage
 
 base = os.getcwd()
-inputs = Path(base) / "inputs"  
-outputs = Path(base) / "outputs"  
+input = Path(base) / "input"  
+output = Path(base) / "output"  
 
 def makedir(path):
     if not os.path.exists(path):
         os.makedirs(path)
         
     
-climate_inputs = inputs / "climate"
+climate_inputs = input / "climate"
 makedir(climate_inputs)
 
-econ_inputs = inputs / "econ"
+econ_inputs = input / "econ"
 makedir(econ_inputs)
 
-damage_functions = inputs / "damage_functions"
+damage_functions = input / "damage_functions"
 makedir(damage_functions)
 
 
@@ -43,25 +43,17 @@ conf_base = {'mortality_version': 1,
   'labor': {'formula': 'damages ~ -1 + anomaly + np.power(anomaly, 2)'},
   'AMEL_m1': {'formula': 'damages ~ -1 + anomaly + np.power(anomaly, 2)'},
   'CAMEL_m1_c0.20': {'formula': 'damages ~ -1 + anomaly + np.power(anomaly, 2) + gmsl + np.power(gmsl, 2)'}},
-  'save_path': str(outputs)}
-
-sectors = list(conf_base['sectors'].keys())
-for i in sectors:
-    makedir(outputs / i)
-    makedir(outputs / (i + "_USA"))
-        
+  'save_path': str(output)}
+  
 # Download inputs from internet  
 storage_client = storage.Client.create_anonymous_client()
 bucket = storage_client.bucket('climateimpactlab-scc-tool')
 
-
 blob = bucket.blob('dscim-epa_input_data/dscim_v0.1.0_inputs.zip')
 blob.download_to_filename('./dscim_v0.1.0_inputs.zip')
 
-
 with zipfile.ZipFile('./dscim_v0.1.0_inputs.zip', 'r') as zip_ref:
     zip_ref.extractall('.')
-
 
 with open('generated_conf.yml', 'w') as outfile:
     yaml.dump(conf_base, outfile, default_flow_style=False)
