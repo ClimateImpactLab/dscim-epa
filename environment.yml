@@ -29,7 +29,7 @@ dependencies:
   - nc-time-axis==1.4.1
   - jupyterlab_widgets==3.0.3
   - pip:
-      - dscim==0.1.0
+      - dscim==0.2.0
       - black==22.1.0
       - flake8==5.0.4
       - dill==0.3.5.1
