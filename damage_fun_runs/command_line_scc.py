@@ -170,7 +170,10 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
              risk_combos = [['risk_aversion', 'euler_ramsey']],
              pulse_years = [2020,2030,2040,2050,2060,2070,2080],
              weitzman_parameters = [0.5],
-             fair_aggregation = ["mean"]):
+             fair_aggregation = ["mean"],
+             gcnp = False,
+             uncollapsed = False):
+             
     master = Path(os.getcwd()) / "generated_conf.yml"
     with open(master, "r") as stream:
         conf = yaml.safe_load(stream)
@@ -353,7 +356,9 @@ epa_sccs(sector,
          domestic,
          etas_rhos,
          risk_combos,
-         pulse_years=pulse_years)
+         pulse_years=pulse_years,
+         gcnp = gcnp,
+         uncollapsed = uncollapsed)
 
 
 print(f"Full results are available in {str(Path(conf['save_path']))}")
