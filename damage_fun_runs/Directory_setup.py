@@ -2,7 +2,8 @@ import yaml
 import os
 from pathlib import Path
 import zipfile
-from google.cloud import storage
+from tqdm import *
+import requests
 
 base = os.getcwd()
 input = Path(base) / "input"  
@@ -41,14 +42,25 @@ conf_base = {'mortality_version': 1,
   'save_path': str(output)}
   
 # Download inputs from internet  
-storage_client = storage.Client.create_anonymous_client()
-bucket = storage_client.bucket('climateimpactlab-scc-tool')
+print("Downloading input files...")
+url = 'https://storage.googleapis.com/climateimpactlab-scc-tool/dscim-epa_input_data/dscim_v0.1.0_inputs.zip'
+name = 'dscim_v0.1.0_inputs.zip'
+with requests.get(url, stream = True) as r:
+    r.raise_for_status()
+    with open(name, 'wb') as f:
+        pbar = tqdm(total = int(r.headers['Content-Length']))
+        for chunk in r.iter_content(chunk_size=8192):
+            if chunk:  # filter out keep-alive new chunks
+                f.write(chunk)
+                pbar.update(len(chunk))
 
-blob = bucket.blob('dscim-epa_input_data/dscim_v0.1.0_inputs.zip')
-blob.download_to_filename('./dscim_v0.1.0_inputs.zip')
-
+print("Unzipping input files...")
 with zipfile.ZipFile('./dscim_v0.1.0_inputs.zip', 'r') as zip_ref:
-    zip_ref.extractall('.')
+    for member in tqdm(zip_ref.infolist()):
+        try:
+            zip_ref.extract(member, './')
+        except zipfile.error as e:
+            pass
 
 os.rename(Path(base) / 'inputs', input)
 

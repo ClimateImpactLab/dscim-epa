@@ -12,6 +12,9 @@ from pyfiglet import Figlet
 from pathlib import Path
 import os
 import re
+import subprocess
+from datetime import date
+
 
 master = Path(os.getcwd()) / "generated_conf.yml"
 try:
@@ -23,6 +26,102 @@ except FileNotFoundError:
 def makedir(path):
     if not os.path.exists(path):
         os.makedirs(path)
+def generate_meta(menu_item):
+    # find machine name
+    machine_name = os.getenv("HOSTNAME")
+    if machine_name is None:
+        try:
+            machine_name = os.uname()[1]
+        except AttributeError:
+            machine_name = "unknown"
+    
+    # find git commit hash
+    try:
+        label = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()
+    except CalledProcessError:
+        label = "unknown"
+    
+    meta = {"Author": "Climate Impact Lab",
+            "Date Created": date.today().strftime("%d/%m/%Y"),
+            "Units": "2020 PPP-adjusted USD"}
+    
+    for attr_dict in [
+        vars(menu_item),
+        vars(vars(menu_item)["climate"]),
+        vars(vars(menu_item)["econ_vars"]),
+    ]:
+        meta.update(
+            {
+                k: v
+                for k, v in attr_dict.items()
+                if (type(v) not in [xr.DataArray, xr.Dataset, pd.DataFrame])
+                and k not in ["damage_function", "logger"]
+            }
+        )
+
+    # update with git hash and machine name
+    meta.update(dict(machine=machine_name, commit=label,url="https://github.com/ClimateImpactLab/dscim-epa/commit/"+subprocess.check_output(['git','rev-parse','HEAD']).decode('ascii').strip()))
+
+    # convert to strs
+    meta = {k: v if type(v) in [int, float] else str(v) for k, v in meta.items()}
+    
+    
+    # exclude irrelevant attrs
+    irrelevant_keys = ['econ_vars',
+                       'climate',
+                       'subset_dict',
+                       'filename_suffix',
+                       'ext_subset_start_year',
+                       'ext_subset_end_year',
+                       'ext_end_year',
+                       'ext_method',
+                       'clip_gmsl',
+                       'scenario_dimensions',
+                       'scc_quantiles',
+                       'quantreg_quantiles',
+                       'quantreg_weights',
+                       'full_uncertainty_quantiles',
+                       'extrap_formula',
+                       'fair_dims',
+                       'sector_path',
+                       'save_files',
+                       'save_path',
+                       'delta',
+                       'histclim',
+                       'ce_path',
+                       'gmst_path',
+                       'gmsl_path']
+    for k in irrelevant_keys:
+        if k in meta.keys():
+            del meta[k]
+    
+    # adjust attrs
+    meta['emission_scenarios']='RFF-SPv2'
+    meta['damagefunc_base_period']=meta.pop('base_period')
+    meta['socioeconomics_path']=meta.pop('path')
+    
+    if domestic:
+        meta.update(discounting_socioeconomics_path=f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4")
+      
+    return meta
+
+
+# Merge attrs
+def merge_meta(attrs,meta):
+    if len(attrs)==0:
+        attrs.update(meta)
+    else:
+        for meta_keys in attrs.keys():
+            if str(meta[meta_keys]) not in str(attrs[meta_keys]):
+                if type(attrs[meta_keys])!=list:
+                    update=[attrs[meta_keys]]
+                    update.append(meta[meta_keys])
+                    attrs[meta_keys]=update
+                else:
+                    attrs[meta_keys].append(meta[meta_keys])
+    return attrs
+################################################################################
+
 
 def epa_scc(sector = "CAMEL_m1_c0.20",
             domestic = False,
@@ -30,9 +129,7 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
             rho = 0.0,
             pulse_year = 2020,
             discount_type = "euler_ramsey",
-            menu_option = "risk_aversion",
-            weitzman_parameters = [0.5],
-            fair_aggregation = ["mean"]):
+            menu_option = "risk_aversion"):
     
     master = Path(os.getcwd()) / "generated_conf.yml"
 
@@ -45,9 +142,9 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
     econ_glob = EconVars(
         path_econ=f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4"
     )
-    conf["global_parameters"] = {'fair_aggregation': fair_aggregation,
+    conf["global_parameters"] = {'fair_aggregation': ["uncollapsed"],
      'subset_dict': {'ssp': []},
-     'weitzman_parameter': weitzman_parameters,
+     'weitzman_parameter': [0.5],
      'save_files': []}
 
     class RiskAversionRecipe(dscim.menu.risk_aversion.RiskAversionRecipe):
@@ -94,9 +191,9 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
         ), f"{k} already set in config. Please check `global_parameters`."
         kwargs_domestic.update({k: v})
 
-    conf["global_parameters"] = {'fair_aggregation': fair_aggregation,
+    conf["global_parameters"] = {'fair_aggregation': ["uncollapsed"],
      'subset_dict': {'ssp': []},
-     'weitzman_parameter': weitzman_parameters,
+     'weitzman_parameter': [0.5],
      'save_files': []}
 
     add_kwargs = {
@@ -134,10 +231,10 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
     if menu_option == "risk_aversion":
         sccs = (
             (md.rename(marginal_damages = 'scc') * df.rename(discount_factor = 'scc'))
-            .sum("year")
+            .sum("year")* 113.648/112.29
         )     
     else:
-        sccs = menu_item_global.discounted_damages(md,"constant").sum(dim="year").rename(marginal_damages = "scc")
+        sccs = menu_item_global.discounted_damages(md,"constant").sum(dim="year").rename(marginal_damages = "scc")* 113.648/112.29
         
     if discount_type == "euler_ramsey":
         gcnp = menu_item_global.global_consumption_no_pulse.rename('gcnp')
@@ -155,28 +252,30 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
 
         # Merge adjustments with uncollapsed sccs
         adjustments = xr.merge([sccs,adj.to_dataset()])          
+    
+    # generate attrs           
+    if domestic:
+        meta = generate_meta(menu_item_domestic)
+    else:
+        meta = generate_meta(menu_item_global)
 
-        # Multiply adjustment factors and sccs, then collapse and deflate to 2020 dollars
-        sccs_adjusted = (adjustments.adjustment_factor * adjustments.scc) * 113.648/112.29
+    return([adjustments, gcnp* 113.648/112.29, meta])
 
-    return([sccs_adjusted.rename('scc'), gcnp])
 
-# This represents the full gamut of scc runs when run default
-def epa_sccs(sectors =["CAMEL_m1_c0.20"],
-             domestic = False,
-             etas_rhos = [[1.016010255, 9.149608e-05],
-               [1.244459066, 0.00197263997],
-               [1.421158116, 0.00461878399]],
-             risk_combos = [['risk_aversion', 'euler_ramsey']],
-             pulse_years = [2020,2030,2040,2050,2060,2070,2080],
-             weitzman_parameters = [0.5],
-             fair_aggregation = ["mean"],
+def epa_sccs(sectors,
+             domestic,
+             etas_rhos,
+             risk_combos = (('risk_aversion', 'euler_ramsey')),
+             pulse_years = (2020,2030,2040,2050,2060,2070,2080),
              gcnp = False,
              uncollapsed = False):
+
              
     master = Path(os.getcwd()) / "generated_conf.yml"
     with open(master, "r") as stream:
         conf = yaml.safe_load(stream)
+    
+    attrs={}
 
     for j, pulse_year in product(risk_combos, pulse_years):
         all_arrays_uscc = []
@@ -186,28 +285,35 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
         for i, sector in product(etas_rhos, sectors):
             eta = i[0]
             rho = i[1]
-            df_single_scc, df_single_gcnp = epa_scc(sector = sector,
+            df_single_scc, df_single_gcnp, meta = epa_scc(sector = sector,
                                         domestic = domestic,
                                         discount_type = discount_type,
                                         menu_option = menu_option,
                                         eta = eta,
                                         rho = rho,
-                                        pulse_year = pulse_year,
-                                        weitzman_parameters = weitzman_parameters,
-                                        fair_aggregation = fair_aggregation)
-
-            df_scc = df_single_scc.assign_coords(eta_rho =  str(eta) + "_" + str(rho), menu_option = menu_option, sector = re.split("_",sector)[0])
-            df_scc_expanded = df_scc.expand_dims(['eta_rho','menu_option', 'sector'])
+                                        pulse_year = pulse_year)
+            conversion_dict = {'1.016010255_9.149608e-05': '1.5% Ramsey',
+            '1.244459066_0.00197263997': '2.0% Ramsey',
+            '1.421158116_0.00461878399': '2.5% Ramsey'}
+            df_scc = df_single_scc.assign_coords(discount_rate =  conversion_dict[str(eta) + "_" + str(rho)], menu_option = menu_option, sector = re.split("_",sector)[0])
+            df_scc_expanded = df_scc.expand_dims(['discount_rate','menu_option', 'sector'])
             if 'simulation' in df_scc_expanded.dims:
                 df_scc_expanded = df_scc_expanded.drop_vars('simulation')
             all_arrays_uscc = all_arrays_uscc + [df_scc_expanded]
 
+            df_gcnp = df_single_gcnp.assign_coords(discount_rate =  conversion_dict[str(eta) + "_" + str(rho)], menu_option = menu_option, sector = re.split("_",sector)[0])
+            df_gcnp_expanded = df_gcnp.expand_dims(['discount_rate','menu_option', 'sector'])
+            if 'simulation' in df_gcnp_expanded.dims:
+                df_gcnp_expanded = df_gcnp_expanded.drop_vars('simulation')
+            all_arrays_gcnp = all_arrays_gcnp + [df_gcnp_expanded]    
+        
+            attrs = merge_meta(attrs,meta)
+
+
         df_full_scc = xr.combine_by_coords(all_arrays_uscc)
         df_full_gcnp = xr.combine_by_coords(all_arrays_gcnp)
 
-        # Save adjustments as uncollapsed sccs somewhere
         sector_short = re.split("_",sector)[0]
-
         gases = ['CO2_Fossil','CH4', 'N2O']
         if uncollapsed:    
             for gas in gases:
@@ -215,27 +321,32 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
                 makedir(out_dir)
                 uncollapsed_gas_sccs = df_full_scc.sel(gas = gas, drop = True).to_dataframe().reindex()
                 uncollapsed_gas_sccs.to_csv(out_dir / f"sc-{gas}-dscim-{sector_short}-{pulse_year}-n10000.csv")
+                attrs_save = attrs.copy()
+                attrs_save['gases'] = gas
+                with open(out_dir / "attributes.txt", 'w') as f: 
+                    for key, value in attrs_save.items(): 
+                        f.write('%s:%s\n' % (key, value))
 
-        df_full_scc = df_full_scc.mean(dim = 'runid')
+        df_full_scc = (df_full_scc.adjustment_factor * df_full_scc.scc).mean(dim = 'runid')
+
         for gas in gases:
             out_dir = Path(conf['save_path']) / 'scghgs'   
             makedir(out_dir)
-            collapsed_gas_scc = df_full_scc.sel(gas = gas, drop = True).to_dataframe().reindex()    
-            collapsed_gas_scc.to_csv(out_dir / f"sc-{gas}-dscim-{sector_short}-{pulse_year}.csv")  
-    
-    df_gcnp = df_single_gcnp.assign_coords(eta_rho =  str(eta) + "_" + str(rho), menu_option = menu_option, sector = re.split("_",sector)[0])
-    df_gcnp_expanded = df_gcnp.expand_dims(['eta_rho','menu_option', 'sector'])
-    if 'simulation' in df_gcnp_expanded.dims:
-        df_gcnp_expanded = df_gcnp_expanded.drop_vars('simulation')
-    all_arrays_gcnp = all_arrays_gcnp + [df_gcnp_expanded]          
-
+            collapsed_gas_scc = df_full_scc.sel(gas = gas, drop = True).rename('scc').to_dataframe().reindex()    
+            collapsed_gas_scc.to_csv(out_dir / f"sc-{gas}-dscim-{sector_short}-{pulse_year}.csv") 
+            
+        with open(out_dir / "attributes.txt", 'w') as f: 
+            for key, value in attrs.items(): 
+                f.write('%s:%s\n' % (key, value))
+        
     if gcnp:
         out_dir = Path(conf['save_path']) / 'gcnp' 
         makedir(out_dir)
+        df_full_gcnp.attrs=attrs
         df_full_gcnp.to_netcdf(out_dir / f"gcnp-dscim-{sector_short}.nc4")  
         print(f"gcnp is available in {str(out_dir)}")
 
-    print(f"SCCs are available in {str(out_dir)}")
+    print(f"SCGHGs are available in {str(out_dir)}")
    
 
         
@@ -258,23 +369,19 @@ questions = [
         ],
         default = ['CAMEL_m1_c0']),
     inquirer.Checkbox("eta_rhos",
-        message= 'Select [eta, rho]',
+        message= 'Select discount rates',
         choices= [
             (
-                '(1.5% target) [1.016010255, 9.149608e-05]',
+                '1.5% Ramsey',
                 [1.016010255, 9.149608e-05]
             ),
             (
-                '(2.0% target) [1.244459066, 0.00197263997]',
+                '2.0% Ramsey',
                 [1.244459066, 0.00197263997]
             ),
             (
-                '(2.5% target) [1.421158116, 0.00461878399]',
+                '2.5% Ramsey',
                 [1.421158116, 0.00461878399]
-            ),
-            (
-                '(3.0% target) [1.567899395, 0.00770271076]',
-                [1.567899395, 0.00770271076]
             ),
     ],
         default = [[1.016010255, 9.149608e-05],
@@ -351,7 +458,6 @@ if len(etas_rhos) == 0:
 
 risk_combos = [['risk_aversion', 'euler_ramsey']] # Default
 gases = ['CO2_Fossil', 'CH4', 'N2O'] # Default
-weitzman_parameters = [0.5] # Default
 epa_sccs(sector,
          domestic,
          etas_rhos,
