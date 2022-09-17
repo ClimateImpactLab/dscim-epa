@@ -40,9 +40,9 @@ python damage_fun_runs/Directory_setup.py
 
 Note that this will download several gigabytes of data and may take several minutes, depending on your connection speed.
 
-## Running SCCs
+## Running SCGHGs
 
-After setting up your environment and the input data, you can run SCCs under different conditions with
+After setting up your environment and the input data, you can run SCGHG calculations under different conditions with
 
 ```bash
 python damage_fun_runs/command_line_scc.py
@@ -52,27 +52,27 @@ and follow the on-screen prompts. When the selector is a carrot, you may only se
 
 ### Command line options
 
-Below is a short summary of what each command line option does. To view a more detailed description of what the run parameters do, see the Documentation for Data-driven Spatial Climate Impact Model (DSCIM) document. 
+Below is a short summary of what each command line option does. To view a more detailed description of what the run parameters do, see the [Documentation](https://impactlab.org/research/dscim-user-manual-version-092022-epa) for Data-driven Spatial Climate Impact Model (DSCIM). 
 
 #### Sector
 
-You may only select one sector per run. Sectors represent the partial SCGHGs of your chosen sector.
+The user may only select one sector per run. Sectors represent the combined SCGHG or partial SCGHGs of the chosen sector.
 
 #### Discount rate
 
-These runs use endogenous Ramsey discounting that are targeted to begin at the respective discount rates. 
+These runs use endogenous Ramsey discounting that are targeted to begin at the chosen near-term discount rate(s). 
 
 #### Pulse years
 
-Pulse year represents the SCGHG for a tonne pulse emitted in the chosen pulse year. 
+Pulse year represents the SCGHG for a pulse of greenhouse gas (GHG) emitted in the chosen pulse year(s). 
 
-#### Valuation type
+#### Domain of damages
 
-@Kelly domestic vs global...
+The default is a global SCGHG accounting for global damages in response to a pulse of GHG. The user has the option to instead compute a domestic SCGHG accounting only for United States damages.
 
 #### Optional files
 
-By default, the script will produce SCGHGs with a mean across the simulations of economics and climate as a `.csv`. The user has the option to save all the SCGHGs without the mean as a `.csv` and the option to save global consumption no pulse as a netcdf `.nc4` file.
+By default, the script will produce the expected SCGHGs as a `.csv`. The user also has the option to save the full distribution of SCGHGs -- across emissions, socioeconomics, and climate uncertainty -- as a `.csv`, and the option to save global consumption net of baseline climate damages ("global_consumption_no_pulse") as a netcdf `.nc4` file.
 
 
 ## Structure and logic
