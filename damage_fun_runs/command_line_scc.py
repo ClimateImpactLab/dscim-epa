@@ -142,7 +142,7 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
     econ_glob = EconVars(
         path_econ=f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4"
     )
-    conf["global_parameters"] = {'fair_aggregation': [],
+    conf["global_parameters"] = {'fair_aggregation': ["uncollapsed"],
      'subset_dict': {'ssp': []},
      'weitzman_parameter': [0.5],
      'save_files': []}
@@ -191,7 +191,7 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
         ), f"{k} already set in config. Please check `global_parameters`."
         kwargs_domestic.update({k: v})
 
-    conf["global_parameters"] = {'fair_aggregation': [],
+    conf["global_parameters"] = {'fair_aggregation': ["uncollapsed"],
      'subset_dict': {'ssp': []},
      'weitzman_parameter': [0.5],
      'save_files': []}
