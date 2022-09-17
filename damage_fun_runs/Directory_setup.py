@@ -1,37 +1,30 @@
 import yaml
 import os
-import shutil
 from pathlib import Path
-from io import BytesIO
-from urllib.request import urlopen
-from zipfile import ZipFile
+import zipfile
+from google.cloud import storage
 
 base = os.getcwd()
-inputs = Path(base) / "inputs"  
-outputs = Path(base) / "outputs"  
+input = Path(base) / "input"  
+output = Path(base) / "output"  
 
 def makedir(path):
     if not os.path.exists(path):
         os.makedirs(path)
         
     
-climate_inputs = inputs / "climate"
-makedir(climate_inputs)
-
-econ_inputs = inputs / "econ"
-makedir(econ_inputs)
-
-damage_functions = inputs / "damage_functions"
-makedir(damage_functions)
+climate_inputs = input / "climate"
+econ_inputs = input / "econ"
+damage_functions = input / "damage_functions"
 
 
 conf_base = {'mortality_version': 1,
  'coastal_version': '0.20',
  'rff_climate': {'gases': ['CO2_Fossil', 'CH4', 'N2O'],
-  'gmsl_path': str(climate_inputs / 'coastal_gmsl_v0.20.zarr'),
-  'gmst_path': str(climate_inputs / 'GMTanom_all_temp_2001_2010_smooth.csv'),
-  'gmst_fair_path': str(climate_inputs / 'ar6_rff_fair162_control_pulse_all_gases_2020-2030-2040-2050-2060-2070-2080_emis_conc_rf_temp_lambdaeff_ohc_emissions-driven_naturalfix_v5.03_Feb072022.nc'),
-  'gmsl_fair_path': str(climate_inputs / 'rffar6_rff_iter0-19_fair162_control_pulse_2020-2030-2040-2050-2060-2070-2080_gmsl_emissions-driven_naturalfix_v5.03_Feb072022.zarr'),
+  'gmsl_path': '',
+  'gmst_path': '',
+  'gmst_fair_path': str(climate_inputs / 'gmst_pulse.nc'),
+  'gmsl_fair_path': str(climate_inputs / 'gmsl_pulse.zarr'),
   'damages_pulse_conversion_path': str(climate_inputs / 'conversion_v5.03_Feb072022.nc4'),
   'ecs_mask_path': None,
   'emission_scenarios': None},
@@ -45,30 +38,19 @@ conf_base = {'mortality_version': 1,
   'labor': {'formula': 'damages ~ -1 + anomaly + np.power(anomaly, 2)'},
   'AMEL_m1': {'formula': 'damages ~ -1 + anomaly + np.power(anomaly, 2)'},
   'CAMEL_m1_c0.20': {'formula': 'damages ~ -1 + anomaly + np.power(anomaly, 2) + gmsl + np.power(gmsl, 2)'}},
-  'save_path': str(outputs)}
-
-sectors = list(conf_base['sectors'].keys())
-for i in sectors:
-    makedir(outputs / i)
-    makedir(outputs / (i + "_USA"))
-        
+  'save_path': str(output)}
+  
 # Download inputs from internet  
-zipurl = 'https://storage.googleapis.com/climateimpactlab-scc-tool/dscim_input_data/dscim_input_data_v1.0.0.zip'
-with urlopen(zipurl) as zipresp:
-    with ZipFile(BytesIO(zipresp.read())) as zfile:
-        zfile.extractall(base)
+storage_client = storage.Client.create_anonymous_client()
+bucket = storage_client.bucket('climateimpactlab-scc-tool')
 
-downloaded_file_name = next(os.walk(base))[1][0]
-file_names = os.listdir(os.path.join(base, downloaded_file_name))
-for file_name in file_names:
-    if os.path.exists(os.path.join(base, 'inputs',file_name)):
-        shutil.rmtree(os.path.join(base, 'inputs',file_name))
-        shutil.move(os.path.join(base,downloaded_file_name,file_name),os.path.join(base, 'inputs'))
-    else:
-        shutil.move(os.path.join(base,downloaded_file_name,file_name),os.path.join(base, 'inputs'))
-shutil.rmtree(os.path.join(base,downloaded_file_name))
+blob = bucket.blob('dscim-epa_input_data/dscim_v0.1.0_inputs.zip')
+blob.download_to_filename('./dscim_v0.1.0_inputs.zip')
 
-        
+with zipfile.ZipFile('./dscim_v0.1.0_inputs.zip', 'r') as zip_ref:
+    zip_ref.extractall('.')
+
+os.rename(Path(base) / 'inputs', input)
+
 with open('generated_conf.yml', 'w') as outfile:
     yaml.dump(conf_base, outfile, default_flow_style=False)
-

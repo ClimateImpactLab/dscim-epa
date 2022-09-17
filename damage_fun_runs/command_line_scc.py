@@ -26,8 +26,6 @@ except FileNotFoundError:
 def makedir(path):
     if not os.path.exists(path):
         os.makedirs(path)
-
-##################################################### Meta Generation and Ajustment: Should be somewhere else
 def generate_meta(menu_item):
     # find machine name
     machine_name = os.getenv("HOSTNAME")
@@ -123,6 +121,7 @@ def merge_meta(attrs,meta):
                     attrs[meta_keys].append(meta[meta_keys])
     return attrs
 ################################################################################
+
 
 def epa_scc(sector = "CAMEL_m1_c0.20",
             domestic = False,
@@ -277,8 +276,9 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
              pulse_years = [2020,2030,2040,2050,2060,2070,2080],
              weitzman_parameters = [0.5],
              fair_aggregation = ["mean"],
-             gcnp = True,
-             uncollapsed = True):
+             gcnp = False,
+             uncollapsed = False):
+
              
     master = Path(os.getcwd()) / "generated_conf.yml"
     with open(master, "r") as stream:
@@ -317,6 +317,7 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
             all_arrays_gcnp = all_arrays_gcnp + [df_gcnp_expanded]    
         
             attrs = merge_meta(attrs,meta)
+
 
         df_full_scc = xr.combine_by_coords(all_arrays_uscc)
         df_full_gcnp = xr.combine_by_coords(all_arrays_gcnp)
