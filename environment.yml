@@ -5,12 +5,11 @@ channels:
 dependencies:
   - google-cloud-storage==2.5.0
   - statsmodels==0.13.2
-  - python==3.8
+  - python==3.9
   - pyfiglet==0.8.post1
   - pip==22.2.2
   - xarray==2022.6.0
   - pandas==1.4.3
-  - pandoc==2.19.2
   - numpy==1.23.3
   - scipy==1.9.1
   - jupyterlab==3.4.7
