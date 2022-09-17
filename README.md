@@ -56,7 +56,7 @@ Below is a short summary of what each command line option does. To view a more d
 
 #### Sector
 
-You may only select one sector per run. Sectors represent the SCGHGs to your chosen sector.
+You may only select one sector per run. Sectors represent the partial SCGHGs of your chosen sector.
 
 #### Discount rate
 
