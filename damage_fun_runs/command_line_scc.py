@@ -129,9 +129,7 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
             rho = 0.0,
             pulse_year = 2020,
             discount_type = "euler_ramsey",
-            menu_option = "risk_aversion",
-            weitzman_parameters = [0.5],
-            fair_aggregation = ["mean"]):
+            menu_option = "risk_aversion"):
     
     master = Path(os.getcwd()) / "generated_conf.yml"
 
@@ -144,9 +142,9 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
     econ_glob = EconVars(
         path_econ=f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4"
     )
-    conf["global_parameters"] = {'fair_aggregation': fair_aggregation,
+    conf["global_parameters"] = {'fair_aggregation': [],
      'subset_dict': {'ssp': []},
-     'weitzman_parameter': weitzman_parameters,
+     'weitzman_parameter': [0.5],
      'save_files': []}
 
     class RiskAversionRecipe(dscim.menu.risk_aversion.RiskAversionRecipe):
@@ -193,9 +191,9 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
         ), f"{k} already set in config. Please check `global_parameters`."
         kwargs_domestic.update({k: v})
 
-    conf["global_parameters"] = {'fair_aggregation': fair_aggregation,
+    conf["global_parameters"] = {'fair_aggregation': [],
      'subset_dict': {'ssp': []},
-     'weitzman_parameter': weitzman_parameters,
+     'weitzman_parameter': [0.5],
      'save_files': []}
 
     add_kwargs = {
@@ -264,15 +262,11 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
     return([adjustments, gcnp* 113.648/112.29, meta])
 
 
-def epa_sccs(sectors =["CAMEL_m1_c0.20"],
-             domestic = False,
-             etas_rhos = [[1.016010255, 9.149608e-05],
-               [1.244459066, 0.00197263997],
-               [1.421158116, 0.00461878399]],
-             risk_combos = [['risk_aversion', 'euler_ramsey']],
-             pulse_years = [2020,2030,2040,2050,2060,2070,2080],
-             weitzman_parameters = [0.5],
-             fair_aggregation = ["mean"],
+def epa_sccs(sectors,
+             domestic,
+             etas_rhos,
+             risk_combos = (('risk_aversion', 'euler_ramsey')),
+             pulse_years = (2020,2030,2040,2050,2060,2070,2080),
              gcnp = False,
              uncollapsed = False):
 
@@ -297,13 +291,10 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
                                         menu_option = menu_option,
                                         eta = eta,
                                         rho = rho,
-                                        pulse_year = pulse_year,
-                                        weitzman_parameters = weitzman_parameters,
-                                        fair_aggregation = fair_aggregation)
+                                        pulse_year = pulse_year)
             conversion_dict = {'1.016010255_9.149608e-05': '1.5% Ramsey',
             '1.244459066_0.00197263997': '2.0% Ramsey',
-            '1.421158116_0.00461878399': '2.5% Ramsey',
-            '1.567899395_0.00770271076': '3.0% Ramsey'}
+            '1.421158116_0.00461878399': '2.5% Ramsey'}
             df_scc = df_single_scc.assign_coords(discount_rate =  conversion_dict[str(eta) + "_" + str(rho)], menu_option = menu_option, sector = re.split("_",sector)[0])
             df_scc_expanded = df_scc.expand_dims(['discount_rate','menu_option', 'sector'])
             if 'simulation' in df_scc_expanded.dims:
@@ -355,7 +346,7 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
         df_full_gcnp.to_netcdf(out_dir / f"gcnp-dscim-{sector_short}.nc4")  
         print(f"gcnp is available in {str(out_dir)}")
 
-    print(f"SCCs are available in {str(out_dir)}")
+    print(f"SCGHGs are available in {str(out_dir)}")
    
 
         
@@ -391,10 +382,6 @@ questions = [
             (
                 '2.5% Ramsey',
                 [1.421158116, 0.00461878399]
-            ),
-            (
-                '3.0% Ramsey',
-                [1.567899395, 0.00770271076]
             ),
     ],
         default = [[1.016010255, 9.149608e-05],
@@ -471,7 +458,6 @@ if len(etas_rhos) == 0:
 
 risk_combos = [['risk_aversion', 'euler_ramsey']] # Default
 gases = ['CO2_Fossil', 'CH4', 'N2O'] # Default
-weitzman_parameters = [0.5] # Default
 epa_sccs(sector,
          domestic,
          etas_rhos,
