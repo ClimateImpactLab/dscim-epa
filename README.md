@@ -48,7 +48,31 @@ After setting up your environment and the input data, you can run SCCs under dif
 python damage_fun_runs/command_line_scc.py
 ```
 
-and follow the on-screen prompts.
+and follow the on-screen prompts. When the selector is a carrot, you may only select one option. Use the arrow keys on your keyboard to highlight your desired option and click enter to submit. When you are presented with `X` and `o` selectors, you may use the spacebar to select (`X`) or deselect (`o`) then click enter to submit once you have chosen your desired number of parameters. Once you have completed all of the options, the DSCIM run will begin.
+
+### Command line options
+
+Below is a short summary of what each command line option does. To view a more detailed description of what the run parameters do, see the Documentation for Data-driven Spatial Climate Impact Model (DSCIM) document. 
+
+#### Sector
+
+You may only select one sector per run. Sectors represent the SCGHGs to your chosen sector.
+
+#### Discount rate
+
+These runs use endogenous Ramsey discounting that are targeted to begin at the respective discount rates. 
+
+#### Pulse years
+
+Pulse year represents the SCGHG for a tonne pulse emitted in the chosen pulse year. 
+
+#### Valuation type
+
+@Kelly domestic vs global...
+
+#### Optional files
+
+By default, the script will produce SCGHGs with a mean across the simulations of economics and climate as a `.csv`. The user has the option to save all the SCGHGs without the mean as a `.csv` and the option to save global consumption no pulse as a netcdf `.nc4` file.
 
 
 ## Structure and logic
