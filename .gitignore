@@ -131,3 +131,8 @@ dmypy.json
 *.nc4
 *.nc
 *.zarr
+*.zip
+damage_fun_runs/input/*
+damage_fun_runs/output/*
+attributes.txt
+generated_conf.yml
