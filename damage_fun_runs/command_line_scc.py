@@ -233,10 +233,10 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
     if menu_option == "risk_aversion":
         sccs = (
             (md.rename(marginal_damages = 'scc') * df.rename(discount_factor = 'scc'))
-            .sum("year")
+            .sum("year")* 113.648/112.29
         )     
     else:
-        sccs = menu_item_global.discounted_damages(md,"constant").sum(dim="year").rename(marginal_damages = "scc")
+        sccs = menu_item_global.discounted_damages(md,"constant").sum(dim="year").rename(marginal_damages = "scc")* 113.648/112.29
         
     if discount_type == "euler_ramsey":
         gcnp = menu_item_global.global_consumption_no_pulse.rename('gcnp')
@@ -254,9 +254,6 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
 
         # Merge adjustments with uncollapsed sccs
         adjustments = xr.merge([sccs,adj.to_dataset()])          
-
-        # Multiply adjustment factors and sccs, then collapse and deflate to 2020 dollars
-        sccs_adjusted = (adjustments.adjustment_factor * adjustments.scc) * 113.648/112.29
     
     # generate attrs           
     if domestic:
@@ -264,7 +261,7 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
     else:
         meta = generate_meta(menu_item_global)
 
-    return([sccs_adjusted.rename('scc'), gcnp, meta])
+    return([adjustments, gcnp* 113.648/112.29, meta])
 
 
 def epa_sccs(sectors =["CAMEL_m1_c0.20"],
@@ -325,9 +322,7 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
         df_full_scc = xr.combine_by_coords(all_arrays_uscc)
         df_full_gcnp = xr.combine_by_coords(all_arrays_gcnp)
 
-        # Save adjustments as uncollapsed sccs somewhere
         sector_short = re.split("_",sector)[0]
-
         gases = ['CO2_Fossil','CH4', 'N2O']
         if uncollapsed:    
             for gas in gases:
@@ -341,12 +336,12 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
                     for key, value in attrs_save.items(): 
                         f.write('%s:%s\n' % (key, value))
 
+        df_full_scc = (df_full_scc.adjustment_factor * df_full_scc.scc).mean(dim = 'runid')
 
-        df_full_scc = df_full_scc.mean(dim = 'runid')
         for gas in gases:
             out_dir = Path(conf['save_path']) / 'scghgs'   
             makedir(out_dir)
-            collapsed_gas_scc = df_full_scc.sel(gas = gas, drop = True).to_dataframe().reindex()    
+            collapsed_gas_scc = df_full_scc.sel(gas = gas, drop = True).rename('scc').to_dataframe().reindex()    
             collapsed_gas_scc.to_csv(out_dir / f"sc-{gas}-dscim-{sector_short}-{pulse_year}.csv") 
             
         with open(out_dir / "attributes.txt", 'w') as f: 
