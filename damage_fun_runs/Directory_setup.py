@@ -62,6 +62,11 @@ with zipfile.ZipFile('./dscim_v0.1.0_inputs.zip', 'r') as zip_ref:
         except zipfile.error as e:
             pass
 
+if os.path.exists("./dscim_v0.1.0_inputs.zip"):
+    os.remove("./dscim_v0.1.0_inputs.zip")
+else:
+    print("Download Failed")
+
 os.rename(Path(base) / 'inputs', input)
 
 with open('generated_conf.yml', 'w') as outfile:
