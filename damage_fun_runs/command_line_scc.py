@@ -303,15 +303,18 @@ def epa_sccs(sectors =["CAMEL_m1_c0.20"],
                                         pulse_year = pulse_year,
                                         weitzman_parameters = weitzman_parameters,
                                         fair_aggregation = fair_aggregation)
-
-            df_scc = df_single_scc.assign_coords(eta_rho =  str(eta) + "_" + str(rho), menu_option = menu_option, sector = re.split("_",sector)[0])
-            df_scc_expanded = df_scc.expand_dims(['eta_rho','menu_option', 'sector'])
+            conversion_dict = {'1.016010255_9.149608e-05': '1.5% Ramsey',
+            '1.244459066_0.00197263997': '2.0% Ramsey',
+            '1.421158116_0.00461878399': '2.5% Ramsey',
+            '1.567899395_0.00770271076': '3.0% Ramsey'}
+            df_scc = df_single_scc.assign_coords(discount_rate =  conversion_dict[str(eta) + "_" + str(rho)], menu_option = menu_option, sector = re.split("_",sector)[0])
+            df_scc_expanded = df_scc.expand_dims(['discount_rate','menu_option', 'sector'])
             if 'simulation' in df_scc_expanded.dims:
                 df_scc_expanded = df_scc_expanded.drop_vars('simulation')
             all_arrays_uscc = all_arrays_uscc + [df_scc_expanded]
 
-            df_gcnp = df_single_gcnp.assign_coords(eta_rho =  str(eta) + "_" + str(rho), menu_option = menu_option, sector = re.split("_",sector)[0])
-            df_gcnp_expanded = df_gcnp.expand_dims(['eta_rho','menu_option', 'sector'])
+            df_gcnp = df_single_gcnp.assign_coords(discount_rate =  conversion_dict[str(eta) + "_" + str(rho)], menu_option = menu_option, sector = re.split("_",sector)[0])
+            df_gcnp_expanded = df_gcnp.expand_dims(['discount_rate','menu_option', 'sector'])
             if 'simulation' in df_gcnp_expanded.dims:
                 df_gcnp_expanded = df_gcnp_expanded.drop_vars('simulation')
             all_arrays_gcnp = all_arrays_gcnp + [df_gcnp_expanded]    
@@ -380,22 +383,22 @@ questions = [
         ],
         default = ['CAMEL_m1_c0']),
     inquirer.Checkbox("eta_rhos",
-        message= 'Select [eta, rho]',
+        message= 'Select discount rates',
         choices= [
             (
-                '(1.5% target) [1.016010255, 9.149608e-05]',
+                '1.5% Ramsey',
                 [1.016010255, 9.149608e-05]
             ),
             (
-                '(2.0% target) [1.244459066, 0.00197263997]',
+                '2.0% Ramsey',
                 [1.244459066, 0.00197263997]
             ),
             (
-                '(2.5% target) [1.421158116, 0.00461878399]',
+                '2.5% Ramsey',
                 [1.421158116, 0.00461878399]
             ),
             (
-                '(3.0% target) [1.567899395, 0.00770271076]',
+                '3.0% Ramsey',
                 [1.567899395, 0.00770271076]
             ),
     ],
