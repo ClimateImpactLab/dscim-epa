@@ -6,7 +6,6 @@ import pandas as pd
 import numpy as np
 from itertools import product
 from pathlib import Path
-
 import inquirer
 from pyfiglet import Figlet
 from pathlib import Path
@@ -23,9 +22,18 @@ try:
 except FileNotFoundError:
     raise FileNotFoundError("Please run Directory_setup.py or place the config in your current working directory")
 
+discount_conversion_dict = {'1.016010255_9.149608e-05': '1.5% Ramsey',
+                            '1.244459066_0.00197263997': '2.0% Ramsey',
+                            '1.421158116_0.00461878399': '2.5% Ramsey'}   
+gas_conversion_dict = {'CO2_Fossil':'CO2',
+                       'N2O':'N2O',
+                       'CH4':'CH4'} 
+    
 def makedir(path):
     if not os.path.exists(path):
         os.makedirs(path)
+        
+        
 def generate_meta(menu_item):
     # find machine name
     machine_name = os.getenv("HOSTNAME")
@@ -96,12 +104,20 @@ def generate_meta(menu_item):
             del meta[k]
     
     # adjust attrs
-    meta['emission_scenarios']='RFF-SPv2'
-    meta['damagefunc_base_period']=meta.pop('base_period')
-    meta['socioeconomics_path']=meta.pop('path')
+    meta['emission_scenarios'] = 'RFF-SPv2'
+    meta['damagefunc_base_period'] = meta.pop('base_period')
+    meta['socioeconomics_path'] = meta.pop('path')    
+    meta['gases'] = meta['gases'].split("'")
+    meta['gases'] = [e for e in meta['gases'] if e not in (', ','[',']')]
+    meta['gases'] = [gas_conversion_dict[gas] for gas in meta['gases']]
     
+    if meta['sector']=='CAMEL_m1_c0.20':
+        meta['sector'] = 'Combined'
+    else:
+        meta['sector'] = re.split("_",meta['sector'])[0] 
+        
     if domestic:
-        meta.update(discounting_socioeconomics_path=f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4")
+        meta.update(discounting_socioeconomics_path = f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4")
       
     return meta
 
@@ -114,16 +130,16 @@ def merge_meta(attrs,meta):
         for meta_keys in attrs.keys():
             if str(meta[meta_keys]) not in str(attrs[meta_keys]):
                 if type(attrs[meta_keys])!=list:
-                    update=[attrs[meta_keys]]
+                    update = [attrs[meta_keys]]
                     update.append(meta[meta_keys])
-                    attrs[meta_keys]=update
+                    attrs[meta_keys] = update
                 else:
                     attrs[meta_keys].append(meta[meta_keys])
     return attrs
 ################################################################################
 
 
-def epa_scc(sector = "CAMEL_m1_c0.20",
+def epa_scghg(sector = "CAMEL_m1_c0.20",
             domestic = False,
             eta = 2.0,
             rho = 0.0,
@@ -229,12 +245,12 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
         md = menu_item_global.uncollapsed_marginal_damages
 
     if menu_option == "risk_aversion":
-        sccs = (
-            (md.rename(marginal_damages = 'scc') * df.rename(discount_factor = 'scc'))
+        scghgs = (
+            (md.rename(marginal_damages = 'scghg') * df.rename(discount_factor = 'scghg'))
             .sum("year")* 113.648/112.29
         )     
     else:
-        sccs = menu_item_global.discounted_damages(md,"constant").sum(dim="year").rename(marginal_damages = "scc")* 113.648/112.29
+        scghgs = menu_item_global.discounted_damages(md,"constant").sum(dim="year").rename(marginal_damages = "scghg")* 113.648/112.29
         
     if discount_type == "euler_ramsey":
         gcnp = menu_item_global.global_consumption_no_pulse.rename('gcnp')
@@ -250,8 +266,8 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
         c = np.power(ypv, -eta).sel(year = pulse_year, drop = True)
         adj = (c/c.mean()).rename('adjustment_factor')
 
-        # Merge adjustments with uncollapsed sccs
-        adjustments = xr.merge([sccs,adj.to_dataset()])          
+        # Merge adjustments with uncollapsed scghgs
+        adjustments = xr.merge([scghgs,adj.to_dataset()])          
     
     # generate attrs           
     if domestic:
@@ -262,7 +278,7 @@ def epa_scc(sector = "CAMEL_m1_c0.20",
     return([adjustments, gcnp* 113.648/112.29, meta])
 
 
-def epa_sccs(sectors,
+def epa_scghgs(sectors,
              domestic,
              etas_rhos,
              risk_combos = (('risk_aversion', 'euler_ramsey')),
@@ -270,72 +286,82 @@ def epa_sccs(sectors,
              gcnp = False,
              uncollapsed = False):
 
-             
+            
     master = Path(os.getcwd()) / "generated_conf.yml"
     with open(master, "r") as stream:
         conf = yaml.safe_load(stream)
-    
+        
     attrs={}
 
     for j, pulse_year in product(risk_combos, pulse_years):
-        all_arrays_uscc = []
+        all_arrays_uscghg = []
         all_arrays_gcnp = []
         discount_type= j[1]
         menu_option = j[0]
         for i, sector in product(etas_rhos, sectors):
+            
+            if sector=="CAMEL_m1_c0.20":
+                sector_short = "combined"
+            else:
+                sector_short = re.split("_",sector)[0]
+                
             eta = i[0]
             rho = i[1]
-            df_single_scc, df_single_gcnp, meta = epa_scc(sector = sector,
-                                        domestic = domestic,
-                                        discount_type = discount_type,
-                                        menu_option = menu_option,
-                                        eta = eta,
-                                        rho = rho,
-                                        pulse_year = pulse_year)
-            conversion_dict = {'1.016010255_9.149608e-05': '1.5% Ramsey',
-            '1.244459066_0.00197263997': '2.0% Ramsey',
-            '1.421158116_0.00461878399': '2.5% Ramsey'}
-            df_scc = df_single_scc.assign_coords(discount_rate =  conversion_dict[str(eta) + "_" + str(rho)], menu_option = menu_option, sector = re.split("_",sector)[0])
-            df_scc_expanded = df_scc.expand_dims(['discount_rate','menu_option', 'sector'])
-            if 'simulation' in df_scc_expanded.dims:
-                df_scc_expanded = df_scc_expanded.drop_vars('simulation')
-            all_arrays_uscc = all_arrays_uscc + [df_scc_expanded]
 
-            df_gcnp = df_single_gcnp.assign_coords(discount_rate =  conversion_dict[str(eta) + "_" + str(rho)], menu_option = menu_option, sector = re.split("_",sector)[0])
+            print(f"Calculating {'domestic' if domestic else 'global'} {sector_short} scghgs {'and gcnp' if gcnp else ''} \n discount rate: {discount_conversion_dict[str(eta) + '_' + str(rho)]} \n pulse year: {pulse_year}")
+            df_single_scghg, df_single_gcnp, meta = epa_scghg(sector = sector,
+                                                          domestic = domestic,
+                                                          discount_type = discount_type,
+                                                          menu_option = menu_option,
+                                                          eta = eta,
+                                                          rho = rho,
+                                                          pulse_year = pulse_year)
+
+            df_scghg = df_single_scghg.assign_coords(discount_rate =  discount_conversion_dict[str(eta) + "_" + str(rho)], menu_option = menu_option, sector = re.split("_",sector)[0])
+            df_scghg_expanded = df_scghg.expand_dims(['discount_rate','menu_option', 'sector'])
+            if 'simulation' in df_scghg_expanded.dims:
+                df_scghg_expanded = df_scghg_expanded.drop_vars('simulation')
+            all_arrays_uscghg = all_arrays_uscghg + [df_scghg_expanded]
+
+            df_gcnp = df_single_gcnp.assign_coords(discount_rate =  discount_conversion_dict[str(eta) + "_" + str(rho)], menu_option = menu_option, sector = re.split("_",sector)[0])
             df_gcnp_expanded = df_gcnp.expand_dims(['discount_rate','menu_option', 'sector'])
             if 'simulation' in df_gcnp_expanded.dims:
                 df_gcnp_expanded = df_gcnp_expanded.drop_vars('simulation')
             all_arrays_gcnp = all_arrays_gcnp + [df_gcnp_expanded]    
         
             attrs = merge_meta(attrs,meta)
-
-
-        df_full_scc = xr.combine_by_coords(all_arrays_uscc)
+        
+        print("Combining data arrays")
+        df_full_scghg = xr.combine_by_coords(all_arrays_uscghg)
         df_full_gcnp = xr.combine_by_coords(all_arrays_gcnp)
+        
+        df_full_scghg = df_full_scghg.assign_coords(gas=[gas_conversion_dict[gas] for gas in df_full_scghg.gas.values])
+        df_full_gcnp = df_full_gcnp.assign_coords(gas=[gas_conversion_dict[gas] for gas in df_full_gcnp.gas.values])
 
-        sector_short = re.split("_",sector)[0]
-        gases = ['CO2_Fossil','CH4', 'N2O']
+        gases = ['CO2','CH4', 'N2O']
         if uncollapsed:    
             for gas in gases:
-                out_dir = Path(conf['save_path']) / 'scghgs' / 'full_distributions' / gas 
+                out_dir = Path(conf['save_path']) / f"{'domestic' if domestic else 'global'}_scghgs" / 'full_distributions' / gas 
                 makedir(out_dir)
-                uncollapsed_gas_sccs = df_full_scc.sel(gas = gas, drop = True).to_dataframe().reindex()
-                uncollapsed_gas_sccs.to_csv(out_dir / f"sc-{gas}-dscim-{sector_short}-{pulse_year}-n10000.csv")
+                uncollapsed_gas_scghgs = df_full_scghg.sel(gas = gas, drop = True).to_dataframe().reindex()
+                print(f"Saving {'domestic' if domestic else 'global'} uncollapsed {sector_short} sc-{gas} \n pulse year: {pulse_year}")
+                uncollapsed_gas_scghgs.to_csv(out_dir / f"sc-{gas}-dscim-{sector_short}-{pulse_year}-n10000.csv")
                 attrs_save = attrs.copy()
                 attrs_save['gases'] = gas
-                with open(out_dir / "attributes.txt", 'w') as f: 
+                with open(out_dir / f"attributes-{gas}-{sector_short}.txt", 'w') as f: 
                     for key, value in attrs_save.items(): 
                         f.write('%s:%s\n' % (key, value))
 
-        df_full_scc = (df_full_scc.adjustment_factor * df_full_scc.scc).mean(dim = 'runid')
+        df_full_scghg = (df_full_scghg.adjustment_factor * df_full_scghg.scghg).mean(dim = 'runid')
 
         for gas in gases:
-            out_dir = Path(conf['save_path']) / 'scghgs'   
+            out_dir = Path(conf['save_path']) / f"{'domestic' if domestic else 'global'}_scghgs"   
             makedir(out_dir)
-            collapsed_gas_scc = df_full_scc.sel(gas = gas, drop = True).rename('scc').to_dataframe().reindex()    
-            collapsed_gas_scc.to_csv(out_dir / f"sc-{gas}-dscim-{sector_short}-{pulse_year}.csv") 
+            collapsed_gas_scghg = df_full_scghg.sel(gas = gas, drop = True).rename('scghg').to_dataframe().reindex() 
+            print(f"Saving {'domestic' if domestic else 'global'} collapsed {sector_short} sc-{gas} \n pulse year: {pulse_year}")
+            collapsed_gas_scghg.to_csv(out_dir / f"sc-{gas}-dscim-{sector_short}-{pulse_year}.csv") 
             
-        with open(out_dir / "attributes.txt", 'w') as f: 
+        with open(out_dir / f"attributes-{sector_short}.txt", 'w') as f: 
             for key, value in attrs.items(): 
                 f.write('%s:%s\n' % (key, value))
         
@@ -343,10 +369,11 @@ def epa_sccs(sectors,
         out_dir = Path(conf['save_path']) / 'gcnp' 
         makedir(out_dir)
         df_full_gcnp.attrs=attrs
+        print(f"Saving {sector_short} gcnp")
         df_full_gcnp.to_netcdf(out_dir / f"gcnp-dscim-{sector_short}.nc4")  
         print(f"gcnp is available in {str(out_dir)}")
 
-    print(f"SCGHGs are available in {str(out_dir)}")
+    print(f"{'domestic' if domestic else 'global'}_scghgs are available in {str(Path(conf['save_path']))}/{'domestic' if domestic else 'global'}_scghgs")
    
 
         
@@ -359,8 +386,7 @@ questions = [
     inquirer.List("sector",
         message= 'Select sector',
         choices= [
-            ('CAMEL',"CAMEL_m1_c0.20"),
-            ('AMEL','AMEL_m1'),
+            ('Combined',"CAMEL_m1_c0.20"),
             ('Coastal','coastal_v0.20'),
             ('Agriculture','agriculture'),
             ('Mortality','mortality_v1'),
@@ -435,7 +461,7 @@ questions = [
                 'gcnp'
             ),
             (
-                'Uncollapsed sccs',
+                'Uncollapsed scghgs',
                 'uncollapsed'
             ),
     ])
@@ -458,7 +484,7 @@ if len(etas_rhos) == 0:
 
 risk_combos = [['risk_aversion', 'euler_ramsey']] # Default
 gases = ['CO2_Fossil', 'CH4', 'N2O'] # Default
-epa_sccs(sector,
+epa_scghgs(sector,
          domestic,
          etas_rhos,
          risk_combos,
@@ -468,3 +494,4 @@ epa_sccs(sector,
 
 
 print(f"Full results are available in {str(Path(conf['save_path']))}")
+
