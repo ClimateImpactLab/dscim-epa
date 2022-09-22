@@ -146,25 +146,57 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
             pulse_year = 2020,
             discount_type = "euler_ramsey",
             menu_option = "risk_aversion"):
+
+    if menu_option != "risk_aversion":
+        raise Exception("This script currently only works with risk_aversion SCGHGs")
     
     # Read generated config
     master = Path(os.getcwd()) / "generated_conf.yml"
     with open(master, "r") as stream:
         conf = yaml.safe_load(stream)
-
-    # Read in domestic and global socioeconomic files
-    econ_dom = EconVars(
-        path_econ=f"{conf['rffdata']['socioec_output']}/rff_USA_socioeconomics.nc4"
-    )
-    econ_glob = EconVars(
-        path_econ=f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4"
-    )
-
-    # Manually add other config parameters that are not variable parameters
+    
+    # Manually add other config parameters that are not meant to change run to run
     conf["global_parameters"] = {'fair_aggregation': ["uncollapsed"],
      'subset_dict': {'ssp': []},
      'weitzman_parameter': [0.5],
      'save_files': []}
+
+
+    # Read in domestic and global socioeconomic files
+    if domestic:
+        # List of kwargs to add to kwargs read in from the config file for domestic damages
+        add_kwargs = {
+            "econ_vars": econ_dom,
+            "climate_vars": Climate(**conf["rff_climate"], pulse_year=pulse_year),
+            "formula": conf["sectors"][sector if not domestic else sector[:-4]]["formula"],
+            "discounting_type": discount_type,
+            "sector": sector,
+            "ce_path": None,
+            "save_path": None,
+            "eta": eta,
+            "rho": rho,
+            "damage_function_path": Path(conf['paths']['rff_damage_function_library'])  / sector,
+            "ecs_mask_path": None,
+            "ecs_mask_name": None,
+            "fair_dims":[],
+        }
+
+        # An extra set of kwargs is needed when running domestic SCGHGs
+        # Combine config kwargs with the add_kwargs for domestic damages
+        kwargs_domestic = conf["global_parameters"].copy()
+        for k, v in add_kwargs.items():
+            assert (
+                k not in kwargs_domestic.keys()
+            ), f"{k} already set in config. Please check `global_parameters`."
+            kwargs_domestic.update({k: v})
+
+        econ_dom = EconVars(
+            path_econ=f"{conf['rffdata']['socioec_output']}/rff_USA_socioeconomics.nc4"
+        )
+
+    econ_glob = EconVars(
+        path_econ=f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4"
+    )
 
     # This class allows for a shorter naming convention for the damage function files (rounding etas and rhos in the filename)
     class RiskAversionRecipe(dscim.menu.risk_aversion.RiskAversionRecipe):
@@ -180,40 +212,6 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
                 )
             else:
                 return self.damage_function["params"]
-
-    # Only the risk aversion recipe is functionality in this release.
-    # In order to run the other recipes, the corresponding damage function coefficient files would be needed
-    MENU_OPTIONS = {
-        "adding_up": dscim.menu.baseline.Baseline,
-        "risk_aversion": RiskAversionRecipe,
-        "equity": dscim.menu.equity.EquityRecipe,
-    }
-
-    # List of kwargs to add to kwargs read in from the config file for domestic damages
-    add_kwargs = {
-        "econ_vars": econ_dom,
-        "climate_vars": Climate(**conf["rff_climate"], pulse_year=pulse_year),
-        "formula": conf["sectors"][sector if not domestic else sector[:-4]]["formula"],
-        "discounting_type": discount_type,
-        "sector": sector,
-        "ce_path": None,
-        "save_path": None,
-        "eta": eta,
-        "rho": rho,
-        "damage_function_path": Path(conf['paths']['rff_damage_function_library'])  / sector,
-        "ecs_mask_path": None,
-        "ecs_mask_name": None,
-        "fair_dims":[],
-    }
-
-    # An extra set of kwargs is needed when running domestic SCGHGs
-    # Combine config kwargs with the add_kwargs for domestic damages
-    kwargs_domestic = conf["global_parameters"].copy()
-    for k, v in add_kwargs.items():
-        assert (
-            k not in kwargs_domestic.keys()
-        ), f"{k} already set in config. Please check `global_parameters`."
-        kwargs_domestic.update({k: v})
 
     # List of kwargs to add to kwargs read in from the config file for global discounting and damages
     add_kwargs = {
@@ -241,45 +239,42 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
         kwargs_global.update({k: v})
 
     # For both domestic and global SCGHGs, endogenous Ramsey discounting based on global socioeconomics is used
-    menu_item_global = MENU_OPTIONS[menu_option](**kwargs_global)
+    menu_item_global = RiskAversionRecipe(**kwargs_global)
     df = menu_item_global.uncollapsed_discount_factors
 
     # Compute damages for global or domestic runs
     if domestic:
-        menu_item_domestic = MENU_OPTIONS[menu_option](**kwargs_domestic)
+        menu_item_domestic = RiskAversionRecipe(**kwargs_domestic)
         md = menu_item_domestic.uncollapsed_marginal_damages
     else:
         md = menu_item_global.uncollapsed_marginal_damages
 
+    # The 113.648/112.29 deflates the SCGHGs from 2019 dollars to 2020 dollars
+    conv_2019to2020 = 113.648/112.29
+    
     # Compute SCGHGs
-    # This only works for risk_aversion and adding_up
-    if menu_option == "risk_aversion":
-        # Multiplying merginal damages by discount factors and summing across years creates the SCGHGs
-        # The 113.648/112.29 deflates the SCGHGs from 2019 dollars to 2020 dollars
-        scghgs = (
-            (md.rename(marginal_damages = 'scghg') * df.rename(discount_factor = 'scghg'))
-            .sum("year")* 113.648/112.29
-        )     
-    else:
-        scghgs = menu_item_global.discounted_damages(md,"constant").sum(dim="year").rename(marginal_damages = "scghg")* 113.648/112.29
+    # Multiplying marginal damages by discount factors and summing across years creates the SCGHGs
+    scghgs = (
+        (md.rename(marginal_damages = 'scghg') * df.rename(discount_factor = 'scghg'))
+        .sum("year")* conv_2019to2020
+    )     
         
     # Code to calculate epa-spec adjustment factors
-    if discount_type == "euler_ramsey":
-        gcnp = menu_item_global.global_consumption_no_pulse.rename('gcnp')
+    gcnp = menu_item_global.global_consumption_no_pulse.rename('gcnp')
 
-        # Isolate population from socioeconomics
-        pop = xr.open_dataset(f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4").sel(region = 'world', drop = True).pop
-       
-        # Calculate global consumption no pulse per population
-        a = xr.merge([pop, gcnp])  
-        ypv = a.gcnp/a.pop
+    # Isolate population from socioeconomics
+    pop = xr.open_dataset(f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4").sel(region = 'world', drop = True).pop
+    
+    # Calculate global consumption no pulse per population
+    a = xr.merge([pop, gcnp])  
+    ypv = a.gcnp/a.pop
 
-        # Create adjustment factor using adjustment.factor = (ypc^-eta)/mean(ypc^-eta)
-        c = np.power(ypv, -eta).sel(year = pulse_year, drop = True)
-        adj = (c/c.mean()).rename('adjustment_factor')
+    # Create adjustment factor using adjustment.factor = (ypc^-eta)/mean(ypc^-eta)
+    c = np.power(ypv, -eta).sel(year = pulse_year, drop = True)
+    adj = (c/c.mean()).rename('adjustment_factor')
 
-        # Merge adjustments with uncollapsed scghgs
-        adjustments = xr.merge([scghgs,adj.to_dataset()])          
+    # Merge adjustments with uncollapsed scghgs
+    adjustments = xr.merge([scghgs,adj.to_dataset()])          
     
     # generate attrs           
     if domestic:
@@ -287,7 +282,7 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
     else:
         meta = generate_meta(menu_item_global)
 
-    return([adjustments, gcnp* 113.648/112.29, meta])
+    return([adjustments, gcnp* conv_2019to2020, meta])
 
 # Function to perform multiple runs of SCGHGs and combine into one file to save out
 def epa_scghgs(sectors,
@@ -375,7 +370,7 @@ def epa_scghgs(sectors,
                     for key, value in attrs_save.items(): 
                         f.write('%s:%s\n' % (key, value))
 
-        # Applies the adjustment factor
+        # Applies the adjustment factor to convert to certainty equivalent SCGHGs
         df_full_scghg = (df_full_scghg.adjustment_factor * df_full_scghg.scghg).mean(dim = 'runid')
 
         # Splits and saves collapsed SCGHGs
