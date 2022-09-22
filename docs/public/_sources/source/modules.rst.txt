@@ -1,7 +1,0 @@
-scc_multiverse
-==============
-
-.. toctree::
-   :maxdepth: 4
-
-   scc_multiverse
