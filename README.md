@@ -35,7 +35,7 @@ Be sure that all commands and analysis are run from this conda environment.
 With the environment setup and active, the next step is to download required input data into the local directory. From the commandline run:
 
 ```bash
-python damage_fun_runs/Directory_setup.py
+python scripts/directory_setup.py
 ```
 
 Note that this will download several gigabytes of data and may take several minutes, depending on your connection speed.
@@ -45,7 +45,7 @@ Note that this will download several gigabytes of data and may take several minu
 After setting up your environment and the input data, you can run SCGHG calculations under different conditions with
 
 ```bash
-python damage_fun_runs/command_line_scc.py
+python scripts/command_line_scghg.py
 ```
 
 and follow the on-screen prompts. When the selector is a carrot, you may only select one option. Use the arrow keys on your keyboard to highlight your desired option and click enter to submit. When you are presented with `X` and `o` selectors, you may use the spacebar to select (`X`) or deselect (`o`) then click enter to submit once you have chosen your desired number of parameters. Once you have completed all of the options, the DSCIM run will begin.
