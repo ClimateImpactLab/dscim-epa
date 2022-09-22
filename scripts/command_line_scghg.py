@@ -164,6 +164,9 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
 
     # Read in domestic and global socioeconomic files
     if domestic:
+        econ_dom = EconVars(
+            path_econ=f"{conf['rffdata']['socioec_output']}/rff_USA_socioeconomics.nc4"
+        )
         # List of kwargs to add to kwargs read in from the config file for domestic damages
         add_kwargs = {
             "econ_vars": econ_dom,
@@ -190,9 +193,6 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
             ), f"{k} already set in config. Please check `global_parameters`."
             kwargs_domestic.update({k: v})
 
-        econ_dom = EconVars(
-            path_econ=f"{conf['rffdata']['socioec_output']}/rff_USA_socioeconomics.nc4"
-        )
 
     econ_glob = EconVars(
         path_econ=f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4"
