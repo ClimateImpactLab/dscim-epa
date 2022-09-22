@@ -112,7 +112,7 @@ def generate_meta(menu_item):
     meta['gases'] = [gas_conversion_dict[gas] for gas in meta['gases']]
     
     if meta['sector']=='CAMEL_m1_c0.20':
-        meta['sector'] = 'Combined'
+        meta['sector'] = 'combined'
     else:
         meta['sector'] = re.split("_",meta['sector'])[0] 
         
@@ -317,13 +317,13 @@ def epa_scghgs(sectors,
                                                           rho = rho,
                                                           pulse_year = pulse_year)
 
-            df_scghg = df_single_scghg.assign_coords(discount_rate =  discount_conversion_dict[str(eta) + "_" + str(rho)], menu_option = menu_option, sector = re.split("_",sector)[0])
+            df_scghg = df_single_scghg.assign_coords(discount_rate =  discount_conversion_dict[str(eta) + "_" + str(rho)], menu_option = menu_option, sector = sector_short)
             df_scghg_expanded = df_scghg.expand_dims(['discount_rate','menu_option', 'sector'])
             if 'simulation' in df_scghg_expanded.dims:
                 df_scghg_expanded = df_scghg_expanded.drop_vars('simulation')
             all_arrays_uscghg = all_arrays_uscghg + [df_scghg_expanded]
 
-            df_gcnp = df_single_gcnp.assign_coords(discount_rate =  discount_conversion_dict[str(eta) + "_" + str(rho)], menu_option = menu_option, sector = re.split("_",sector)[0])
+            df_gcnp = df_single_gcnp.assign_coords(discount_rate =  discount_conversion_dict[str(eta) + "_" + str(rho)], menu_option = menu_option, sector = sector_short)
             df_gcnp_expanded = df_gcnp.expand_dims(['discount_rate','menu_option', 'sector'])
             if 'simulation' in df_gcnp_expanded.dims:
                 df_gcnp_expanded = df_gcnp_expanded.drop_vars('simulation')
@@ -337,7 +337,7 @@ def epa_scghgs(sectors,
         
         df_full_scghg = df_full_scghg.assign_coords(gas=[gas_conversion_dict[gas] for gas in df_full_scghg.gas.values])
         df_full_gcnp = df_full_gcnp.assign_coords(gas=[gas_conversion_dict[gas] for gas in df_full_gcnp.gas.values])
-
+        
         gases = ['CO2','CH4', 'N2O']
         if uncollapsed:    
             for gas in gases:
@@ -369,7 +369,7 @@ def epa_scghgs(sectors,
         out_dir = Path(conf['save_path']) / 'gcnp' 
         makedir(out_dir)
         df_full_gcnp.attrs=attrs
-        print(f"Saving {sector_short} gcnp")
+        print(f"Saving {sector_short} global consumption no pulse (gcnp)")
         df_full_gcnp.to_netcdf(out_dir / f"gcnp-dscim-{sector_short}.nc4")  
         print(f"gcnp is available in {str(out_dir)}")
 
