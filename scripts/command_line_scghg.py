@@ -148,7 +148,7 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
             menu_option = "risk_aversion"):
 
     if menu_option != "risk_aversion":
-        raise Exception("This script currently only works with risk_aversion SCGHGs")
+        raise Exception("DSCIM-EPA provides only 'risk_aversion' SCGHGs")
     
     # Read generated config
     master = Path(os.getcwd()) / "generated_conf.yml"
