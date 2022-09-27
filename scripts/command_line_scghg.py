@@ -46,7 +46,7 @@ def generate_meta(menu_item):
     # find git commit hash
     try:
         label = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()
-    except CalledProcessError:
+    except subprocess.CalledProcessError:
         label = "unknown"
     
     meta = {"Author": "Climate Impact Lab",
