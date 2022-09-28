@@ -43,8 +43,8 @@ conf_base = {'mortality_version': 1,
   
 # Download inputs from internet  
 print("Downloading input files...")
-url = 'https://storage.googleapis.com/climateimpactlab-scc-tool/dscim-epa_input_data/dscim_v0.1.0_inputs.zip'
-name = 'dscim_v0.1.0_inputs.zip'
+name = 'dscim_v0.2.1_inputs.zip'
+url = 'https://storage.googleapis.com/climateimpactlab-scc-tool/dscim-epa_input_data/' + name
 with requests.get(url, stream = True) as r:
     r.raise_for_status()
     with open(name, 'wb') as f:
@@ -55,15 +55,15 @@ with requests.get(url, stream = True) as r:
                 pbar.update(len(chunk))
 
 print("Unzipping input files...")
-with zipfile.ZipFile('./dscim_v0.1.0_inputs.zip', 'r') as zip_ref:
+with zipfile.ZipFile(Path(base) /  name, 'r') as zip_ref:
     for member in tqdm(zip_ref.infolist()):
         try:
-            zip_ref.extract(member, './')
+            zip_ref.extract(member, Path(base))
         except zipfile.error as e:
             pass
 
-if os.path.exists("./dscim_v0.1.0_inputs.zip"):
-    os.remove("./dscim_v0.1.0_inputs.zip")
+if os.path.exists(Path(base) / name):
+    os.remove(Path(base) / name)
 else:
     print("Download Failed")
 
