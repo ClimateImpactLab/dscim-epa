@@ -43,7 +43,7 @@ conf_base = {'mortality_version': 1,
   
 # Download inputs from internet  
 print("Downloading input files...")
-name = 'dscim_v0.2.1_inputs.zip'
+name = 'dscim_v20220929_inputs.zip'
 url = 'https://storage.googleapis.com/climateimpactlab-scc-tool/dscim-epa_input_data/' + name
 with requests.get(url, stream = True) as r:
     r.raise_for_status()
@@ -53,7 +53,7 @@ with requests.get(url, stream = True) as r:
             if chunk:  # filter out keep-alive new chunks
                 f.write(chunk)
                 pbar.update(len(chunk))
-
+print("")
 print("Unzipping input files...")
 with zipfile.ZipFile(Path(base) /  name, 'r') as zip_ref:
     for member in tqdm(zip_ref.infolist()):
