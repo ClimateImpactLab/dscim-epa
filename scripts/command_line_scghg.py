@@ -401,7 +401,7 @@ def epa_scghgs(sectors,
 
 # Command line interface for DSCIM-epa runs        
 f = Figlet(font='slant')
-print(f.renderText('DSCIM'))
+print(f.renderText('DSCIM-EPA'))
 
 
 
