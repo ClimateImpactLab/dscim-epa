@@ -163,7 +163,7 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
         raise Exception("DSCIM-EPA provides only 'risk_aversion' SCGHGs")
     
     # Read generated config
-    master = Path(os.getcwd()) / "generated_conf.yml"
+    master = Path(os.getcwd()) / conf_name
     with open(master, "r") as stream:
         conf = yaml.safe_load(stream)
     
@@ -306,7 +306,7 @@ def epa_scghgs(sectors,
              uncollapsed = False):
 
     # Read generated config    
-    master = Path(os.getcwd()) / "generated_conf.yml"
+    master = Path(os.getcwd()) / conf_name
     with open(master, "r") as stream:
         conf = yaml.safe_load(stream)
         
@@ -425,14 +425,14 @@ questions = [
     inquirer.List("sector",
         message= 'Select sector',
         choices= [
-            ('Combined',"CAMEL_m1_c0.20"),
-            ('Coastal','coastal_v0.20'),
+            ('Combined',CAMEL_v),
+            ('Coastal',"coastal_v" + coastal_v),
             ('Agriculture','agriculture'),
-            ('Mortality','mortality_v1'),
+            ('Mortality',"mortality_v" + mortality_v),
             ('Energy','energy'),
             ('Labor','labor'),
         ],
-        default = ['CAMEL_m1_c0']),
+        default = [CAMEL_v]),
     inquirer.Checkbox("eta_rhos",
         message= 'Select discount rates',
         choices= [
