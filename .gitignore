@@ -136,3 +136,4 @@ scripts/input/*
 scripts/output/*
 attributes*-combined.txt
 generated_conf.yml
+*.yml
