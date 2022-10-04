@@ -358,7 +358,7 @@ def epa_scghgs(sectors,
         
             attrs = merge_meta(attrs,meta)
         
-        print("Combining data arrays")
+        print("Processing...")
         df_full_scghg = xr.combine_by_coords(all_arrays_uscghg)
         df_full_gcnp = xr.combine_by_coords(all_arrays_gcnp)
         
