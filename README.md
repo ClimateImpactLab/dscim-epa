@@ -1,10 +1,9 @@
 # DSCIM: The Data-driven Spatial Climate Impact Model
 
-This Python library enables the calculation of sector-specific partial social cost of greenhouse gases (SC-GHG) and SCGHGs that are combined across sectors using a variety of valuation methods and assumptions. The main purpose of this
-library is to parse the monetized spatial damages from different sectors and integrate them
-using different options ("menu options") that encompass different decisions, such as
-discount levels, discount strategies, and different considerations related to
-economic and climate uncertainty.
+This repository is an implementation of DSCIM, referred to as DSCIM-EPA, for the U.S. Environmental Protection Agency’s (EPA) September 2022 draft technical report, "Report on the Social Cost of Greenhouse Gases: Estimates Incorporating Recent Scientific Advances."
+
+This Python library enables the calculation of sector-specific partial social cost of greenhouse gases (SC-GHG) and SC-GHGs that are combined across sectors. The main purpose of this
+library is to parse the monetized spatial damages from different sectors and integrate them into SC-GHGs for different discount levels, pulse years, and greenhouse gases. 
 
 ## Setup
 
@@ -54,7 +53,7 @@ Below is a short summary of what each command line option does. To view a more d
 
 #### Sector
 
-The user may only select one sector per run. Sectors represent the combined SCGHG or partial SCGHGs of the chosen sector.
+The user may only select one sector per run. Sectors represent the combined SC-GHG or partial SC-GHGs of the chosen sector.
 
 #### Discount rate
 
@@ -62,14 +61,14 @@ These runs use endogenous Ramsey discounting that are targeted to begin at the c
 
 #### Pulse years
 
-Pulse year represents the SCGHG for a pulse of greenhouse gas (GHG) emitted in the chosen pulse year(s). 
+Pulse year represents the SC-GHG for a pulse of greenhouse gas (GHG) emitted in the chosen pulse year(s). 
 
 #### Domain of damages
 
-The default is a global SCGHG accounting for global damages in response to a pulse of GHG. The user has the option to instead compute a domestic SCGHG accounting only for United States damages.
+The default is a global SC-GHG accounting for global damages in response to a pulse of GHG. The user has the option to instead limit damages to those occurring directly within the territorial United States. This is only a partial accounting of the cost of climate change to U.S. citizens and residents because it excludes international transmission mechanisms, like trade, cross-border investment and migration, damage to the assets of U.S. citizens and residents outside the United States, or consideration of how GHG emission reduction activity within the United States impacts emissions in other countries.
 
 #### Optional files
 
-By default, the script will produce the expected SCGHGs as a `.csv`. The user also has the option to save the full distribution of SCGHGs -- across emissions, socioeconomics, and climate uncertainty -- as a `.csv`, and the option to save global consumption net of baseline climate damages ("global_consumption_no_pulse") as a netcdf `.nc4` file.
+By default, the script will produce the expected SC-GHGs as a `.csv`. The user also has the option to save the full distribution of 10,000 SC-GHGs -- across emissions, socioeconomics, and climate uncertainty -- as a `.csv`, and the option to save global consumption net of baseline climate damages ("global_consumption_no_pulse") as a netcdf `.nc4` file.
 
 
