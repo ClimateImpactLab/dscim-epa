@@ -176,12 +176,12 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
 
     # Read in U.S. and global socioeconomic files
     if terr_us:
-        econ_dom = EconVars(
+        econ_terr_us = EconVars(
             path_econ=f"{conf['rffdata']['socioec_output']}/rff_USA_socioeconomics.nc4"
         )
         # List of kwargs to add to kwargs read in from the config file for direct territorial U.S. damages
         add_kwargs = {
-            "econ_vars": econ_dom,
+            "econ_vars": econ_terr_us,
             "climate_vars": Climate(**conf["rff_climate"], pulse_year=pulse_year),
             "formula": conf["sectors"][sector if not terr_us else sector[:-4]]["formula"],
             "discounting_type": discount_type,
