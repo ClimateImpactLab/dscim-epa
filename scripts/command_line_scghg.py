@@ -13,14 +13,26 @@ import os
 import re
 import subprocess
 from datetime import date
+import sys
+
+args = sys.argv
+if len(args) == 1:
+    conf_name = "generated_conf.yml"
+else:
+    conf_name = args[1]
 
 
-master = Path(os.getcwd()) / "generated_conf.yml"
+
+master = Path(os.getcwd()) / conf_name
 try:
     with open(master, "r") as stream:
         conf = yaml.safe_load(stream)
 except FileNotFoundError:
     raise FileNotFoundError("Please run Directory_setup.py or place the config in your current working directory")
+
+coastal_v = str(conf["coastal_version"])
+mortality_v = str(conf["mortality_version"])
+CAMEL_v = f"CAMEL_m{mortality_v}_c{coastal_v}"
 
 discount_conversion_dict = {'1.016010255_9.149608e-05': '1.5% Ramsey',
                             '1.244459066_0.00197263997': '2.0% Ramsey',
@@ -151,7 +163,7 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
         raise Exception("DSCIM-EPA provides only 'risk_aversion' SCGHGs")
     
     # Read generated config
-    master = Path(os.getcwd()) / "generated_conf.yml"
+    master = Path(os.getcwd()) / conf_name
     with open(master, "r") as stream:
         conf = yaml.safe_load(stream)
     
@@ -294,7 +306,7 @@ def epa_scghgs(sectors,
              uncollapsed = False):
 
     # Read generated config    
-    master = Path(os.getcwd()) / "generated_conf.yml"
+    master = Path(os.getcwd()) / conf_name
     with open(master, "r") as stream:
         conf = yaml.safe_load(stream)
         
@@ -312,7 +324,7 @@ def epa_scghgs(sectors,
         menu_option = j[0]
         for i, sector in product(etas_rhos, sectors):
             
-            if sector=="CAMEL_m1_c0.20":
+            if re.split("_",sector)[0]=="CAMEL":
                 sector_short = "combined"
             else:
                 sector_short = re.split("_",sector)[0]
@@ -346,7 +358,7 @@ def epa_scghgs(sectors,
         
             attrs = merge_meta(attrs,meta)
         
-        print("Combining data arrays")
+        print("Processing...")
         df_full_scghg = xr.combine_by_coords(all_arrays_uscghg)
         df_full_gcnp = xr.combine_by_coords(all_arrays_gcnp)
         
@@ -356,6 +368,10 @@ def epa_scghgs(sectors,
         
         # Splits SCGHGs by gas and saves them out separately
         # For uncollapsed SCGHGs
+        if conf_name != "generated_conf.yml":
+            conf_savename = re.split('\.', conf_name)[0] + "-"
+        else:
+            conf_savename = ""
         gases = ['CO2','CH4', 'N2O']
         if uncollapsed:    
             for gas in gases:
@@ -363,10 +379,10 @@ def epa_scghgs(sectors,
                 makedir(out_dir)
                 uncollapsed_gas_scghgs = df_full_scghg.sel(gas = gas, drop = True).to_dataframe().reindex()
                 print(f"Saving {'domestic' if domestic else 'global'} uncollapsed {sector_short} sc-{gas} \n pulse year: {pulse_year}")
-                uncollapsed_gas_scghgs.to_csv(out_dir / f"sc-{gas}-dscim-{sector_short}-{pulse_year}-n10000.csv")
+                uncollapsed_gas_scghgs.to_csv(out_dir / f"{conf_savename}sc-{gas}-dscim-{sector_short}-{pulse_year}-n10000.csv")
                 attrs_save = attrs.copy()
                 attrs_save['gases'] = gas
-                with open(out_dir / f"attributes-{gas}-{sector_short}.txt", 'w') as f: 
+                with open(out_dir / f"{conf_savename}attributes-{gas}-{sector_short}.txt", 'w') as f: 
                     for key, value in attrs_save.items(): 
                         f.write('%s:%s\n' % (key, value))
 
@@ -379,7 +395,7 @@ def epa_scghgs(sectors,
             makedir(out_dir)
             collapsed_gas_scghg = df_full_scghg.sel(gas = gas, drop = True).rename('scghg').to_dataframe().reindex() 
             print(f"Saving {'domestic' if domestic else 'global'} collapsed {sector_short} sc-{gas} \n pulse year: {pulse_year}")
-            collapsed_gas_scghg.to_csv(out_dir / f"sc-{gas}-dscim-{sector_short}-{pulse_year}.csv") 
+            collapsed_gas_scghg.to_csv(out_dir / f"{conf_savename}sc-{gas}-dscim-{sector_short}-{pulse_year}.csv") 
 
         # Creates attribute files 
         with open(out_dir / f"attributes-{sector_short}.txt", 'w') as f: 
@@ -393,7 +409,7 @@ def epa_scghgs(sectors,
         makedir(out_dir)
         df_full_gcnp.attrs=attrs
         print(f"Saving {sector_short} global consumption no pulse (gcnp)")
-        df_full_gcnp.to_netcdf(out_dir / f"gcnp-dscim-{sector_short}.nc4")  
+        df_full_gcnp.to_netcdf(out_dir / f"{conf_savename}gcnp-dscim-{sector_short}.nc4")  
         print(f"gcnp is available in {str(out_dir)}")
 
     print(f"{'domestic' if domestic else 'global'}_scghgs are available in {str(Path(conf['save_path']))}/{'domestic' if domestic else 'global'}_scghgs")
@@ -409,14 +425,14 @@ questions = [
     inquirer.List("sector",
         message= 'Select sector',
         choices= [
-            ('Combined',"CAMEL_m1_c0.20"),
-            ('Coastal','coastal_v0.20'),
+            ('Combined',CAMEL_v),
+            ('Coastal',"coastal_v" + coastal_v),
             ('Agriculture','agriculture'),
-            ('Mortality','mortality_v1'),
+            ('Mortality',"mortality_v" + mortality_v),
             ('Energy','energy'),
             ('Labor','labor'),
         ],
-        default = ['CAMEL_m1_c0']),
+        default = [CAMEL_v]),
     inquirer.Checkbox("eta_rhos",
         message= 'Select discount rates',
         choices= [
