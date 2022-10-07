@@ -28,7 +28,7 @@ try:
     with open(master, "r") as stream:
         conf = yaml.safe_load(stream)
 except FileNotFoundError:
-    raise FileNotFoundError("Please run Directory_setup.py or place the config in your current working directory")
+    raise FileNotFoundError("Please run directory_setup.py or place the config in your current working directory")
 
 coastal_v = str(conf["coastal_version"])
 mortality_v = str(conf["mortality_version"])
@@ -128,7 +128,7 @@ def generate_meta(menu_item):
     else:
         meta['sector'] = re.split("_",meta['sector'])[0] 
         
-    if domestic:
+    if terr_us:
         meta.update(discounting_socioeconomics_path = f"{conf['rffdata']['socioec_output']}/rff_global_socioeconomics.nc4")
       
     return meta
@@ -152,7 +152,7 @@ def merge_meta(attrs,meta):
 
 # Function for one run of SCGHGs
 def epa_scghg(sector = "CAMEL_m1_c0.20",
-            domestic = False,
+            terr_us = False,
             eta = 2.0,
             rho = 0.0,
             pulse_year = 2020,
@@ -174,16 +174,16 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
      'save_files': []}
 
 
-    # Read in domestic and global socioeconomic files
-    if domestic:
-        econ_dom = EconVars(
+    # Read in U.S. and global socioeconomic files
+    if terr_us:
+        econ_terr_us = EconVars(
             path_econ=f"{conf['rffdata']['socioec_output']}/rff_USA_socioeconomics.nc4"
         )
-        # List of kwargs to add to kwargs read in from the config file for domestic damages
+        # List of kwargs to add to kwargs read in from the config file for direct territorial U.S. damages
         add_kwargs = {
-            "econ_vars": econ_dom,
+            "econ_vars": econ_terr_us,
             "climate_vars": Climate(**conf["rff_climate"], pulse_year=pulse_year),
-            "formula": conf["sectors"][sector if not domestic else sector[:-4]]["formula"],
+            "formula": conf["sectors"][sector if not terr_us else sector[:-4]]["formula"],
             "discounting_type": discount_type,
             "sector": sector,
             "ce_path": None,
@@ -196,14 +196,14 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
             "fair_dims":[],
         }
 
-        # An extra set of kwargs is needed when running domestic SCGHGs
-        # Combine config kwargs with the add_kwargs for domestic damages
-        kwargs_domestic = conf["global_parameters"].copy()
+        # An extra set of kwargs is needed when running U.S. SCGHGs
+        # Combine config kwargs with the add_kwargs for direct territorial U.S. damages
+        kwargs_terr_us = conf["global_parameters"].copy()
         for k, v in add_kwargs.items():
             assert (
-                k not in kwargs_domestic.keys()
+                k not in kwargs_terr_us.keys()
             ), f"{k} already set in config. Please check `global_parameters`."
-            kwargs_domestic.update({k: v})
+            kwargs_terr_us.update({k: v})
 
 
     econ_glob = EconVars(
@@ -229,14 +229,14 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
     add_kwargs = {
         "econ_vars": econ_glob,
         "climate_vars": Climate(**conf["rff_climate"], pulse_year=pulse_year),
-        "formula": conf["sectors"][sector if not domestic else sector[:-4]]["formula"],
+        "formula": conf["sectors"][sector if not terr_us else sector[:-4]]["formula"],
         "discounting_type": discount_type,
         "sector": sector,
         "ce_path": None,
         "save_path": None,
         "eta": eta,
         "rho": rho,
-        "damage_function_path": Path(conf['paths']['rff_damage_function_library']) / [sector if not domestic else sector[:-4]][0], 
+        "damage_function_path": Path(conf['paths']['rff_damage_function_library']) / [sector if not terr_us else sector[:-4]][0], 
         "ecs_mask_path": None,
         "ecs_mask_name": None,
         "fair_dims":[],
@@ -250,14 +250,14 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
         ), f"{k} already set in config. Please check `global_parameters`."
         kwargs_global.update({k: v})
 
-    # For both domestic and global SCGHGs, endogenous Ramsey discounting based on global socioeconomics is used
+    # For both territorial U.S. and global SCGHGs, endogenous Ramsey discounting based on global socioeconomics is used
     menu_item_global = RiskAversionRecipe(**kwargs_global)
     df = menu_item_global.uncollapsed_discount_factors
 
-    # Compute damages for global or domestic runs
-    if domestic:
-        menu_item_domestic = RiskAversionRecipe(**kwargs_domestic)
-        md = menu_item_domestic.uncollapsed_marginal_damages
+    # Compute damages for global or U.S. runs
+    if terr_us:
+        menu_item_terr_us = RiskAversionRecipe(**kwargs_terr_us)
+        md = menu_item_terr_us.uncollapsed_marginal_damages
     else:
         md = menu_item_global.uncollapsed_marginal_damages
 
@@ -289,8 +289,8 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
     adjustments = xr.merge([scghgs,adj.to_dataset()])          
     
     # generate attrs           
-    if domestic:
-        meta = generate_meta(menu_item_domestic)
+    if terr_us:
+        meta = generate_meta(menu_item_terr_us)
     else:
         meta = generate_meta(menu_item_global)
 
@@ -298,7 +298,7 @@ def epa_scghg(sector = "CAMEL_m1_c0.20",
 
 # Function to perform multiple runs of SCGHGs and combine into one file to save out
 def epa_scghgs(sectors,
-             domestic,
+             terr_us,
              etas_rhos,
              risk_combos = (('risk_aversion', 'euler_ramsey')),
              pulse_years = (2020,2030,2040,2050,2060,2070,2080),
@@ -332,9 +332,9 @@ def epa_scghgs(sectors,
             eta = i[0]
             rho = i[1]
 
-            print(f"Calculating {'domestic' if domestic else 'global'} {sector_short} scghgs {'and gcnp' if gcnp else ''} \n discount rate: {discount_conversion_dict[str(eta) + '_' + str(rho)]} \n pulse year: {pulse_year}")
+            print(f"Calculating {'territorial U.S.' if terr_us else 'global'} {sector_short} scghgs {'and gcnp' if gcnp else ''} \n discount rate: {discount_conversion_dict[str(eta) + '_' + str(rho)]} \n pulse year: {pulse_year}")
             df_single_scghg, df_single_gcnp, meta = epa_scghg(sector = sector,
-                                                          domestic = domestic,
+                                                          terr_us = terr_us,
                                                           discount_type = discount_type,
                                                           menu_option = menu_option,
                                                           eta = eta,
@@ -375,10 +375,10 @@ def epa_scghgs(sectors,
         gases = ['CO2','CH4', 'N2O']
         if uncollapsed:    
             for gas in gases:
-                out_dir = Path(conf['save_path']) / f"{'domestic' if domestic else 'global'}_scghgs" / 'full_distributions' / gas 
+                out_dir = Path(conf['save_path']) / f"{'territorial_us' if terr_us else 'global'}_scghgs" / 'full_distributions' / gas 
                 makedir(out_dir)
                 uncollapsed_gas_scghgs = df_full_scghg.sel(gas = gas, drop = True).to_dataframe().reindex()
-                print(f"Saving {'domestic' if domestic else 'global'} uncollapsed {sector_short} sc-{gas} \n pulse year: {pulse_year}")
+                print(f"Saving {'territorial U.S.' if terr_us else 'global'} uncollapsed {sector_short} sc-{gas} \n pulse year: {pulse_year}")
                 uncollapsed_gas_scghgs.to_csv(out_dir / f"{conf_savename}sc-{gas}-dscim-{sector_short}-{pulse_year}-n10000.csv")
                 attrs_save = attrs.copy()
                 attrs_save['gases'] = gas
@@ -391,10 +391,10 @@ def epa_scghgs(sectors,
 
         # Splits and saves collapsed SCGHGs
         for gas in gases:
-            out_dir = Path(conf['save_path']) / f"{'domestic' if domestic else 'global'}_scghgs"   
+            out_dir = Path(conf['save_path']) / f"{'territorial_us' if terr_us else 'global'}_scghgs"   
             makedir(out_dir)
             collapsed_gas_scghg = df_full_scghg.sel(gas = gas, drop = True).rename('scghg').to_dataframe().reindex() 
-            print(f"Saving {'domestic' if domestic else 'global'} collapsed {sector_short} sc-{gas} \n pulse year: {pulse_year}")
+            print(f"Saving {'territorial U.S.' if terr_us else 'global'} collapsed {sector_short} sc-{gas} \n pulse year: {pulse_year}")
             collapsed_gas_scghg.to_csv(out_dir / f"{conf_savename}sc-{gas}-dscim-{sector_short}-{pulse_year}.csv") 
 
         # Creates attribute files 
@@ -412,7 +412,7 @@ def epa_scghgs(sectors,
         df_full_gcnp.to_netcdf(out_dir / f"{conf_savename}gcnp-dscim-{sector_short}.nc4")  
         print(f"gcnp is available in {str(out_dir)}")
 
-    print(f"{'domestic' if domestic else 'global'}_scghgs are available in {str(Path(conf['save_path']))}/{'domestic' if domestic else 'global'}_scghgs")
+    print(f"{'territorial_us' if terr_us else 'global'}_scghgs are available in {str(Path(conf['save_path']))}/{'territorial_us' if terr_us else 'global'}_scghgs")
    
 
 # Command line interface for DSCIM-epa runs        
@@ -486,11 +486,11 @@ questions = [
 
     ],
         default = [2020,2030,2040,2050,2060,2070,2080]),
-    inquirer.List("domestic",
+    inquirer.List("U.S.",
         message= 'Select valuation type',
         choices= [
             ('Global',False),
-            ('Domestic',True)
+            ('Territorial U.S.',True)
         ]),
     inquirer.Checkbox("files",
         message= 'Optional files to save (will increase runtime substantially)',
@@ -511,11 +511,11 @@ answers = inquirer.prompt(questions)
 etas_rhos = answers['eta_rhos']
 sector = [answers['sector']]
 pulse_years = answers['pulse_year']
-domestic = answers['domestic']
+terr_us = answers['U.S.']
 gcnp = True if 'gcnp' in answers['files'] else False
 uncollapsed = True if 'uncollapsed' in answers['files'] else False
 
-if domestic:
+if terr_us:
     sector = [i + "_USA" for i in sector]
 
 if len(etas_rhos) == 0:
@@ -524,7 +524,7 @@ if len(etas_rhos) == 0:
 risk_combos = [['risk_aversion', 'euler_ramsey']] # Default
 gases = ['CO2_Fossil', 'CH4', 'N2O'] # Default
 epa_scghgs(sector,
-         domestic,
+         terr_us,
          etas_rhos,
          risk_combos,
          pulse_years=pulse_years,
