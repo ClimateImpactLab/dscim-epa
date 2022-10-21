@@ -71,4 +71,20 @@ The default is a global SC-GHG accounting for global damages in response to a pu
 
 By default, the script will produce the expected SC-GHGs as a `.csv`. The user also has the option to save the full distribution of 10,000 SC-GHGs -- across emissions, socioeconomics, and climate uncertainty -- as a `.csv`, and the option to save global consumption net of baseline climate damages ("global_consumption_no_pulse") as a netcdf `.nc4` file.
 
+## Further Information
 
+#### Input Files
+These files are installed during the above Setup process.
+
+Climate
+- Global mean surface temperature (GMST) trajectories output from FaIR: gmst_pulse.nc
+- Global mean sea level (GMSL) trajectories derived from FaIR GMST: gmsl_pulse.zarr
+- Conversion factors to convert SC-GHGs to $/tonne of GHG: conversion_v5.03_Feb072022.nc4
+
+Econ
+- RFF USA aggregated GDP and population trajectories: rff_USA_socioeconomics.nc4
+- RFF global aggregated GDP and population trajectories: rff_global_socioeconomics.nc4
+
+Damage Functions
+- Files containing a set of damage function coefficients for each RFF draw for each economic sector and valuation choice.
+- RFF damage function emulator weights: damage_function_weights.nc4
