@@ -137,3 +137,4 @@ scripts/output/*
 attributes*-combined.txt
 generated_conf.yml
 *.yml
+input_creation/coastal_gmsl_inputs/*
